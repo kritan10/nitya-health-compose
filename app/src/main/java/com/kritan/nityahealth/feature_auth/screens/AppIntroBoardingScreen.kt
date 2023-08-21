@@ -1,5 +1,6 @@
-package com.kritan.nityahealth.feature_intro.screens
+package com.kritan.nityahealth.feature_auth.screens
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,9 +30,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.kritan.nityahealth.R
 import com.kritan.nityahealth.commons.components.MyTextButton
-import com.kritan.nityahealth.feature_intro.utils.OnboardingItem
 import kotlinx.coroutines.launch
+
+sealed class OnboardingItem(@DrawableRes val image: Int, val label: String) {
+    object OnboardingFirst :
+        OnboardingItem(R.drawable.onboarding_image_1, "Talk to our\nDoctors")
+
+    object OnboardingSecond :
+        OnboardingItem(R.drawable.onboarding_image_2, "Get fitness class\nfrom Professional")
+
+    object OnboardingThird :
+        OnboardingItem(R.drawable.onboarding_image_3, "Start Yoga class\nwith Medilab")
+
+    object OnboardingFourth :
+        OnboardingItem(R.drawable.onboarding_image_4, "Get food Plan\nFrom Experts")
+}
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

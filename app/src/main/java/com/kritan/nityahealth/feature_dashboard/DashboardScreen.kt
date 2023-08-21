@@ -29,13 +29,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kritan.nityahealth.feature_dashboard.components.MyItemCard
-import com.kritan.nityahealth.feature_dashboard.utils.dashboardItems
+import com.kritan.nityahealth.commons.components.MyItemCard
 import com.kritan.nityahealth.ui.theme.comfortaaFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(openDrawer: () -> Unit) {
+fun DashboardScreen(openDrawer: () -> Unit, onNavigate: (String) -> Unit) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -53,12 +52,10 @@ fun DashboardScreen(openDrawer: () -> Unit) {
                         Icon(Icons.Default.AccountCircle, "Menu")
                     }
                 },
-
-                )
+            )
         },
-
-        ) { pv ->
-
+    )
+    { pv ->
         Column(
             modifier = Modifier.padding(pv)
         ) {
@@ -89,9 +86,10 @@ fun DashboardScreen(openDrawer: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 items(dashboardItems) { item ->
-                    MyItemCard(title = item.title, image = item.image)
+                    MyItemCard(item.title, item.image) { onNavigate(item.route) }
                 }
             }
         }
     }
 }
+

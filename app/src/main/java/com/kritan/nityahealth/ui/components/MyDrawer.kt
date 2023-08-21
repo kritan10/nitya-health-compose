@@ -23,15 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.kritan.nityahealth.commons.utils.routes.Routes
+import com.kritan.nityahealth.ui.NityaHealthDestinations
 import com.kritan.nityahealth.ui.theme.mRoundedCornerDrawerHeader
 
-data class DrawerItem(val label: String, val route: Routes)
+data class DrawerItem(val label: String, val route: String)
 
-private val drawerItems = listOf(
-    DrawerItem("Dashboard", Routes.Dashboard),
-    DrawerItem("Profile", Routes.Profile),
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,9 +35,20 @@ fun MyDrawer(
     drawerState: DrawerState,
     currentRoute: String,
     closeDrawer: () -> Unit,
-    navigateTo: (Routes) -> Unit,
+    navigateTo: (String) -> Unit,
     content: @Composable () -> Unit
 ) {
+
+    val drawerItems = listOf(
+        DrawerItem("Dashboard", NityaHealthDestinations.DASHBOARD_ROUTE),
+        DrawerItem("Profile", NityaHealthDestinations.PROFILE_ROUTE),
+        DrawerItem("Appointment", NityaHealthDestinations.APPOINTMENT_ROUTE),
+        DrawerItem("Doctors", NityaHealthDestinations.DOCTORS_ROUTE),
+        DrawerItem("Fitness", NityaHealthDestinations.FITNESS_ROUTE),
+        DrawerItem("Food", NityaHealthDestinations.FOOD_ROUTE),
+        DrawerItem("Yoga", NityaHealthDestinations.YOGA_ROUTE),
+    )
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = true,
@@ -56,19 +63,17 @@ fun MyDrawer(
                     item {
                         MyDrawerHeader()
                     }
-                    val a = 1
 
                     items(drawerItems) {
                         MyDrawerItem(
                             it.label,
-                            currentRoute == it.route.route
+                            currentRoute == it.route
                         ) { navigateTo(it.route);closeDrawer() }
                     }
                 }
             }
         }
     )
-
     {
         content()
     }

@@ -1,21 +1,14 @@
 package com.kritan.nityahealth.ui
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.commons.components.MyDrawer
-import com.kritan.nityahealth.commons.utils.routes.Routes
-import com.kritan.nityahealth.commons.utils.routes.authGraph
-import com.kritan.nityahealth.feature_dashboard.DashboardScreen
-import com.kritan.nityahealth.feature_profile.ProfileScreen
 import com.kritan.nityahealth.ui.theme.NityaHealthTheme
 import kotlinx.coroutines.launch
 
@@ -23,10 +16,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun NityaHealthApp() {
     NityaHealthTheme {
-        val mainNavController = rememberNavController()
+        val navController = rememberNavController()
         val coroutineScope = rememberCoroutineScope()
 
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute =
+            navBackStackEntry?.destination?.route ?: NityaHealthDestinations.DASHBOARD_ROUTE
 
 
         fun openDrawer() {
@@ -41,39 +37,23 @@ fun NityaHealthApp() {
             }
         }
 
-        val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
-        val currentRoute =
-            navBackStackEntry?.destination?.route ?: Routes.Dashboard.route
+        fun navigateTo(route: String) {
+            navController.navigate(route)
+        }
 
-        NavHost(navController = mainNavController, "app") {
-            authGraph(mainNavController)
-
-            composable("app") {
-                val appNavController = rememberNavController()
-                fun navigateTo(route: Routes) {
-                    appNavController.navigate(route.route)
-                }
-                MyDrawer(
-                    drawerState = drawerState,
-                    currentRoute = currentRoute,
-                    closeDrawer = ::closeDrawer,
-                    navigateTo = ::navigateTo
-                ) {
-                    NavHost(appNavController, Routes.Dashboard.route, enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Left
-                        )
-                    }) {
-                        composable(Routes.Dashboard.route) {
-                            DashboardScreen(::openDrawer)
-                        }
-                        composable(Routes.Profile.route) {
-                            ProfileScreen(::openDrawer)
-                        }
-                    }
-                }
-            }
+        MyDrawer(
+            drawerState = drawerState,
+            currentRoute = currentRoute,
+            closeDrawer = ::closeDrawer,
+            navigateTo = ::navigateTo
+        ) {
+            NityaHealthNavGraph(
+                navController = navController,
+                openDrawer = ::openDrawer,
+                navigateTo = ::navigateTo
+            )
         }
     }
+
 }
 

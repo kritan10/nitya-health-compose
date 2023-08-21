@@ -1,8 +1,9 @@
-package com.kritan.nityahealth.feature_dashboard.components
+package com.kritan.nityahealth.commons.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,10 +21,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MyItemCard(title: String, @DrawableRes image: Int) {
+fun MyItemCard(title: String, @DrawableRes image: Int, navigateTo: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .clickable { navigateTo() }
             .background(
                 MaterialTheme.colorScheme.primary.copy(0.1f),
                 RoundedCornerShape(10.dp)
@@ -44,6 +46,5 @@ fun MyItemCard(title: String, @DrawableRes image: Int) {
         }
         Spacer(Modifier.height(20.dp))
         Text(title)
-
     }
 }

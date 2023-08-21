@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_intro.screens
+package com.kritan.nityahealth.feature_auth.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

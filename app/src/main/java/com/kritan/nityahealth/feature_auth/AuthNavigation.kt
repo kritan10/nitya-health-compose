@@ -1,0 +1,43 @@
+package com.kritan.nityahealth.feature_auth
+
+import androidx.navigation.NavController
+
+object AuthDestinations {
+    const val INTRO_ROUTE = "intro"
+    const val ONBOARDING_ROUTE = "onboarding"
+    const val SIGN_IN_ROUTE = "signin"
+    const val SIGN_IN_EMAIL_ROUTE = "signin_email"
+    const val SIGN_UP_ROUTE = "signup"
+    const val SIGN_UP_LOCATION_ROUTE = "signup_location"
+    const val SIGN_UP_VERIFY_ROUTE = "signup_verify"
+}
+
+class AuthNavigationActions(navController: NavController) {
+    val navigateUp: () -> Unit = {
+        navController.navigateUp()
+    }
+
+    val navigateToIntro: () -> Unit = {
+        navController.navigate(AuthDestinations.INTRO_ROUTE)
+    }
+    val navigateToOnboarding: () -> Unit = {
+        navController.navigate(AuthDestinations.ONBOARDING_ROUTE)
+    }
+    val navigateToSignIn: () -> Unit = {
+        navController.navigate(AuthDestinations.SIGN_IN_ROUTE)
+    }
+    val navigateToSignInEmail: () -> Unit = {
+        navController.navigate(AuthDestinations.SIGN_IN_EMAIL_ROUTE)
+    }
+    val navigateToSignUp: () -> Unit = {
+        navController.navigate(AuthDestinations.SIGN_UP_ROUTE)
+    }
+    val navigateToSignUpLocation: () -> Unit = {
+        navController.navigate(AuthDestinations.SIGN_UP_LOCATION_ROUTE)
+    }
+    val navigateToSignUpVerify: () -> Unit = {
+        navController.navigate(AuthDestinations.SIGN_UP_VERIFY_ROUTE)
+    }
+
+
+}

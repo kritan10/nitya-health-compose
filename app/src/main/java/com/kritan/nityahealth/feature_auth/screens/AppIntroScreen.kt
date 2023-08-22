@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,30 +23,32 @@ import com.kritan.nityahealth.commons.components.MyTextWithIconButton
 
 @Composable
 fun WelcomeScreen(navigateToBoarding: () -> Unit) {
-    Box {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Image(
-                painterResource(R.drawable.main_icon), "",
-                Modifier
-                    .height(150.dp)
-                    .width(150.dp)
-            )
-            Text("Welcome to", style = MaterialTheme.typography.bodyMedium)
-            Text("Nitya Health")
-        }
-        MyTextWithIconButton(
-            label = "Get Started",
-            trailing = Icons.Default.ArrowForward,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 50.dp, end = 36.dp)
-        ) {
-            navigateToBoarding()
+    Surface(color = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary) {
+        Box {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            ) {
+                Image(
+                    painterResource(R.drawable.main_icon), "",
+                    Modifier
+                        .height(150.dp)
+                        .width(150.dp)
+                )
+                Text("Welcome to", style = MaterialTheme.typography.bodyMedium)
+                Text("Nitya Health")
+            }
+            MyTextWithIconButton(
+                label = "Get Started",
+                trailing = Icons.Default.ArrowForward,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 50.dp, end = 36.dp)
+            ) {
+                navigateToBoarding()
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,61 +50,66 @@ sealed class OnboardingItem(@DrawableRes val image: Int, val label: String) {
         OnboardingItem(R.drawable.onboarding_image_4, "Get food Plan\nFrom Experts")
 }
 
+private val onBoardingItemsList = listOf(
+    OnboardingItem.OnboardingFirst,
+    OnboardingItem.OnboardingSecond,
+    OnboardingItem.OnboardingThird,
+    OnboardingItem.OnboardingFourth
+)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingScreen(
     navigateToLogin: () -> Unit
 ) {
-    Box {
-        val onboardingList = listOf(
-            OnboardingItem.OnboardingFirst,
-            OnboardingItem.OnboardingSecond,
-            OnboardingItem.OnboardingThird,
-            OnboardingItem.OnboardingFourth
-        )
-        val pageCount = onboardingList.size
-        val scope = rememberCoroutineScope()
-        val pagerState = rememberPagerState { pageCount }
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary
+    ) {
 
-        HorizontalPager(state = pagerState) {
-            OnBoardingLayout(onboardingItem = onboardingList[it])
-        }
+        Box {
+            val pageCount = onBoardingItemsList.size
+            val scope = rememberCoroutineScope()
+            val pagerState = rememberPagerState { pageCount }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(bottom = 50.dp, end = 24.dp, start = 24.dp)
-        ) {
-            MyTextButton(
-                label = "Skip",
-                onClick = { navigateToLogin() })
-            Row {
-                repeat(onboardingList.size) {
-                    if (it != 0) Spacer(modifier = Modifier.width(15.dp))
-                    Box(
-                        Modifier
-                            .size(15.dp)
-                            .clip(CircleShape)
-                            .background(
-                                if (it == pagerState.currentPage) Color.DarkGray else Color.White
-                            )
-                    )
-                }
+            HorizontalPager(state = pagerState) {
+                OnBoardingLayout(onboardingItem = onBoardingItemsList[it])
             }
-            MyTextButton(label = "Next") {
-                if (pagerState.currentPage < pageCount - 1) {
-                    scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(bottom = 50.dp, end = 24.dp, start = 24.dp)
+            ) {
+                MyTextButton(
+                    label = "Skip",
+                    onClick = { navigateToLogin() })
+                Row {
+                    repeat(onBoardingItemsList.size) {
+                        if (it != 0) Spacer(modifier = Modifier.width(15.dp))
+                        Box(
+                            Modifier
+                                .size(15.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    if (it == pagerState.currentPage) Color.DarkGray else Color.White
+                                )
+                        )
                     }
-                } else {
-                    navigateToLogin()
+                }
+                MyTextButton(label = "Next") {
+                    if (pagerState.currentPage < pageCount - 1) {
+                        scope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    } else {
+                        navigateToLogin()
+                    }
                 }
             }
-
         }
     }
 }

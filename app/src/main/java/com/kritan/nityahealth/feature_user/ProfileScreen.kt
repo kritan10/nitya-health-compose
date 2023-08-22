@@ -23,17 +23,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.commons.components.MyListItem
-import com.kritan.nityahealth.commons.components.MyTitleBodyLayout
+import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.commons.components.MyTopAppBar
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(toggleDrawer: () -> Unit) {
+fun ProfileScreen(navigateUp: () -> Unit) {
     Scaffold(topBar = {
         MyTopAppBar(
             title = "My Profile",
-            toggleDrawer = toggleDrawer
+            navigateUp = navigateUp
         )
     }) { pv ->
         LazyColumn(

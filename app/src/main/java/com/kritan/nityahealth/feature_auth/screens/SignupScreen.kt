@@ -2,7 +2,7 @@ package com.kritan.nityahealth.feature_auth.screens
 
 import androidx.compose.runtime.Composable
 import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.commons.components.MyTextField
+import com.kritan.nityahealth.ui.components.MyTextField
 import com.kritan.nityahealth.feature_auth.utils.AuthFooter
 import com.kritan.nityahealth.feature_auth.utils.AuthScreenLayout
 

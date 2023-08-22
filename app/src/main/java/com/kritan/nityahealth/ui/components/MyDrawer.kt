@@ -33,14 +33,11 @@ data class DrawerItem(val label: String, val route: String)
 @Composable
 fun MyDrawer(
     drawerState: DrawerState,
-    currentRoute: String,
     closeDrawer: () -> Unit,
     navigateTo: (String) -> Unit,
     content: @Composable () -> Unit
 ) {
-
     val drawerItems = listOf(
-        DrawerItem("Dashboard", NityaHealthDestinations.DASHBOARD_ROUTE),
         DrawerItem("Profile", NityaHealthDestinations.PROFILE_ROUTE),
         DrawerItem("Appointment", NityaHealthDestinations.APPOINTMENT_ROUTE),
         DrawerItem("Doctors", NityaHealthDestinations.DOCTORS_ROUTE),
@@ -67,7 +64,6 @@ fun MyDrawer(
                     items(drawerItems) {
                         MyDrawerItem(
                             it.label,
-                            currentRoute == it.route
                         ) { navigateTo(it.route);closeDrawer() }
                     }
                 }
@@ -99,11 +95,10 @@ fun MyDrawerHeader() {
 
 
 @Composable
-fun MyDrawerItem(label: String, isSelected: Boolean, navigateTo: () -> Unit) {
+fun MyDrawerItem(label: String, navigateTo: () -> Unit) {
     var modifier = Modifier
         .clickable { navigateTo() }
         .fillMaxWidth()
-    if (isSelected) modifier = modifier.background(MaterialTheme.colorScheme.primary)
     modifier = modifier.padding(horizontal = 20.dp, vertical = 16.dp)
 
     Text(

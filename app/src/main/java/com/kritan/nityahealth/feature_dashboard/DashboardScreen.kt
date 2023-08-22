@@ -1,15 +1,10 @@
 package com.kritan.nityahealth.feature_dashboard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -29,12 +24,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kritan.nityahealth.commons.components.MyItemCard
+import com.kritan.nityahealth.R
+import com.kritan.nityahealth.ui.layouts.MyGridItem
+import com.kritan.nityahealth.ui.layouts.MyGridLayout
 import com.kritan.nityahealth.ui.theme.comfortaaFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(openDrawer: () -> Unit, onNavigate: (String) -> Unit) {
+fun DashboardScreen(
+    openDrawer: () -> Unit,
+    navigateToWellness: () -> Unit,
+    navigateToConsultants: () -> Unit,
+    navigateToNewsArticles: () -> Unit,
+    navigateToActivities: () -> Unit,
+    navigateToProfile: () -> Unit,
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -79,16 +83,39 @@ fun DashboardScreen(openDrawer: () -> Unit, onNavigate: (String) -> Unit) {
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                items(dashboardItems) { item ->
-                    MyItemCard(item.title, item.image) { onNavigate(item.route) }
-                }
-            }
+            val dashboardItems = listOf(
+                MyGridItem(
+                    "Wellness",
+                    R.drawable.ic_dashboard_wellness,
+                    navigateToWellness
+                ),
+                MyGridItem(
+                    "Consultants",
+                    R.drawable.ic_dashboard_consultants,
+                    navigateToConsultants
+                ),
+                MyGridItem(
+                    "Health Topics",
+                    R.drawable.ic_dashboard_topics,
+                    navigateToWellness
+                ),
+                MyGridItem(
+                    "News/Articles",
+                    R.drawable.ic_dashboard_news,
+                    navigateToNewsArticles
+                ),
+                MyGridItem(
+                    "Activities",
+                    R.drawable.ic_dashboard_activities,
+                    navigateToActivities
+                ),
+                MyGridItem(
+                    "Profile",
+                    R.drawable.ic_dashboard_profile,
+                    navigateToProfile
+                ),
+            )
+            MyGridLayout(dashboardItems)
         }
     }
 }

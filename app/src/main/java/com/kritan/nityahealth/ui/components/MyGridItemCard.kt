@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.commons.components
+package com.kritan.nityahealth.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MyItemCard(title: String, @DrawableRes image: Int, navigateTo: () -> Unit) {
+fun MyGridItemCard(title: String, @DrawableRes image: Int, navigateTo: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

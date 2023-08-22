@@ -1,53 +1,73 @@
 package com.kritan.nityahealth.feature_wellness.screens
 
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kritan.nityahealth.commons.components.MyItemCard
 import com.kritan.nityahealth.commons.components.MyTopAppBar
-import com.kritan.nityahealth.feature_dashboard.dashboardItems
+import com.kritan.nityahealth.ui.layouts.MyGridLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun WellnessScreen(
-    openDrawer: () -> Unit,
+    initialPage: Int = 0,
+    navigateUp: () -> Unit,
     wellnessViewModel: WellnessViewModel = viewModel()
 ) {
-    val currentTab = wellnessViewModel.currentTab
+    val wellnessTabItemsList = wellnessViewModel.wellnessTabItemsList
+    val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
+    val pagerState = rememberPagerState(
+        initialPage = initialPage,
+        pageCount = { wellnessTabItemsList.size }
+    )
 
-    LaunchedEffect(true) {
-        wellnessViewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.ScrollToItem -> lazyListState.animateScrollToItem(event.index, -160)
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            wellnessViewModel.uiEvent.collect { event ->
+                when (event) {
+                    is UiEvent.ScrollTo -> {
+                        lazyListState.animateScrollToItem(
+                            event.index,
+                            if (event.index > lazyListState.firstVisibleItemIndex) 200 else -100
+                        )
+                        pagerState.scrollToPage(event.index)
+                    }
+                }
             }
         }
     }
 
     Scaffold(topBar = {
-        MyTopAppBar(title = "Wellness", openDrawer)
+        MyTopAppBar(title = "Wellness", navigateUp)
     }) { pv ->
         Column(Modifier.padding(pv)) {
             LazyRow(
@@ -58,46 +78,29 @@ fun WellnessScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 item {
-                    Spacer(modifier = Modifier.width(10.dp))
+                    Spacer(modifier = Modifier.width(1.dp))
+                }
+                items(wellnessTabItemsList) { it ->
                     RowItem(
-                        WellnessTab.Fitness,
-                        currentTab,
-                        wellnessViewModel::onTabClick
+                        tab = it,
+                        tabIndex = it.position,
+                        currentTabIndex = pagerState.currentPage,
+                        onTabChange = wellnessViewModel::onTabChange
                     )
                 }
                 item {
-                    RowItem(
-                        WellnessTab.Food,
-                        currentTab,
-                        wellnessViewModel::onTabClick
-                    )
-                }
-                item {
-                    RowItem(
-                        WellnessTab.PersonalCare,
-                        currentTab,
-                        wellnessViewModel::onTabClick
-                    )
-                }
-                item {
-                    RowItem(
-                        WellnessTab.HealthTopics,
-                        currentTab,
-                        wellnessViewModel::onTabClick
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
+                    Spacer(modifier = Modifier.width(1.dp))
                 }
             }
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+            HorizontalPager(
+                state = pagerState, modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(
+                        Alignment.TopCenter
+                    )
             ) {
-                items(dashboardItems) { item ->
-                    MyItemCard(item.title, item.image) { }
-                }
+                PagerItem(item = wellnessTabItemsList[it])
             }
         }
     }
@@ -107,32 +110,41 @@ fun WellnessScreen(
 @Composable
 private fun RowItem(
     tab: WellnessTab,
-    currentTab: WellnessTab,
-    onTabClick: (WellnessTab) -> Unit
+    tabIndex: Int,
+    currentTabIndex: Int,
+    onTabChange: (Int) -> Unit
 ) {
-
-
-    val isActive = tab == currentTab
-    val modifier = if (!isActive) {
-        Modifier
-            .clickable {
-                onTabClick(tab)
-            }
-            .border(1.dp, MaterialTheme.colorScheme.primary, mRoundedCorner)
-            .padding(vertical = 10.dp, horizontal = 30.dp)
-    } else {
-        Modifier
-            .clickable {
-                onTabClick(tab)
-            }
-            .border(1.dp, MaterialTheme.colorScheme.primary, mRoundedCorner)
-            .background(MaterialTheme.colorScheme.primary, mRoundedCorner)
-            .padding(vertical = 10.dp, horizontal = 30.dp)
+    val isActive = tabIndex == currentTabIndex
+    var modifier = Modifier
+        .border(1.dp, MaterialTheme.colorScheme.primary, mRoundedCorner)
+        .clickable {
+            onTabChange(tabIndex)
+            Log.d("Button", "Clicked")
+        }
+    if (isActive) {
+        modifier = modifier.background(MaterialTheme.colorScheme.primary, mRoundedCorner)
     }
-
+    modifier = modifier.padding(vertical = 10.dp, horizontal = 30.dp)
     Text(
         tab.title,
         modifier,
         color = if (isActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
     )
+}
+
+
+@Composable
+private fun PagerItem(item: WellnessTab) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.TopCenter)
+    ) {
+        when (item) {
+            WellnessTab.Fitness -> MyGridLayout()
+            WellnessTab.Food -> MyGridLayout()
+            WellnessTab.HealthTopics -> MyGridLayout()
+            WellnessTab.PersonalCare -> MyGridLayout()
+        }
+    }
 }

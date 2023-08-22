@@ -1,6 +1,7 @@
 package com.kritan.nityahealth.feature_auth
 
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.kritan.nityahealth.ui.NityaHealthNavigationActions
 
 object AuthDestinations {
     const val INTRO_ROUTE = "intro"
@@ -12,10 +13,10 @@ object AuthDestinations {
     const val SIGN_UP_VERIFY_ROUTE = "signup_verify"
 }
 
-class AuthNavigationActions(navController: NavController) {
-    val navigateUp: () -> Unit = {
-        navController.navigateUp()
-    }
+class AuthNavigationActions(navController: NavHostController) {
+    val navigateUp = NityaHealthNavigationActions(navController).navigateUp
+
+    val navigateToDashboard = NityaHealthNavigationActions(navController).navigateToDashboard
 
     val navigateToIntro: () -> Unit = {
         navController.navigate(AuthDestinations.INTRO_ROUTE)

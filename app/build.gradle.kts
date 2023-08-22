@@ -52,6 +52,7 @@ android {
 dependencies {
     val nav_version = "2.7.0"
     val accompanist_version = "0.30.1"
+    val retrofit_version = "2.9.0"
 
 
     //Core
@@ -69,6 +70,10 @@ dependencies {
 
     //Navigation
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
 
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")

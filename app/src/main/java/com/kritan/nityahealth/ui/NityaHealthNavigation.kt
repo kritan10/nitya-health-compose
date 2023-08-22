@@ -30,6 +30,8 @@ object NityaHealthDestinations {
 }
 
 class NityaHealthNavigationActions(navController: NavHostController) {
+    val navigateUp:()->Unit= { navController.navigateUp() }
+
     val navigateToDashboard: () -> Unit = {
         navController.navigate(NityaHealthDestinations.DASHBOARD_ROUTE) {
             // Pop up to the start destination of the graph to avoid building up a large

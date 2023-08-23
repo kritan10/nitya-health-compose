@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_doctor
+package com.kritan.nityahealth.feature_doctor.presentation
 
 import androidx.navigation.NavHostController
 import com.kritan.nityahealth.ui.NityaHealthNavigationActions
@@ -6,7 +6,7 @@ import com.kritan.nityahealth.ui.NityaHealthNavigationActions
 object DoctorsDestinations {
     const val DOCTORS_HOME_ROUTE = "home"
     const val DOCTORS_ALL_ROUTE = "all"
-    const val DOCTORS_DETAILS_ROUTE = "details"
+    const val DOCTORS_DETAILS_ROUTE = "details/"
 }
 
 class DoctorsNavigationActions(navController: NavHostController) {
@@ -18,7 +18,7 @@ class DoctorsNavigationActions(navController: NavHostController) {
     val navigateToDoctorsAll: () -> Unit =
         { navController.navigate(DoctorsDestinations.DOCTORS_ALL_ROUTE) }
 
-    val navigateToDoctorsDetail: () -> Unit =
-        { navController.navigate(DoctorsDestinations.DOCTORS_DETAILS_ROUTE) }
+    val navigateToDoctorsDetail: (id: Int) -> Unit =
+        { id -> navController.navigate(DoctorsDestinations.DOCTORS_DETAILS_ROUTE + "$id") }
 
 }

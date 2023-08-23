@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_doctor.screens
+package com.kritan.nityahealth.feature_doctor.presentation.doctors_all_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

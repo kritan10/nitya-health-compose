@@ -11,7 +11,7 @@ import com.kritan.nityahealth.commons.components.MyDrawer
 import com.kritan.nityahealth.feature_auth.authGraph
 import com.kritan.nityahealth.feature_consultants.screens.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.DashboardScreen
-import com.kritan.nityahealth.feature_doctor.doctorsGraph
+import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
 import com.kritan.nityahealth.feature_user.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.screens.WellnessScreen
 
@@ -37,7 +37,7 @@ fun NityaHealthNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NityaHealthDestinations.AUTH_ROUTE,
+        startDestination = NityaHealthDestinations.DASHBOARD_ROUTE,
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,

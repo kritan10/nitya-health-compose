@@ -12,6 +12,7 @@ import com.kritan.nityahealth.feature_auth.authGraph
 import com.kritan.nityahealth.feature_consultants.screens.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
+import com.kritan.nityahealth.feature_fitness.presentation.exerciseGraph
 import com.kritan.nityahealth.feature_user.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.screens.WellnessScreen
 
@@ -37,7 +38,7 @@ fun NityaHealthNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NityaHealthDestinations.DASHBOARD_ROUTE,
+        startDestination = NityaHealthDestinations.FITNESS_ROUTE,
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
@@ -63,6 +64,8 @@ fun NityaHealthNavGraph(
         authGraph(navController)
 
         doctorsGraph(navController)
+
+        exerciseGraph(navController)
 
         composable(NityaHealthDestinations.DASHBOARD_ROUTE) {
             MyDrawer(drawerState, closeDrawer, ::navigateTo)

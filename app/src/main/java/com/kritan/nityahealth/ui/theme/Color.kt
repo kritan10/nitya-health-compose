@@ -10,6 +10,7 @@ val mWhite = Color(0xFFFFFFFF)
 val mBlack = Color(0xFF001100)
 val mListBgColor = Color(0x050BAADC)
 val mDividerColor = Color(0xFFECEAEA)
+val mShadowColor = Color(0x26000000)
 
 val myDarkColorScheme = darkColorScheme(
     primary = mBlue,

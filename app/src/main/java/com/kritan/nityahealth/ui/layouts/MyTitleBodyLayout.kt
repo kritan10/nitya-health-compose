@@ -1,6 +1,5 @@
 package com.kritan.nityahealth.ui.layouts
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -21,10 +20,8 @@ fun MyTitleBodyLayout(title: String, body: @Composable () -> Unit) {
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .align(Alignment.Start)
-                .clickable { }
         )
         Spacer(modifier = Modifier.height(16.dp))
         body()
-
     }
 }

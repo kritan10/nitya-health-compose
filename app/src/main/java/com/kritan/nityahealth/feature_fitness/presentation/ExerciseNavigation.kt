@@ -6,7 +6,7 @@ import com.kritan.nityahealth.ui.NityaHealthNavigationActions
 object ExerciseDestinations {
     const val EXERCISE_HOME_ROUTE = "exercise"
     const val EXERCISE_LIST_ROUTE = "exercise/{exercisePackageId}"
-    const val EXERCISE_DETAIL_ROUTE = "exercise/{exercisePackageId}/{exerciseId}"
+    const val EXERCISE_DETAIL_ROUTE = "detail"
     const val EXERCISE_TIMER_ROUTE = "timer/{exercisePackageId}"
 }
 
@@ -20,21 +20,16 @@ class ExerciseNavigationActions(navController: NavHostController) {
         navController.navigate(ExerciseDestinations.EXERCISE_HOME_ROUTE)
     }
 
-    val navigateToExerciseList: (exercisePackageId: Int) -> Unit = { exercisePackageId ->
+    val navigateToExerciseList: (id: Int) -> Unit = { id ->
         navController.navigate(
             ExerciseDestinations.EXERCISE_LIST_ROUTE
-                .replace("{exercisePackageId}", exercisePackageId.toString())
+                .replace("{exercisePackageId}", id.toString())
         )
     }
 
-    val navigateToExerciseDetail: (exercisePackageId: Int, exerciseId: Int) -> Unit =
-        { exercisePackageId, exerciseId ->
-            navController.navigate(
-                ExerciseDestinations.EXERCISE_DETAIL_ROUTE
-                    .replace("{exercisePackageId}", exercisePackageId.toString())
-                    .replace("{exerciseId}", exerciseId.toString())
-            )
-        }
+    val navigateToExerciseDetail: () -> Unit = {
+        navController.navigate(ExerciseDestinations.EXERCISE_DETAIL_ROUTE)
+    }
 
     val navigateToExerciseTimer: (exercisePackageId: Int) -> Unit = { exercisePackageId ->
         navController.navigate(

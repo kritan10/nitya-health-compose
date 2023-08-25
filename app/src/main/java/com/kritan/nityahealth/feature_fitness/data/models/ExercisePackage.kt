@@ -2,7 +2,7 @@ package com.kritan.nityahealth.feature_fitness.data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Exercise(
+data class ExercisePackage(
     @SerializedName("id")
     val id: Int? = null,
 
@@ -26,5 +26,4 @@ data class Exercise(
 
     @SerializedName("created_at")
     val createdAt: String = ""
-
 )

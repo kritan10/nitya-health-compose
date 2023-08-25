@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.commons.components.MyListItem
-import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,6 +47,7 @@ fun ProfileScreen(navigateUp: () -> Unit) {
             sectionPersonalDetails()
             sectionHealthDetails()
             sectionMedicalCondition()
+            item { Spacer(Modifier.height(12.dp)) }
         }
     }
 }

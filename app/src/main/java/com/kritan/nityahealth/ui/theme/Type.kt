@@ -70,6 +70,12 @@ val myTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
     ),
+    titleSmall = TextStyle(
+        fontFamily = comfortaaFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        lineHeight = 16.sp,
+    ),
 
     //headline-for scaffold content
     headlineMedium = TextStyle(

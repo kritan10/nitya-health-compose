@@ -1,8 +1,5 @@
 package com.kritan.nityahealth.base.di
 
-import com.kritan.nityahealth.feature_doctor.data.api.DoctorsApi
-import com.kritan.nityahealth.feature_doctor.data.repository.DoctorRepositoryImpl
-import com.kritan.nityahealth.feature_doctor.domain.DoctorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,19 +21,4 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-    @Singleton
-    @Provides
-    fun provideDoctorsApi(retrofit: Retrofit): DoctorsApi {
-        return retrofit.create(DoctorsApi::class.java)
-    }
-
-
-    @Singleton
-    @Provides
-    fun providesDoctorRepository(api: DoctorsApi): DoctorRepository {
-        return DoctorRepositoryImpl(api)
-    }
-
-
 }

@@ -59,6 +59,7 @@ dependencies {
     val accompanist_version = "0.30.1"
     val retrofit_version = "2.9.0"
     val hilt_version = "2.47"
+    val coil_version = "2.4.0"
 
     //ksp
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.11")
@@ -89,7 +90,8 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     //Coil
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:$coil_version")
+    implementation("io.coil-kt:coil-gif:$coil_version")
 
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")

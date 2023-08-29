@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.CircularProgressIndicator
@@ -34,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kritan.nityahealth.commons.components.MyButton
 import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.feature_fitness.data.models.ExerciseTraining
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
@@ -87,16 +89,16 @@ fun ExerciseListScreen(
                 LazyColumn(Modifier.padding(horizontal = 20.dp)) {
                     item() {
                         Spacer(Modifier.height(12.dp))
-                        Text(text = exercise.description)
+                        Text(text = "exercise.description")
                         Spacer(Modifier.height(12.dp))
                     }
-                    items(2) {
-                        ExerciseListItem(navigateToExerciseDetail)
+                    items(viewModel.state.trainings) {
+                        ExerciseListItem(it, navigateToExerciseDetail)
                         Spacer(modifier = Modifier.height(10.dp))
                     }
                     item() {
                         MyButton(label = "Start") {
-                            navigateToExerciseTimer(1)
+                            navigateToExerciseTimer(exercise.id!!)
                         }
                         Spacer(Modifier.height(12.dp))
                     }
@@ -108,7 +110,10 @@ fun ExerciseListScreen(
 }
 
 @Composable
-private fun ExerciseListItem(navigateToExerciseDetail: () -> Unit) {
+private fun ExerciseListItem(
+    exerciseTraining: ExerciseTraining,
+    navigateToExerciseDetail: () -> Unit
+) {
     Row(
         Modifier
             .clickable {
@@ -136,7 +141,7 @@ private fun ExerciseListItem(navigateToExerciseDetail: () -> Unit) {
         )
 
         Column(Modifier.weight(1F)) {
-            Text("Easy Pose")
+            exerciseTraining.trainingName?.let { Text(it) }
             Text("Come into a seated position with ...")
 
         }

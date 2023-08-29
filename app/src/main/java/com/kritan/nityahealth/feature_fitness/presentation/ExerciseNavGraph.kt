@@ -39,7 +39,9 @@ fun NavGraphBuilder.exerciseGraph(navController: NavHostController) {
         }
 
         composable(ExerciseDestinations.EXERCISE_TIMER_ROUTE) {
-            ExerciseTimerScreen()
+            ExerciseTimerScreen(
+                navigateUp = navigationActions.navigateUp
+            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.kritan.nityahealth.feature_fitness.presentation.exercise_home_screen
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,11 +52,15 @@ fun ExerciseHomeScreen(
             Text("Welcome back", style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp))
             Text("Emma Parker", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Calendar")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                MyCalendar()
+            }
             Spacer(modifier = Modifier.height(32.dp))
             Text("Week Goal")
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Week days")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                MyWeek()
+            }
             Spacer(modifier = Modifier.height(16.dp))
 
             if (viewModel.state.isLoading) {

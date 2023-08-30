@@ -60,6 +60,8 @@ dependencies {
     val retrofit_version = "2.9.0"
     val hilt_version = "2.47"
     val coil_version = "2.4.0"
+    val room_version = "2.5.2"
+
 
     //ksp
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.11")
@@ -92,6 +94,13 @@ dependencies {
     //Coil
     implementation("io.coil-kt:coil-compose:$coil_version")
     implementation("io.coil-kt:coil-gif:$coil_version")
+
+    //Room
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
 
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")

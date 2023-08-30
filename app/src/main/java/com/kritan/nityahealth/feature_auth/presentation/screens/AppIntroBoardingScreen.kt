@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.screens
+package com.kritan.nityahealth.feature_auth.presentation.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi

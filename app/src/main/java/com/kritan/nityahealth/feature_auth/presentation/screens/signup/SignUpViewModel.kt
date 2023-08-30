@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.screens.signup
+package com.kritan.nityahealth.feature_auth.presentation.screens.signup
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

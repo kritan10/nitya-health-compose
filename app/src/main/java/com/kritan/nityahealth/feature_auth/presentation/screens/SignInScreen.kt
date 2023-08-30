@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.screens
+package com.kritan.nityahealth.feature_auth.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.commons.components.MyButton
 import com.kritan.nityahealth.commons.components.MyTextButton
-import com.kritan.nityahealth.feature_auth.utils.AuthFooter
+import com.kritan.nityahealth.feature_auth.presentation.utils.AuthFooter
 
 @Composable
 fun SignInScreen(onSignInEmail: () -> Unit) {

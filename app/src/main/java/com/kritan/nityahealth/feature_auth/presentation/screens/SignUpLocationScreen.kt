@@ -1,7 +1,7 @@
-package com.kritan.nityahealth.feature_auth.screens
+package com.kritan.nityahealth.feature_auth.presentation.screens
 
 import androidx.compose.runtime.Composable
-import com.kritan.nityahealth.feature_auth.utils.AuthScreenLayout
+import com.kritan.nityahealth.feature_auth.presentation.utils.AuthScreenLayout
 
 @Composable
 fun SignUpLocationScreen(onNavigateUp: () -> Unit) {

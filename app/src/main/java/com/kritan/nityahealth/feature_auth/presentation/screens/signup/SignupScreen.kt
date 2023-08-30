@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.screens.signup
+package com.kritan.nityahealth.feature_auth.presentation.screens.signup
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,8 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.feature_auth.utils.AuthFooter
-import com.kritan.nityahealth.feature_auth.utils.AuthScreenLayout
+import com.kritan.nityahealth.feature_auth.presentation.utils.AuthFooter
+import com.kritan.nityahealth.feature_auth.presentation.utils.AuthScreenLayout
 import com.kritan.nityahealth.ui.components.MyTextField
 
 @Composable

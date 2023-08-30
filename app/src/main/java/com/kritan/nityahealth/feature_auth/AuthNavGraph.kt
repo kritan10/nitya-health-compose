@@ -5,17 +5,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.kritan.nityahealth.feature_auth.screens.OnBoardingScreen
-import com.kritan.nityahealth.feature_auth.screens.SignInEmailScreen
+import com.kritan.nityahealth.feature_auth.screens.signin_email.SignInEmailScreen
 import com.kritan.nityahealth.feature_auth.screens.SignInScreen
 import com.kritan.nityahealth.feature_auth.screens.SignUpLocationScreen
-import com.kritan.nityahealth.feature_auth.screens.SignUpScreen
+import com.kritan.nityahealth.feature_auth.screens.signup.SignUpScreen
 import com.kritan.nityahealth.feature_auth.screens.SignUpVerifyScreen
 import com.kritan.nityahealth.feature_auth.screens.WelcomeScreen
 
 fun NavGraphBuilder.authGraph(navController: NavHostController) {
     val navigationActions = AuthNavigationActions(navController)
 
-    navigation(startDestination = AuthDestinations.INTRO_ROUTE, route = "auth") {
+    navigation(startDestination = AuthDestinations.SIGN_IN_ROUTE, route = "auth") {
 
         composable(AuthDestinations.INTRO_ROUTE) {
             WelcomeScreen(navigateToBoarding = navigationActions.navigateToOnboarding)

@@ -19,15 +19,15 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField(label: String) {
+fun MyTextField(label: String, value: String, onValueChange: (String) -> Unit) {
     Box() {
         val shape = RoundedCornerShape(5.dp)
         Column(Modifier.fillMaxWidth()) {
             Text(label, style = MaterialTheme.typography.labelLarge.copy(color = Color.Black))
             Spacer(Modifier.height(5.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = value,
+                onValueChange = onValueChange,
                 singleLine = true,
                 placeholder = { Text(label, color = Color.LightGray) },
                 textStyle = MaterialTheme.typography.labelLarge.copy(color = Color.Black),
@@ -41,7 +41,8 @@ fun MyTextField(label: String) {
                         spotColor = Color(0x40000000),
                         ambientColor = Color(0x40000000)
                     )
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+
             )
         }
     }

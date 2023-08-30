@@ -38,7 +38,7 @@ fun NityaHealthNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NityaHealthDestinations.DASHBOARD_ROUTE,
+        startDestination = NityaHealthDestinations.AUTH_ROUTE,
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,

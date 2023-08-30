@@ -1,5 +1,6 @@
 package com.kritan.nityahealth.feature_fitness.presentation.exercise_timer_screen
 
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,16 +8,20 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kritan.nityahealth.base.utils.Resource
+import com.kritan.nityahealth.feature_fitness.data.local.Training
+import com.kritan.nityahealth.feature_fitness.data.local.TrainingRepository
 import com.kritan.nityahealth.feature_fitness.data.models.ExerciseTraining
 import com.kritan.nityahealth.feature_fitness.data.repository.ExerciseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class ExerciseTimerViewModel @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
+    private val trainingRepository: TrainingRepository,
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
@@ -33,11 +38,18 @@ class ExerciseTimerViewModel @Inject constructor(
         getAllTrainings()
     }
 
-    fun onExerciseChange(training: ExerciseTraining) {
+    fun onExerciseChange() {
         viewModelScope.launch {
             state = state.copy(
-                timeLeft = training.duration?.toInt()!!,
-                isPaused = true
+                timeLeft = 20,
+            )
+        }
+    }
+
+    fun onAddRestTime() {
+        viewModelScope.launch {
+            state = state.copy(
+                timeLeft = state.timeLeft + 20,
             )
         }
     }
@@ -52,10 +64,23 @@ class ExerciseTimerViewModel @Inject constructor(
         }
     }
 
-    fun onToggle() {
+    fun onToggle(pause:Boolean) {
         state = state.copy(
-            isPaused = !state.isPaused
+            isPaused = pause
         )
+    }
+
+    fun onTrainingComplete(){
+        viewModelScope.launch {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                trainingRepository.insertTraining(
+                    Training(
+                        packageId = exerciseId,
+                        completedOn = LocalDate.now()
+                    )
+                )
+            }
+        }
     }
 
     private fun getAllFitness() {
@@ -99,10 +124,17 @@ class ExerciseTimerViewModel @Inject constructor(
                                         newList.add(
                                             mTraining.copy(
                                                 trainingName = "${mTraining.post} - ${index + 1}",
-                                                duration = "${(index + 1) * 5}"
+                                            )
+                                        )
+                                        newList.add(
+                                            mTraining.copy(
+                                                trainingName = "Rest",
+                                                trainingType = "Rest",
+                                                duration = "20"
                                             )
                                         )
                                     }
+                                    newList.removeLast()
                                     val timeLeft = newList[0].duration?.toInt()
                                     state = state.copy(
                                         trainings = newList,

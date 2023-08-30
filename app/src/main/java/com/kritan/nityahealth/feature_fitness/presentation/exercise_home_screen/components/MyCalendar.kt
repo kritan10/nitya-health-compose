@@ -1,7 +1,8 @@
-package com.kritan.nityahealth.feature_fitness.presentation.exercise_home_screen
+package com.kritan.nityahealth.feature_fitness.presentation.exercise_home_screen.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,24 +10,41 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.ui.modifiers.mShadow
+import com.kritan.nityahealth.ui.theme.mRoundedCorner
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyCalendar() {
     val (currentDate, dateList) = getCurrentDateAndDateList()
-    val modifier = Modifier
-        .padding(horizontal = 16.dp, vertical = 8.dp)
-    Row(Modifier
-        .fillMaxWidth()
-        .then(mShadow())) {
+
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .then(mShadow()),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         dateList.forEach { date ->
+            val modifier = Modifier
+                .then(
+                    if (currentDate.dayOfMonth == date.dayOfMonth) {
+                        Modifier.background(
+                            MaterialTheme.colorScheme.primary,
+                            shape = mRoundedCorner
+                        )
+                    } else {
+                        Modifier
+                    }
+                )
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+
             MyCalendarItem(modifier, date.dayOfWeek.name, date.dayOfMonth)
         }
     }

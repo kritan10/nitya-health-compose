@@ -29,6 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kritan.nityahealth.commons.components.MyTopAppBar
 import com.kritan.nityahealth.feature_fitness.data.models.ExercisePackage
+import com.kritan.nityahealth.feature_fitness.presentation.exercise_home_screen.components.MyCalendar
+import com.kritan.nityahealth.feature_fitness.presentation.exercise_home_screen.components.MyWeek
 import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
@@ -56,17 +58,30 @@ fun ExerciseHomeScreen(
                 MyCalendar()
             }
             Spacer(modifier = Modifier.height(32.dp))
-            Text("Week Goal")
-            Spacer(modifier = Modifier.height(16.dp))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                MyWeek()
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+
 
             if (viewModel.state.isLoading) {
                 CircularProgressIndicator()
             } else {
-                viewModel.state.data?.let { exercisePkg ->
+                Text("Week Goal")
+                Spacer(modifier = Modifier.height(16.dp))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    MyWeek(viewModel.state.myTrainings)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                viewModel.state.myExercises.let { myExercise ->
+                    Spacer(Modifier.height(16.dp))
+                    MyTitleBodyLayout(title = "My Exercise") {
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            items(myExercise) { exercise ->
+                                Spacer(Modifier.width(12.dp))
+                                ExerciseCard(exercise, navigateToExerciseList)
+                            }
+                        }
+                    }
+                }
+
+                viewModel.state.data.let { exercisePkg ->
                     Spacer(Modifier.height(16.dp))
                     MyTitleBodyLayout(title = "Exercise Set 1") {
                         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

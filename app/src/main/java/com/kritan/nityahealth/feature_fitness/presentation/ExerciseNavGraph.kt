@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.kritan.nityahealth.feature_fitness.presentation.exercise_complete_screen.ExerciseCompleteScreen
 import com.kritan.nityahealth.feature_fitness.presentation.exercise_detail_screen.ExerciseDetailScreen
 import com.kritan.nityahealth.feature_fitness.presentation.exercise_home_screen.ExerciseHomeScreen
 import com.kritan.nityahealth.feature_fitness.presentation.exercise_list_screen.ExerciseListScreen
@@ -40,7 +41,14 @@ fun NavGraphBuilder.exerciseGraph(navController: NavHostController) {
 
         composable(ExerciseDestinations.EXERCISE_TIMER_ROUTE) {
             ExerciseTimerScreen(
-                navigateUp = navigationActions.navigateUp
+                navigateUp = navigationActions.navigateUp,
+                navigateToExerciseComplete = navigationActions.navigateToExerciseComplete
+            )
+        }
+
+        composable(ExerciseDestinations.EXERCISE_COMPLETE_ROUTE){
+            ExerciseCompleteScreen(
+                navigateToExerciseHome = navigationActions.navigateToExerciseHome
             )
         }
     }

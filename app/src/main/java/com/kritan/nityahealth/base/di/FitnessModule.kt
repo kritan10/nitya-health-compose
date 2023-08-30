@@ -1,11 +1,16 @@
 package com.kritan.nityahealth.base.di
 
+import android.content.Context
+import androidx.room.Room
 import com.kritan.nityahealth.feature_fitness.data.api.ExerciseApi
+import com.kritan.nityahealth.feature_fitness.data.local.TrainingDatabase
+import com.kritan.nityahealth.feature_fitness.data.local.TrainingRepository
 import com.kritan.nityahealth.feature_fitness.data.repository.ExerciseRepository
 import com.kritan.nityahealth.feature_fitness.data.repository.ExerciseRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -25,4 +30,20 @@ object FitnessModule {
     fun providesFitnessRepository(api: ExerciseApi): ExerciseRepository {
         return ExerciseRepositoryImpl(api)
     }
+
+    @Singleton
+    @Provides
+    fun providesTrainingDatabase(@ApplicationContext appContext: Context): TrainingDatabase {
+        return Room.databaseBuilder(appContext, TrainingDatabase::class.java, "training_db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providesTrainingRepository(db: TrainingDatabase): TrainingRepository {
+        return TrainingRepository(db)
+    }
+
+
 }

@@ -8,6 +8,7 @@ object ExerciseDestinations {
     const val EXERCISE_LIST_ROUTE = "exercise/{exercisePackageId}"
     const val EXERCISE_DETAIL_ROUTE = "detail"
     const val EXERCISE_TIMER_ROUTE = "timer/{exercisePackageId}"
+    const val EXERCISE_COMPLETE_ROUTE = "complete"
 }
 
 
@@ -36,6 +37,10 @@ class ExerciseNavigationActions(navController: NavHostController) {
             ExerciseDestinations.EXERCISE_TIMER_ROUTE
                 .replace("{exercisePackageId}", exercisePackageId.toString())
         )
+    }
+
+    val navigateToExerciseComplete: () -> Unit = {
+        navController.navigate(ExerciseDestinations.EXERCISE_COMPLETE_ROUTE)
     }
 
 }

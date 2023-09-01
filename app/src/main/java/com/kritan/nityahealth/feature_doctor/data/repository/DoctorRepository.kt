@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_doctor.domain
+package com.kritan.nityahealth.feature_doctor.data.repository
 
 import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor

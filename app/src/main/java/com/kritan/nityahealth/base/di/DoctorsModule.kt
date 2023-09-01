@@ -1,8 +1,8 @@
 package com.kritan.nityahealth.base.di
 
 import com.kritan.nityahealth.feature_doctor.data.api.DoctorsApi
+import com.kritan.nityahealth.feature_doctor.data.repository.DoctorRepository
 import com.kritan.nityahealth.feature_doctor.data.repository.DoctorRepositoryImpl
-import com.kritan.nityahealth.feature_doctor.domain.DoctorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

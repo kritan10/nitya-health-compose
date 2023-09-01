@@ -5,7 +5,6 @@ import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.feature_doctor.data.api.DoctorsApi
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor
 import com.kritan.nityahealth.feature_doctor.data.models.DoctorDetail
-import com.kritan.nityahealth.feature_doctor.domain.DoctorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException

@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kritan.nityahealth.base.utils.Resource
-import com.kritan.nityahealth.feature_doctor.domain.DoctorRepository
+import com.kritan.nityahealth.feature_doctor.data.repository.DoctorRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

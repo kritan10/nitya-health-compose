@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_user
+package com.kritan.nityahealth.feature_user.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

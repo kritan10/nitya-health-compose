@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_wellness.screens
+package com.kritan.nityahealth.feature_wellness.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

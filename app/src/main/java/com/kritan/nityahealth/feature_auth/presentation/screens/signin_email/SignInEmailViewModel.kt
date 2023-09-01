@@ -36,10 +36,9 @@ class SignInEmailViewModel @Inject constructor(private val authRepository: AuthR
 
     fun loginUser(authenticateUser: (AuthState) -> Unit) {
         viewModelScope.launch {
-            val token = authRepository.login(
+            authRepository.login(
                 UserLogin(uiState.currentEmail, uiState.currentPassword)
-            )
-            token.collect { res ->
+            ).collect { res ->
                 when (res) {
                     is Resource.Error -> Unit
                     is Resource.Loading -> uiState = uiState.copy(isLoading = res.isLoading)

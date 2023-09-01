@@ -35,7 +35,6 @@ fun NavGraphBuilder.authGraph(
         composable(AuthDestinations.SIGN_IN_EMAIL_ROUTE) {
             SignInEmailScreen(
                 onNavigateUp = navigationActions.navigateUp,
-                onSignInClick = navigationActions.navigateToDashboard,
                 onNavigateToSignUp = navigationActions.navigateToSignUp,
                 authenticateUser = authenticateUser
             )
@@ -45,7 +44,6 @@ fun NavGraphBuilder.authGraph(
             SignUpScreen(
                 onNavigateUp = navigationActions.navigateUp,
                 onNavigateToSignIn = navigationActions.navigateToSignIn,
-                onSignUpClick = navigationActions.navigateToSignUpVerify,
                 authenticateUser = authenticateUser
             )
         }

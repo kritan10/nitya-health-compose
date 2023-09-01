@@ -12,11 +12,11 @@ import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.commons.components.MyDrawer
 import com.kritan.nityahealth.feature_auth.presentation.authGraph
 import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
-import com.kritan.nityahealth.feature_dashboard.DashboardScreen
+import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
 import com.kritan.nityahealth.feature_fitness.presentation.exerciseGraph
-import com.kritan.nityahealth.feature_user.ProfileScreen
-import com.kritan.nityahealth.feature_wellness.screens.WellnessScreen
+import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
+import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 
 //define the nav host

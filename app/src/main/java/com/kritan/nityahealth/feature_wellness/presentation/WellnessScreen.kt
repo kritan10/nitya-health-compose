@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_wellness.screens
+package com.kritan.nityahealth.feature_wellness.presentation
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi

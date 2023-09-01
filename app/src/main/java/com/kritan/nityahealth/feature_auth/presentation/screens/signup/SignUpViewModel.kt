@@ -88,7 +88,7 @@ class SignUpViewModel @Inject constructor(
 
     fun registerUser(authenticateUser: (AuthState) -> Unit) {
         viewModelScope.launch {
-            val token = authRepository.register(
+            authRepository.register(
                 UserRegister(
                     name = uiState.currentFirstName + " " + uiState.currentLastName,
                     email = uiState.currentEmail,
@@ -97,14 +97,12 @@ class SignUpViewModel @Inject constructor(
                     address = uiState.currentAddress,
                     phone = uiState.currentPhone
                 )
-            )
-            token.collect { res ->
+            ).collect { res ->
                 when (res) {
                     is Resource.Error -> Unit
                     is Resource.Loading -> uiState = uiState.copy(isLoading = res.isLoading)
                     is Resource.Success -> res.data?.let { authenticateUser(it) }
                 }
-
             }
         }
     }

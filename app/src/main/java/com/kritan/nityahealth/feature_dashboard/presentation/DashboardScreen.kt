@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_dashboard
+package com.kritan.nityahealth.feature_dashboard.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

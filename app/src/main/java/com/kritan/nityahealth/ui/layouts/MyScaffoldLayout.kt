@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.ui.components
+package com.kritan.nityahealth.ui.layouts
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,11 +11,11 @@ import com.kritan.nityahealth.commons.components.MyTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyScaffold(
+fun MyScaffoldLayout(
     title: String,
     navigateUp: () -> Unit,
     bottomPadding: Int = 0,
-    horizontalPadding: Int = 20,
+    horizontalPadding: Int = 0,
     isFlush: Boolean = false,
     content: @Composable () -> Unit
 ) {

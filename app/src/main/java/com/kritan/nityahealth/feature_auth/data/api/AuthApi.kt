@@ -13,8 +13,9 @@ import retrofit2.http.POST
 interface AuthApi {
     @Multipart
     @POST("login/")
-    fun login(@Body userData: UserLogin): Call<ApiResponse<AuthToken>>
+    fun login(@Body userLoginData: RequestBody): Call<ApiResponse<AuthToken>>
 
+    @Multipart
     @POST("register/")
     fun register(userRegisterData: RequestBody): Call<ApiResponse<AuthToken>>
 }

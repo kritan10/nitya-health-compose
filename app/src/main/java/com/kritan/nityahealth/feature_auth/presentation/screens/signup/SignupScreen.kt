@@ -18,65 +18,53 @@ fun SignUpScreen(
     onNavigateToSignIn: () -> Unit,
     onSignUpClick: () -> Unit
 ) {
-    var firstName by remember {
-        mutableStateOf("")
-    }
-    var lastName by remember {
-        mutableStateOf("")
-    }
-    var address by remember {
-        mutableStateOf("")
-    }
-    var phone by remember {
-        mutableStateOf("")
-    }
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
-    var confirmPassword by remember {
-        mutableStateOf("")
-    }
-
     AuthScreenLayout(title = "Sign Up", onNavigateUp = onNavigateUp) {
         MyTextField(
             label = "First name",
-            value = firstName,
-            onValueChange = { value -> firstName = value }
+            value = viewModel.uiState.currentFirstName,
+            onValueChange = viewModel::onFirstNameUpdate
         )
         MyTextField(
             label = "Last name",
-            value = lastName,
-            onValueChange = { value -> lastName = value }
+            value = viewModel.uiState.currentLastName,
+            onValueChange = viewModel::onLastNameUpdate
         )
         MyTextField(
             label = "Address",
-            value = address,
-            onValueChange = { value -> address = value }
+            value = viewModel.uiState.currentAddress,
+            onValueChange = viewModel::onAddressUpdate
         )
         MyTextField(
             label = "Phone no.",
-            value = phone,
-            onValueChange = { value -> phone = value }
+            value = viewModel.uiState.currentPhone,
+            isError = viewModel.uiState.currentPhoneErrors.isNotEmpty(),
+            onValueChange = viewModel::onPhoneUpdate,
         )
         MyTextField(
             label = "Email address",
-            value = email,
-            onValueChange = { value -> email = value }
+            value = viewModel.uiState.currentEmail,
+            isError = viewModel.uiState.currentEmailErrors.isNotEmpty(),
+            onValueChange = viewModel::onEmailUpdate
         )
         MyTextField(
             label = "Password",
-            value = password,
-            onValueChange = { value -> password = value }
+            value = viewModel.uiState.currentPassword,
+            isError = viewModel.uiState.currentPasswordErrors.isNotEmpty(),
+            onValueChange = viewModel::onPasswordUpdate
         )
         MyTextField(
             label = "Confirm password",
-            value = confirmPassword,
-            onValueChange = { value -> confirmPassword = value }
+            value = viewModel.uiState.currentConfirmPassword,
+            isError = viewModel.uiState.currentConfirmPasswordErrors.isNotEmpty(),
+            onValueChange = viewModel::onConfirmPasswordUpdate
         )
-        MyButton(label = "Sign Up", onClick = onSignUpClick)
+        MyButton(
+            label = "Sign Up", onClick = {
+                viewModel.registerUser()
+            },
+            enabled = viewModel.isRegisterEnabled
+        )
+
         AuthFooter(
             text = "Already have an account?", buttonText = "Sign In", onClick = onNavigateToSignIn
         )

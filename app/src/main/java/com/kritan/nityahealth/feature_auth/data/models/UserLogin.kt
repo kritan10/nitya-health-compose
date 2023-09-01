@@ -1,4 +1,6 @@
 package com.kritan.nityahealth.feature_auth.data.models
 
-class UserLogin {
-}
+data class UserLogin(
+    val email:String = "",
+    val password:String = ""
+)

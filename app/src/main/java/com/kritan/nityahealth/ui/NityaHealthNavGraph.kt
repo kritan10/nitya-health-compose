@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -36,60 +38,65 @@ fun NityaHealthNavGraph(
         navController.navigateUp()
     }
 
-    NavHost(
-        navController = navController,
-        startDestination = NityaHealthDestinations.AUTH_ROUTE,
-        enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-            )
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-            )
-        },
-        popEnterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-            )
-        },
-        popExitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right
-            )
-        },
-    ) {
+    val LocalAuth = compositionLocalOf { true }
 
-        authGraph(navController)
+    CompositionLocalProvider(LocalAuth provides true) {
 
-        doctorsGraph(navController)
-
-        exerciseGraph(navController)
-
-        composable(NityaHealthDestinations.DASHBOARD_ROUTE) {
-            MyDrawer(drawerState, closeDrawer, ::navigateTo)
-            {
-                DashboardScreen(
-                    openDrawer = openDrawer,
-                    navigateToWellness = navigationActions.navigateToWellness,
-                    navigateToConsultants = navigationActions.navigateToConsultants,
-                    navigateToNewsArticles = navigationActions.navigateToNewsArticles,
-                    navigateToActivities = navigationActions.navigateToActivities,
-                    navigateToProfile = navigationActions.navigateToProfile,
+        NavHost(
+            navController = navController,
+            startDestination = NityaHealthDestinations.AUTH_ROUTE,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                 )
-            }
-        }
-        composable(NityaHealthDestinations.PROFILE_ROUTE) {
-            ProfileScreen(navigateUp = ::navigateUp)
-        }
-        composable(NityaHealthDestinations.WELLNESS_ROUTE) {
-            WellnessScreen(navigateUp = ::navigateUp)
-        }
-        composable(NityaHealthDestinations.CONSULTANTS_ROUTE) {
-            ConsultantsScreen(navigateUp = ::navigateUp)
-        }
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right
+                )
+            },
+        ) {
 
+            authGraph(navController)
+
+            doctorsGraph(navController)
+
+            exerciseGraph(navController)
+
+            composable(NityaHealthDestinations.DASHBOARD_ROUTE) {
+                MyDrawer(drawerState, closeDrawer, ::navigateTo)
+                {
+                    DashboardScreen(
+                        openDrawer = openDrawer,
+                        navigateToWellness = navigationActions.navigateToWellness,
+                        navigateToConsultants = navigationActions.navigateToConsultants,
+                        navigateToNewsArticles = navigationActions.navigateToNewsArticles,
+                        navigateToActivities = navigationActions.navigateToActivities,
+                        navigateToProfile = navigationActions.navigateToProfile,
+                    )
+                }
+            }
+            composable(NityaHealthDestinations.PROFILE_ROUTE) {
+                ProfileScreen(navigateUp = ::navigateUp)
+            }
+            composable(NityaHealthDestinations.WELLNESS_ROUTE) {
+                WellnessScreen(navigateUp = ::navigateUp)
+            }
+            composable(NityaHealthDestinations.CONSULTANTS_ROUTE) {
+                ConsultantsScreen(navigateUp = ::navigateUp)
+            }
+
+        }
     }
 }
 

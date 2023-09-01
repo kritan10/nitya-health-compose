@@ -1,5 +1,11 @@
 package com.kritan.nityahealth.feature_auth.presentation.screens.signin_email
 
 data class SignInEmailState(
-    val email:String
+    val isLoading:Boolean = false,
+
+    val currentEmail: String = "",
+    val currentEmailErrors: MutableList<String> = mutableListOf(),
+
+    val currentPassword: String = "",
+    val currentPasswordErrors: MutableList<String> = mutableListOf(),
 )

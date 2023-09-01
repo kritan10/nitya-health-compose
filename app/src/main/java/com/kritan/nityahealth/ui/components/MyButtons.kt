@@ -105,6 +105,7 @@ fun MyButton(
     leading: ImageVector? = null,
     trailing: ImageVector? = null,
     isFullLength: Boolean = true,
+    enabled: Boolean = true,
     height: Int = 50,
     shape: Shape = mRoundedCornerButton,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
@@ -123,6 +124,7 @@ fun MyButton(
             onClick = onClick,
             modifier = buttonModifier,
             shape = shape,
+            enabled = enabled,
             colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
         ) {
             if (leading != null) MyButtonIcon(leading, label, iconColor)

@@ -19,7 +19,12 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField(label: String, value: String, onValueChange: (String) -> Unit) {
+fun MyTextField(
+    label: String,
+    value: String,
+    isError: Boolean = false,
+    onValueChange: (String) -> Unit
+) {
     Box() {
         val shape = RoundedCornerShape(5.dp)
         Column(Modifier.fillMaxWidth()) {
@@ -30,6 +35,7 @@ fun MyTextField(label: String, value: String, onValueChange: (String) -> Unit) {
                 onValueChange = onValueChange,
                 singleLine = true,
                 placeholder = { Text(label, color = Color.LightGray) },
+                isError = isError,
                 textStyle = MaterialTheme.typography.labelLarge.copy(color = Color.Black),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
@@ -43,7 +49,7 @@ fun MyTextField(label: String, value: String, onValueChange: (String) -> Unit) {
                     )
                     .fillMaxWidth(),
 
-            )
+                )
         }
     }
 }

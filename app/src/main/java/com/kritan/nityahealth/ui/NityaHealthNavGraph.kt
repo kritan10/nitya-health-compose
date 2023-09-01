@@ -4,25 +4,27 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.commons.components.MyDrawer
 import com.kritan.nityahealth.feature_auth.presentation.authGraph
-import com.kritan.nityahealth.feature_consultants.screens.ConsultantsScreen
+import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
 import com.kritan.nityahealth.feature_fitness.presentation.exerciseGraph
 import com.kritan.nityahealth.feature_user.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.screens.WellnessScreen
+import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 
 //define the nav host
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NityaHealthNavGraph(
+    viewModel: NityaHealthViewModel = hiltViewModel(),
     drawerState: DrawerState,
     openDrawer: () -> Unit,
     closeDrawer: () -> Unit,
@@ -38,9 +40,14 @@ fun NityaHealthNavGraph(
         navController.navigateUp()
     }
 
-    val LocalAuth = compositionLocalOf { true }
-
-    CompositionLocalProvider(LocalAuth provides true) {
+    MyLoadingLayout(loading = viewModel.mainUiState.isLoading) {
+        LaunchedEffect(viewModel.mainUiState) {
+            if (viewModel.mainUiState.auth.isAuth) {
+                navigateTo(NityaHealthDestinations.DASHBOARD_ROUTE)
+            } else {
+                navigateTo(NityaHealthDestinations.AUTH_ROUTE)
+            }
+        }
 
         NavHost(
             navController = navController,
@@ -67,14 +74,19 @@ fun NityaHealthNavGraph(
             },
         ) {
 
-            authGraph(navController)
+            authGraph(navController, viewModel::authenticateUser)
 
             doctorsGraph(navController)
 
             exerciseGraph(navController)
 
             composable(NityaHealthDestinations.DASHBOARD_ROUTE) {
-                MyDrawer(drawerState, closeDrawer, ::navigateTo)
+                MyDrawer(
+                    drawerState,
+                    viewModel.mainUiState.auth.userName,
+                    closeDrawer,
+                    ::navigateTo
+                )
                 {
                     DashboardScreen(
                         openDrawer = openDrawer,
@@ -95,8 +107,10 @@ fun NityaHealthNavGraph(
             composable(NityaHealthDestinations.CONSULTANTS_ROUTE) {
                 ConsultantsScreen(navigateUp = ::navigateUp)
             }
-
         }
     }
 }
+
+
+
 

@@ -7,5 +7,4 @@ data class SignInEmailState(
     val currentEmailErrors: MutableList<String> = mutableListOf(),
 
     val currentPassword: String = "",
-    val currentPasswordErrors: MutableList<String> = mutableListOf(),
 )

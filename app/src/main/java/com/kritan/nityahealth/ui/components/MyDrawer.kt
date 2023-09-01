@@ -33,6 +33,7 @@ data class DrawerItem(val label: String, val route: String)
 @Composable
 fun MyDrawer(
     drawerState: DrawerState,
+    userName: String?,
     closeDrawer: () -> Unit,
     navigateTo: (String) -> Unit,
     content: @Composable () -> Unit
@@ -58,7 +59,7 @@ fun MyDrawer(
                         .fillMaxHeight()
                 ) {
                     item {
-                        MyDrawerHeader()
+                        MyDrawerHeader(userName)
                     }
 
                     items(drawerItems) {
@@ -77,7 +78,7 @@ fun MyDrawer(
 
 
 @Composable
-fun MyDrawerHeader() {
+fun MyDrawerHeader(userName: String?) {
     Row(
         Modifier
             .clip(mRoundedCornerDrawerHeader)
@@ -87,8 +88,10 @@ fun MyDrawerHeader() {
     ) {
         Icon(Icons.Default.AccountCircle, "")
         Column {
-            Text("John Doe")
-            Text("Kathmandu, Nepal")
+            userName?.let {
+                Text(it)
+                Text("Kathmandu, Nepal")
+            }
         }
     }
 }

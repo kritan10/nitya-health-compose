@@ -4,15 +4,19 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.presentation.screens.OnBoardingScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.signin_email.SignInEmailScreen
 import com.kritan.nityahealth.feature_auth.presentation.screens.SignInScreen
 import com.kritan.nityahealth.feature_auth.presentation.screens.SignUpLocationScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpScreen
 import com.kritan.nityahealth.feature_auth.presentation.screens.SignUpVerifyScreen
 import com.kritan.nityahealth.feature_auth.presentation.screens.WelcomeScreen
+import com.kritan.nityahealth.feature_auth.presentation.screens.signin_email.SignInEmailScreen
+import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpScreen
 
-fun NavGraphBuilder.authGraph(navController: NavHostController) {
+fun NavGraphBuilder.authGraph(
+    navController: NavHostController,
+    authenticateUser: (AuthState) -> Unit
+) {
     val navigationActions = AuthNavigationActions(navController)
 
     navigation(startDestination = AuthDestinations.SIGN_IN_ROUTE, route = "auth") {
@@ -32,7 +36,8 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
             SignInEmailScreen(
                 onNavigateUp = navigationActions.navigateUp,
                 onSignInClick = navigationActions.navigateToDashboard,
-                onNavigateToSignUp = navigationActions.navigateToSignUp
+                onNavigateToSignUp = navigationActions.navigateToSignUp,
+                authenticateUser = authenticateUser
             )
         }
 
@@ -40,7 +45,8 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
             SignUpScreen(
                 onNavigateUp = navigationActions.navigateUp,
                 onNavigateToSignIn = navigationActions.navigateToSignIn,
-                onSignUpClick = navigationActions.navigateToSignUpVerify
+                onSignUpClick = navigationActions.navigateToSignUpVerify,
+                authenticateUser = authenticateUser
             )
         }
 

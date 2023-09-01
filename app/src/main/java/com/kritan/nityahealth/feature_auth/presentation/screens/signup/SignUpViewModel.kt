@@ -6,7 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.base.utils.Validation
+import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.data.models.UserRegister
 import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val authRepository: AuthRepository) :
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+) :
     ViewModel() {
 
     var uiState by mutableStateOf(SignUpState())
@@ -37,7 +41,8 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
     }
 
     fun onPhoneUpdate(phone: String) {
-        val errors = Validation.validatePhone(phone)
+//        val errors = Validation.validatePhone(phone)
+        val errors = mutableListOf<String>()
         uiState = uiState.copy(
             currentPhone = phone,
             currentPhoneErrors = errors
@@ -51,7 +56,9 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
     }
 
     fun onEmailUpdate(email: String) {
-        val errors = Validation.validateEmail(email)
+//        val errors = Validation.validateEmail(email)
+        val errors = mutableListOf<String>()
+
         uiState = uiState.copy(
             currentEmail = email,
             currentEmailErrors = errors,
@@ -59,7 +66,9 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
     }
 
     fun onPasswordUpdate(password: String) {
-        val errors = Validation.validatePassword(password)
+//        val errors = Validation.validatePassword(password)
+        val errors = mutableListOf<String>()
+
         uiState = uiState.copy(
             currentPassword = password,
             currentPasswordErrors = errors,
@@ -67,16 +76,19 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
     }
 
     fun onConfirmPasswordUpdate(password: String) {
-        val errors = Validation.validateConfirmPassword(password, uiState.currentPassword)
+//        val errors = Validation.validateConfirmPassword(password, uiState.currentPassword)
+        val errors = mutableListOf<String>()
+
         uiState = uiState.copy(
             currentConfirmPassword = password,
             currentConfirmPasswordErrors = errors,
         )
     }
 
-    fun registerUser() {
+
+    fun registerUser(authenticateUser: (AuthState) -> Unit) {
         viewModelScope.launch {
-            authRepository.register(
+            val token = authRepository.register(
                 UserRegister(
                     name = uiState.currentFirstName + " " + uiState.currentLastName,
                     email = uiState.currentEmail,
@@ -86,6 +98,14 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
                     phone = uiState.currentPhone
                 )
             )
+            token.collect { res ->
+                when (res) {
+                    is Resource.Error -> Unit
+                    is Resource.Loading -> uiState = uiState.copy(isLoading = res.isLoading)
+                    is Resource.Success -> res.data?.let { authenticateUser(it) }
+                }
+
+            }
         }
     }
 

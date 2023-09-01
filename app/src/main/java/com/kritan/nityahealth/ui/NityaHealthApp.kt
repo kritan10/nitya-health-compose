@@ -28,11 +28,12 @@ fun NityaHealthApp() {
             }
         }
 
-        NityaHealthNavGraph(
-            drawerState = drawerState,
-            openDrawer = ::openDrawer,
-            closeDrawer = ::closeDrawer,
-        )
+            NityaHealthNavGraph(
+                drawerState = drawerState,
+                openDrawer = ::openDrawer,
+                closeDrawer = ::closeDrawer,
+            )
+
     }
 }
 

@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.base.utils.Validation
+import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.data.models.UserLogin
-import com.kritan.nityahealth.feature_auth.data.models.UserRegister
 import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,26 +28,22 @@ class SignInEmailViewModel @Inject constructor(private val authRepository: AuthR
         )
     }
 
-
     fun onPasswordUpdate(password: String) {
-        val errors = Validation.validatePassword(password)
         uiState = uiState.copy(
             currentPassword = password,
-            currentPasswordErrors = errors,
         )
     }
 
-    fun loginUser() {
+    fun loginUser(authenticateUser: (AuthState) -> Unit) {
         viewModelScope.launch {
-            authRepository.login(UserLogin(email = "", password = "")).collect { response ->
-                when (response) {
+            val token = authRepository.login(
+                UserLogin(uiState.currentEmail, uiState.currentPassword)
+            )
+            token.collect { res ->
+                when (res) {
                     is Resource.Error -> Unit
-                    is Resource.Loading -> uiState = uiState.copy(isLoading = response.isLoading)
-                    is Resource.Success -> {
-                        uiState = uiState.copy(
-
-                        )
-                    }
+                    is Resource.Loading -> uiState = uiState.copy(isLoading = res.isLoading)
+                    is Resource.Success -> res.data?.let { authenticateUser(it) }
                 }
             }
         }

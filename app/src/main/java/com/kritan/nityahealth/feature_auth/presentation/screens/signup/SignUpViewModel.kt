@@ -28,6 +28,9 @@ class SignUpViewModel @Inject constructor(
         Validation.validateSignupForm(uiState)
     }
 
+
+
+
     fun onFirstNameUpdate(firstName: String) {
         uiState = uiState.copy(
             currentFirstName = firstName,
@@ -41,8 +44,8 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onPhoneUpdate(phone: String) {
-//        val errors = Validation.validatePhone(phone)
-        val errors = mutableListOf<String>()
+        val errors = Validation.validatePhone(phone)
+//        val errors = mutableListOf<String>()
         uiState = uiState.copy(
             currentPhone = phone,
             currentPhoneErrors = errors
@@ -56,8 +59,8 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onEmailUpdate(email: String) {
-//        val errors = Validation.validateEmail(email)
-        val errors = mutableListOf<String>()
+        val errors = Validation.validateEmail(email)
+//        val errors = mutableListOf<String>()
 
         uiState = uiState.copy(
             currentEmail = email,
@@ -66,8 +69,8 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onPasswordUpdate(password: String) {
-//        val errors = Validation.validatePassword(password)
-        val errors = mutableListOf<String>()
+        val errors = Validation.validatePassword(password)
+//        val errors = mutableListOf<String>()
 
         uiState = uiState.copy(
             currentPassword = password,
@@ -75,12 +78,12 @@ class SignUpViewModel @Inject constructor(
         )
     }
 
-    fun onConfirmPasswordUpdate(password: String) {
-//        val errors = Validation.validateConfirmPassword(password, uiState.currentPassword)
-        val errors = mutableListOf<String>()
+    fun onConfirmPasswordUpdate(cPassword: String) {
+        val errors = Validation.validateConfirmPassword(cPassword, uiState.currentPassword)
+//        val errors = mutableListOf<String>()
 
         uiState = uiState.copy(
-            currentConfirmPassword = password,
+            currentConfirmPassword = cPassword,
             currentConfirmPasswordErrors = errors,
         )
     }

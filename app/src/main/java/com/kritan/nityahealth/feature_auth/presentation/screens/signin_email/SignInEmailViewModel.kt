@@ -6,11 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kritan.nityahealth.base.utils.Resource
+import com.kritan.nityahealth.base.utils.UiEvent
 import com.kritan.nityahealth.base.utils.Validation
 import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.data.models.UserLogin
 import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +22,9 @@ class SignInEmailViewModel @Inject constructor(private val authRepository: AuthR
     ViewModel() {
     var uiState by mutableStateOf(SignInEmailState())
         private set
+
+    private val _uiEvent = MutableSharedFlow<UiEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     fun onEmailUpdate(email: String) {
         val errors = Validation.validateEmail(email)
@@ -40,9 +46,11 @@ class SignInEmailViewModel @Inject constructor(private val authRepository: AuthR
                 UserLogin(uiState.currentEmail, uiState.currentPassword)
             ).collect { res ->
                 when (res) {
-                    is Resource.Error -> Unit
+                    is Resource.Error -> _uiEvent.emit(UiEvent.ShowSnackbar("Could not log in"))
                     is Resource.Loading -> uiState = uiState.copy(isLoading = res.isLoading)
-                    is Resource.Success -> res.data?.let { authenticateUser(it) }
+                    is Resource.Success -> res.data?.let {
+                        authenticateUser(it)
+                    }
                 }
             }
         }

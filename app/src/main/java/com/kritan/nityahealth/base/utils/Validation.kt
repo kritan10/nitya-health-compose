@@ -17,7 +17,8 @@ object Validation {
 
     fun validatePassword(password: String): MutableList<String> {
         val errors = mutableListOf<String>()
-        val passwordRegex = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}\$\n")
+        val passwordRegex =
+            Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$")
         if (!password.matches(passwordRegex)) {
             errors.add("Weak password")
         }
@@ -26,7 +27,7 @@ object Validation {
 
     fun validateConfirmPassword(password1: String, password2: String): MutableList<String> {
         val errors = mutableListOf<String>()
-        if (password1 == password2) {
+        if (password1 != password2) {
             errors.add("Passwords don't match")
         }
         return errors
@@ -34,7 +35,7 @@ object Validation {
 
     fun validatePhone(phone: String): MutableList<String> {
         val errors = mutableListOf<String>()
-        val phoneRegex = Regex("^(98|97)\\d{8}\$\n")
+        val phoneRegex = Regex("^(98|97)\\d{8}\$")
         if (!phone.matches(phoneRegex)) {
             errors.add("Invalid phone number")
         }

@@ -1,5 +1,6 @@
 package com.kritan.nityahealth.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -81,6 +82,7 @@ fun NityaHealthNavGraph(
             exerciseGraph(navController)
 
             composable(NityaHealthDestinations.DASHBOARD_ROUTE) {
+                BackHandler(true) { }
                 MyDrawer(
                     drawerState,
                     viewModel.mainUiState.auth.userName,
@@ -97,6 +99,7 @@ fun NityaHealthNavGraph(
                         navigateToProfile = navigationActions.navigateToProfile,
                     )
                 }
+
             }
             composable(NityaHealthDestinations.PROFILE_ROUTE) {
                 ProfileScreen(navigateUp = ::navigateUp)

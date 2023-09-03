@@ -26,14 +26,13 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
                 response.body()?.data
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
+                emit(Resource.Error("Couldn't log in"))
                 null
             } catch (e: Exception) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
+                emit(Resource.Error("Couldn't log in"))
                 null
             }
-
             remoteToken?.let {
                 emit(
                     Resource.Success(
@@ -45,7 +44,7 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
                     )
                 )
             }
-
+            emit(Resource.Error("Couldn't log in"))
             emit(Resource.Loading(false))
         }
     }

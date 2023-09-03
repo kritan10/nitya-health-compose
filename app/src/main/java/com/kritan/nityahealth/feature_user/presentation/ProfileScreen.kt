@@ -1,16 +1,17 @@
 package com.kritan.nityahealth.feature_user.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.commons.components.MyListItem
@@ -57,10 +60,12 @@ data class IconFieldValue(val icon: Int, val field: String, val value: String)
 
 private fun LazyListScope.sectionMedicalCondition() {
     val diseaseDetails = listOf(
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Gender", "Female"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Address", "Bhaktapur"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Contact", "9845123457"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Email", "user@email.com"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Disease Name", "Migraine"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Type", "Headache"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Cured?", "No"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Medicine Name", "Bruffin"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Medicine Duration", "2 Weeks"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Other Medicines?", "Yes"),
     )
     item {
         MyTitleBodyLayout("Medical Condition") {
@@ -112,10 +117,10 @@ private fun LazyListScope.sectionPersonalDetails() {
 
 private fun LazyListScope.sectionHealthDetails() {
     val healthDetails = listOf(
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Height", "Female"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Weight", "Bhaktapur"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Blood Group", "9845123457"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Food Type", "user@email.com"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Height", "5.9 ft"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Weight", "72 kg"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Blood Group", "AB +ve"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Food Type", "Vegan"),
     )
     item {
         MyTitleBodyLayout(title = "Health Details") {
@@ -134,11 +139,14 @@ private fun LazyListScope.sectionHealthDetails() {
 
 private fun LazyListScope.sectionUserImage() {
     item {
-        Box(
-            Modifier
-                .width(150.dp)
-                .height(150.dp)
-        ) { }
+        Image(
+            painter = painterResource(R.drawable.img_userimage),
+            contentDescription = "",
+            modifier = Modifier
+                .size(150.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
     }
 }
 

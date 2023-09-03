@@ -24,6 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.ui.layouts.MyGridItem
 import com.kritan.nityahealth.ui.layouts.MyGridLayout
@@ -32,6 +33,7 @@ import com.kritan.nityahealth.ui.theme.comfortaaFontFamily
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
+    viewModel: DashboardViewModel = hiltViewModel(),
     openDrawer: () -> Unit,
     navigateToWellness: () -> Unit,
     navigateToConsultants: () -> Unit,
@@ -52,7 +54,7 @@ fun DashboardScreen(
                     IconButton(onClick = { }) {
                         Icon(Icons.Default.Notifications, "Menu")
                     }
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = navigateToProfile) {
                         Icon(Icons.Default.AccountCircle, "Menu")
                     }
                 },
@@ -73,7 +75,7 @@ fun DashboardScreen(
                     .padding(20.dp)
             ) {
                 Text(
-                    text = "Hello Falano,\nWelcome to NityaHealth",
+                    text = "Hello ${viewModel.userName},\nWelcome to NityaHealth",
                     style = TextStyle(
                         fontSize = 20.sp,
                         fontFamily = comfortaaFontFamily,

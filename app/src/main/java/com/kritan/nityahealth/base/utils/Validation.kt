@@ -3,6 +3,15 @@ package com.kritan.nityahealth.base.utils
 import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpState
 
 object Validation {
+
+    fun validateEmptyField(string: String): MutableList<String> {
+        val errors = mutableListOf<String>()
+        if (string.isEmpty()) {
+            errors.add("This field cannot be left empty")
+        }
+        return errors
+    }
+
     fun validateEmail(email: String): MutableList<String> {
         val errors = mutableListOf<String>()
         val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")

@@ -2,11 +2,11 @@ package com.kritan.nityahealth.base.di
 
 import android.content.Context
 import androidx.room.Room
-import com.kritan.nityahealth.feature_fitness.data.api.ExerciseApi
-import com.kritan.nityahealth.feature_fitness.data.local.TrainingDatabase
-import com.kritan.nityahealth.feature_fitness.data.local.TrainingRepository
-import com.kritan.nityahealth.feature_fitness.data.repository.ExerciseRepository
-import com.kritan.nityahealth.feature_fitness.data.repository.ExerciseRepositoryImpl
+import com.kritan.nityahealth.feature_exercise.data.api.ExerciseApi
+import com.kritan.nityahealth.feature_exercise.data.local.TrainingDatabase
+import com.kritan.nityahealth.feature_exercise.data.local.TrainingRepository
+import com.kritan.nityahealth.feature_exercise.data.repository.ExerciseRepository
+import com.kritan.nityahealth.feature_exercise.data.repository.ExerciseRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

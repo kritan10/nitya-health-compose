@@ -8,6 +8,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.kritan.nityahealth.ui.theme.NityaHealthTheme
 import kotlinx.coroutines.launch
 
+/**
+ * Top-level declarations are kept here
+ *
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NityaHealthApp() {

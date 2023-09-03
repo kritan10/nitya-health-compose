@@ -1,5 +1,8 @@
 package com.kritan.nityahealth.feature_auth.presentation.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,16 +17,32 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.commons.components.MyTextWithIconButton
+import com.kritan.nityahealth.commons.components.MyTextButton
+import kotlinx.coroutines.delay
 
 @Composable
 fun WelcomeScreen(navigateToBoarding: () -> Unit) {
-    Surface(color = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary) {
+    var isReady by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(Unit) {
+        delay(1500)
+        isReady = true
+    }
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary
+    ) {
         Box {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,16 +59,22 @@ fun WelcomeScreen(navigateToBoarding: () -> Unit) {
                 Text("Welcome to", style = MaterialTheme.typography.bodyMedium)
                 Text("Nitya Health")
             }
-            MyTextWithIconButton(
-                label = "Get Started",
-                trailing = Icons.Default.ArrowForward,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(bottom = 50.dp, end = 36.dp)
+            AnimatedVisibility(
+                visible = isReady,
+                modifier = Modifier.align(Alignment.BottomEnd),
+                enter = fadeIn(TweenSpec(500))
             ) {
-                navigateToBoarding()
+                MyTextButton(
+                    label = "Get Started",
+                    trailing = Icons.Default.ArrowForward,
+                    modifier = Modifier
+                        .padding(bottom = 50.dp, end = 36.dp)
+                ) {
+                    navigateToBoarding()
+                }
             }
         }
     }
 }
+
 

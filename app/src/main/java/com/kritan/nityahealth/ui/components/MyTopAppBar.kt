@@ -18,10 +18,18 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(title: String, navigateUp: () -> Unit) {
+fun MyTopAppBar(
+    title: String = "",
+    navigateUp: () -> Unit = {},
+    navigateToProfile: () -> Unit = {}
+) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
-        actions = { Icon(Icons.Default.AccountCircle, "", Modifier.padding(20.dp)) },
+        actions = {
+            IconButton(onClick = navigateToProfile) {
+                Icon(Icons.Default.AccountCircle, "", Modifier.padding(20.dp))
+            }
+        },
         navigationIcon = {
             IconButton(navigateUp, Modifier.padding(20.dp)) {
                 Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)

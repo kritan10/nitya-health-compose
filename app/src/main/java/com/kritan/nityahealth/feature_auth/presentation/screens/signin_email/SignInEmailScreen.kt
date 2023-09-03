@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.base.utils.UiEvent
 import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.feature_auth.presentation.utils.AuthTopBar
 import com.kritan.nityahealth.ui.components.MyTextField
@@ -32,7 +31,6 @@ fun SignInEmailScreen(
     viewModel: SignInEmailViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit,
     onNavigateToSignUp: () -> Unit,
-    authenticateUser: (AuthState) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -79,7 +77,7 @@ fun SignInEmailScreen(
                 }
 
                 item {
-                    MyButton(label = "Sign in", onClick = { viewModel.loginUser(authenticateUser) })
+                    MyButton(label = "Sign in", onClick = { viewModel.loginUser() })
                 }
 
                 item {

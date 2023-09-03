@@ -4,7 +4,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.presentation.screens.OnBoardingScreen
 import com.kritan.nityahealth.feature_auth.presentation.screens.SignInScreen
 import com.kritan.nityahealth.feature_auth.presentation.screens.SignUpLocationScreen
@@ -15,11 +14,10 @@ import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpScr
 
 fun NavGraphBuilder.authGraph(
     navController: NavHostController,
-    authenticateUser: (AuthState) -> Unit
 ) {
     val navigationActions = AuthNavigationActions(navController)
 
-    navigation(startDestination = AuthDestinations.SIGN_IN_ROUTE, route = "auth") {
+    navigation(startDestination = AuthDestinations.INTRO_ROUTE, route = "auth") {
 
         composable(AuthDestinations.INTRO_ROUTE) {
             WelcomeScreen(navigateToBoarding = navigationActions.navigateToOnboarding)
@@ -36,7 +34,6 @@ fun NavGraphBuilder.authGraph(
             SignInEmailScreen(
                 onNavigateUp = navigationActions.navigateUp,
                 onNavigateToSignUp = navigationActions.navigateToSignUp,
-                authenticateUser = authenticateUser
             )
         }
 
@@ -44,7 +41,6 @@ fun NavGraphBuilder.authGraph(
             SignUpScreen(
                 onNavigateUp = navigationActions.navigateUp,
                 onNavigateToSignIn = navigationActions.navigateToSignIn,
-                authenticateUser = authenticateUser
             )
         }
 

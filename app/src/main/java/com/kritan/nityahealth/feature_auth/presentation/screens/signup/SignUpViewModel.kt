@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kritan.nityahealth.auth.AppAuth
 import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.base.utils.Validation
-import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.data.models.UserRegister
 import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val appAuth: AppAuth
 ) :
     ViewModel() {
 
@@ -27,8 +28,6 @@ class SignUpViewModel @Inject constructor(
     val isRegisterEnabled by derivedStateOf {
         Validation.validateSignupForm(uiState)
     }
-
-
 
 
     fun onFirstNameUpdate(firstName: String) {
@@ -44,8 +43,9 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onPhoneUpdate(phone: String) {
-        val errors = Validation.validatePhone(phone)
-//        val errors = mutableListOf<String>()
+        val errors = mutableListOf<String>()
+        errors.addAll(Validation.validateEmptyField(phone))
+        errors.addAll(Validation.validatePhone(phone))
         uiState = uiState.copy(
             currentPhone = phone,
             currentPhoneErrors = errors
@@ -59,8 +59,9 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onEmailUpdate(email: String) {
-        val errors = Validation.validateEmail(email)
-//        val errors = mutableListOf<String>()
+        val errors = mutableListOf<String>()
+        errors.addAll(Validation.validateEmptyField(email))
+        errors.addAll(Validation.validateEmail(email))
 
         uiState = uiState.copy(
             currentEmail = email,
@@ -89,7 +90,7 @@ class SignUpViewModel @Inject constructor(
     }
 
 
-    fun registerUser(authenticateUser: (AuthState) -> Unit) {
+    fun registerUser() {
         viewModelScope.launch {
             authRepository.register(
                 UserRegister(
@@ -104,7 +105,7 @@ class SignUpViewModel @Inject constructor(
                 when (res) {
                     is Resource.Error -> Unit
                     is Resource.Loading -> uiState = uiState.copy(isLoading = res.isLoading)
-                    is Resource.Success -> res.data?.let { authenticateUser(it) }
+                    is Resource.Success -> res.data?.let { appAuth.authenticateUser(it) }
                 }
             }
         }

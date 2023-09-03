@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.feature_auth.data.models.AuthState
 import com.kritan.nityahealth.feature_auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.feature_auth.presentation.utils.AuthScreenLayout
 import com.kritan.nityahealth.ui.components.MyTextField
@@ -17,7 +16,6 @@ fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit,
     onNavigateToSignIn: () -> Unit,
-    authenticateUser: (AuthState) -> Unit,
 ) {
     MyLoadingLayout(loading = viewModel.uiState.isLoading) {
         AuthScreenLayout(title = "Sign Up", onNavigateUp = onNavigateUp) {
@@ -72,7 +70,7 @@ fun SignUpScreen(
                 )
                 MyButton(
                     label = "Sign Up",
-                    onClick = { viewModel.registerUser(authenticateUser) },
+                    onClick = { viewModel.registerUser() },
                     enabled = viewModel.isRegisterEnabled
                 )
 

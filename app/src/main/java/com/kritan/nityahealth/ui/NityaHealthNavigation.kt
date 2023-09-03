@@ -3,8 +3,16 @@ package com.kritan.nityahealth.ui
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 
-//define navigation destinations and actions
+/**
+ * Top level navigation destinations and navigation actions.
+ *
+ * Nested route destinations and actions can be found in their corresponding features.
+ */
 
+
+/**
+ * All routes of the app are defined in NityaHealthDestinations object.
+ */
 object NityaHealthDestinations {
     const val AUTH_ROUTE = "auth"
 
@@ -29,8 +37,17 @@ object NityaHealthDestinations {
     const val SETTINGS_ROUTE = "settings"
 }
 
+
+/**
+ * The possible routing actions that can be executed in the application.
+ *
+ * The methods are defined as (NityaHealthDestination)->Unit
+ *
+ * @param navController The top level NavHostController of the app]
+ *
+ */
 class NityaHealthNavigationActions(navController: NavHostController) {
-    val navigateUp:()->Unit= { navController.navigateUp() }
+    val navigateUp: () -> Unit = { navController.navigateUp() }
 
     val navigateToDashboard: () -> Unit = {
         navController.navigate(NityaHealthDestinations.DASHBOARD_ROUTE) {

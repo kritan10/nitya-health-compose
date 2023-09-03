@@ -1,5 +1,8 @@
 package com.kritan.nityahealth.base.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.kritan.nityahealth.auth.AppAuth
 import com.kritan.nityahealth.feature_auth.data.api.AuthApi
 import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
 import com.kritan.nityahealth.feature_auth.data.repository.AuthRepositoryImpl
@@ -23,5 +26,11 @@ object AuthModule {
     @Provides
     fun providesAuthRepository(authApi: AuthApi): AuthRepository {
         return AuthRepositoryImpl(authApi)
+    }
+
+    @Singleton
+    @Provides
+    fun providesAppAuth(dataStore: DataStore<Preferences>): AppAuth {
+        return AppAuth(dataStore)
     }
 }

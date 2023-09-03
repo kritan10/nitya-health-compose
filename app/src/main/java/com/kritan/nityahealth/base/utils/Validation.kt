@@ -2,8 +2,11 @@ package com.kritan.nityahealth.base.utils
 
 import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpState
 
+/**
+ * Helper class that contains methods for data validation.
+ * Generally used for validating text input fields.
+ */
 object Validation {
-
     fun validateEmptyField(string: String): MutableList<String> {
         val errors = mutableListOf<String>()
         if (string.isEmpty()) {
@@ -21,7 +24,6 @@ object Validation {
             errors.add("Invalid email address")
             errors
         }
-
     }
 
     fun validatePassword(password: String): MutableList<String> {

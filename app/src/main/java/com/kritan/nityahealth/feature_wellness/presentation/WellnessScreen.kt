@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,7 +31,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.layouts.MyGridLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -43,7 +41,6 @@ fun WellnessScreen(
     wellnessViewModel: WellnessViewModel = viewModel()
 ) {
     val wellnessTabItemsList = wellnessViewModel.wellnessTabItemsList
-    val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
     val pagerState = rememberPagerState(
         initialPage = initialPage,
@@ -51,16 +48,14 @@ fun WellnessScreen(
     )
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            wellnessViewModel.uiEvent.collect { event ->
-                when (event) {
-                    is UiEvent.ScrollTo -> {
-                        lazyListState.animateScrollToItem(
-                            event.index,
-                            if (event.index > lazyListState.firstVisibleItemIndex) 200 else -100
-                        )
-                        pagerState.scrollToPage(event.index)
-                    }
+        wellnessViewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.ScrollTo -> {
+                    lazyListState.animateScrollToItem(
+                        event.index,
+                        if (event.index > lazyListState.firstVisibleItemIndex) 200 else -100
+                    )
+                    pagerState.scrollToPage(event.index)
                 }
             }
         }

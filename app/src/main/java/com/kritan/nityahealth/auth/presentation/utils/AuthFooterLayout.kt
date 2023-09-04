@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kritan.nityahealth.commons.components.MyClickableText
+import com.kritan.nityahealth.ui.components.MyClickableText
 import com.kritan.nityahealth.ui.theme.comfortaaFontFamily
 
 @Composable

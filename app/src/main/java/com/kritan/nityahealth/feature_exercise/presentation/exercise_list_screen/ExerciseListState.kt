@@ -7,6 +7,4 @@ data class ExerciseListState(
     val isLoading: Boolean = false,
     val exercise: ExercisePackage = ExercisePackage(),
     val trainings: List<ExerciseTraining> = emptyList()
-) {
-
-}
+)

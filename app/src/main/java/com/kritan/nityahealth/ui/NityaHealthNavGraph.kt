@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.auth.data.models.AuthState
 import com.kritan.nityahealth.auth.presentation.AuthDestinations
 import com.kritan.nityahealth.auth.presentation.authGraph
-import com.kritan.nityahealth.commons.components.MyDrawer
+import com.kritan.nityahealth.ui.components.MyDrawer
 import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph

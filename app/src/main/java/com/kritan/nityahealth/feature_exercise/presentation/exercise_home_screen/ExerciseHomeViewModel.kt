@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ExerciseHomeViewModel @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
-    val trainingRepository: TrainingRepository
+    private val trainingRepository: TrainingRepository
 ) :
     ViewModel() {
 

@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
-import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.commons.components.MyTextButton
+import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.components.MyTextButton
 
 @Composable
 fun SignInScreen(

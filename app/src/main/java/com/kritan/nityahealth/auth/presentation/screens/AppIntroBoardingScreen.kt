@@ -33,7 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.commons.components.MyTextButton
+import com.kritan.nityahealth.ui.components.MyTextButton
 import kotlinx.coroutines.launch
 
 sealed class OnboardingItem(@DrawableRes val image: Int, val label: String) {

@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class AppAuth(private val dataStore: DataStore<Preferences>) {
     private val gson: Gson = GsonBuilder().create()
-    private val AUTH_KEY = stringPreferencesKey("auth")
+    private val authKey = stringPreferencesKey("auth")
 
     private var _authState = MutableStateFlow(AuthState())
     var authState = _authState.asStateFlow()
@@ -32,7 +32,7 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
     suspend fun authenticateUser(authState: AuthState) {
         val authJson = gson.toJson(authState)
         dataStore.edit {
-            it[AUTH_KEY] = authJson
+            it[authKey] = authJson
         }
         getAuthDataFromPrefs()
     }
@@ -41,7 +41,7 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
         val authState = _authState.value.copy(isOnboard = true)
         val authJson = gson.toJson(authState)
         dataStore.edit {
-            it[AUTH_KEY] = authJson
+            it[authKey] = authJson
         }
         getAuthDataFromPrefs()
     }
@@ -50,7 +50,7 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
     fun getAuthDataFromPrefs() {
         GlobalScope.launch(Dispatchers.IO) {
             dataStore.data.map {
-                gson.fromJson(it[AUTH_KEY], AuthState::class.java) ?: AuthState()
+                gson.fromJson(it[authKey], AuthState::class.java) ?: AuthState()
             }.collectLatest { auth ->
                 Log.d("Auth", "Updated Auth")
                 _authState.emit(auth)

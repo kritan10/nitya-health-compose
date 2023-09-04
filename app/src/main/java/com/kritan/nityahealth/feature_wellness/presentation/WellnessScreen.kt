@@ -29,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.layouts.MyGridLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 import kotlinx.coroutines.launch
@@ -80,7 +80,7 @@ fun WellnessScreen(
                 item {
                     Spacer(modifier = Modifier.width(1.dp))
                 }
-                items(wellnessTabItemsList) { it ->
+                items(wellnessTabItemsList) {
                     RowItem(
                         tab = it,
                         tabIndex = it.position,

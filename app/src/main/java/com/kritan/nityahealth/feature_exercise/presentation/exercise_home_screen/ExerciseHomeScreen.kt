@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.feature_exercise.data.models.ExercisePackage
 import com.kritan.nityahealth.feature_exercise.presentation.exercise_home_screen.components.MyCalendar
 import com.kritan.nityahealth.feature_exercise.presentation.exercise_home_screen.components.MyWeek

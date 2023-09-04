@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.components.MySearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -25,8 +25,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.commons.components.MyListItem
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyListItem
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 

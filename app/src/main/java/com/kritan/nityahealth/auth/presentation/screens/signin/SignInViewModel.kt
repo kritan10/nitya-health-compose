@@ -6,5 +6,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(val appAuth: AppAuth) : ViewModel() {
-}
+class SignInViewModel @Inject constructor(val appAuth: AppAuth) : ViewModel()

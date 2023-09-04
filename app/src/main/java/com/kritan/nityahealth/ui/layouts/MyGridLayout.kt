@@ -41,32 +41,26 @@ fun MyGridLayout(gridItems: List<MyGridItem> = sampleItems, modifier: Modifier =
 private val sampleItems = listOf(
     MyGridItem(
         "Sample 1",
-        R.drawable.ic_dashboard_wellness,
-        {}
-    ),
+        R.drawable.ic_dashboard_wellness
+    ) {},
     MyGridItem(
         "Sample 2",
-        R.drawable.ic_dashboard_consultants,
-        {}
-    ),
+        R.drawable.ic_dashboard_consultants
+    ) {},
     MyGridItem(
         "Sample 3",
-        R.drawable.ic_dashboard_topics,
-        {}
-    ),
+        R.drawable.ic_dashboard_topics
+    ) {},
     MyGridItem(
         "Sample 4",
-        R.drawable.ic_dashboard_news,
-        {}
-    ),
+        R.drawable.ic_dashboard_news
+    ) {},
     MyGridItem(
         "Sample 5",
-        R.drawable.ic_dashboard_activities,
-        {}
-    ),
+        R.drawable.ic_dashboard_activities
+    ) {},
     MyGridItem(
         "Sample 6",
-        R.drawable.ic_dashboard_profile,
-        {}
-    ),
+        R.drawable.ic_dashboard_profile
+    ) {},
 )

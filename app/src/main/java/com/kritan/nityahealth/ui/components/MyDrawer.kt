@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.commons.components
+package com.kritan.nityahealth.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

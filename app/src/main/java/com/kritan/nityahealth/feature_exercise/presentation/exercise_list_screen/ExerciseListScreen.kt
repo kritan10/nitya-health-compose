@@ -33,8 +33,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.feature_exercise.data.models.ExerciseTraining
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
@@ -87,7 +87,7 @@ fun ExerciseListScreen(
                     }
                 }
                 LazyColumn(Modifier.padding(horizontal = 20.dp)) {
-                    item() {
+                    item {
                         Spacer(Modifier.height(12.dp))
                         Text(text = "exercise.description")
                         Spacer(Modifier.height(12.dp))
@@ -96,7 +96,7 @@ fun ExerciseListScreen(
                         ExerciseListItem(it, navigateToExerciseDetail)
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                    item() {
+                    item {
                         MyButton(label = "Start") {
                             navigateToExerciseTimer(exercise.id!!)
                         }

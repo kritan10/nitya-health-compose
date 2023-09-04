@@ -1,3 +1,5 @@
+@file:Suppress("unused", "unused", "unused", "unused", "unused", "unused")
+
 package com.kritan.nityahealth.auth.presentation
 
 import androidx.navigation.NavHostController
@@ -13,6 +15,7 @@ object AuthDestinations {
     const val SIGN_UP_VERIFY_ROUTE = "signup_verify"
 }
 
+@Suppress("unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused")
 class AuthNavigationActions(navController: NavHostController) {
     val navigateUp = NityaHealthNavigationActions(navController).navigateUp
 

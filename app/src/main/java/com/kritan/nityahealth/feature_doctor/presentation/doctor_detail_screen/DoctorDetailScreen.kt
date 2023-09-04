@@ -21,8 +21,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

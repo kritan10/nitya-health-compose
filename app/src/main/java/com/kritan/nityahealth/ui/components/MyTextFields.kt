@@ -38,7 +38,7 @@ fun MyTextField(
     isLastField: Boolean = false,
     trailingIconAction: () -> Unit = {},
 ) {
-    Box() {
+    Box {
         Column(Modifier.fillMaxWidth()) {
             Text(label, style = MaterialTheme.typography.labelLarge.copy(color = Color.Black))
             Spacer(Modifier.height(5.dp))

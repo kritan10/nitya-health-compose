@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExerciseDetailScreen(navigateUp: () -> Unit,) {
+fun ExerciseDetailScreen(navigateUp: () -> Unit) {
     Scaffold(topBar = {
         MyTopAppBar(title = "Core Fitness - Easy Pose", navigateUp = navigateUp)
     }) { pv ->

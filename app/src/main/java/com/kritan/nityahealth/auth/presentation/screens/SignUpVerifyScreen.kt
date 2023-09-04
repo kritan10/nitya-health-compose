@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.commons.components.MyClickableText
+import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.components.MyClickableText
 import com.kritan.nityahealth.auth.presentation.utils.AuthScreenLayout
 
 @Composable

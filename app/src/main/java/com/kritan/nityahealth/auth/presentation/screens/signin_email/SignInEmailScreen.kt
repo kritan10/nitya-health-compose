@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.auth.presentation.utils.AuthTopBar
 import com.kritan.nityahealth.base.utils.UiEvent
-import com.kritan.nityahealth.commons.components.MyButton
+import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyTextField
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 import kotlinx.coroutines.flow.collectLatest

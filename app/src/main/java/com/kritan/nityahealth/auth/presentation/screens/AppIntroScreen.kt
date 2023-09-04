@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.commons.components.MyTextButton
+import com.kritan.nityahealth.ui.components.MyTextButton
 import kotlinx.coroutines.delay
 
 @Composable

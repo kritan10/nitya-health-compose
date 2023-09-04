@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.commons.components.MyClickableText
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyClickableText
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor
 import com.kritan.nityahealth.ui.components.MySearchBar
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
@@ -63,7 +63,7 @@ fun DoctorsScreen(
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text("Categories", style = MaterialTheme.typography.titleLarge)
-                LazyRow() {
+                LazyRow {
                 }
             }
 

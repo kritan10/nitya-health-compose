@@ -32,8 +32,8 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
-import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.commons.components.MyTopAppBar
+import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.components.MyTimer
 import kotlinx.coroutines.launch
 

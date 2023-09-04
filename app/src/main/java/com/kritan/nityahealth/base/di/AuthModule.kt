@@ -3,9 +3,9 @@ package com.kritan.nityahealth.base.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.kritan.nityahealth.auth.AppAuth
-import com.kritan.nityahealth.feature_auth.data.api.AuthApi
-import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
-import com.kritan.nityahealth.feature_auth.data.repository.AuthRepositoryImpl
+import com.kritan.nityahealth.auth.data.api.AuthApi
+import com.kritan.nityahealth.auth.data.repository.AuthRepository
+import com.kritan.nityahealth.auth.data.repository.AuthRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

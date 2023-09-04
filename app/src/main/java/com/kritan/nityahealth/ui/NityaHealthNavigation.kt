@@ -11,7 +11,9 @@ import androidx.navigation.NavHostController
 
 
 /**
- * All routes of the app are defined in NityaHealthDestinations object.
+ * Top-level routes of the app are defined in [NityaHealthDestinations] object.
+ *
+ * @see NityaHealthNavigationActions
  */
 object NityaHealthDestinations {
     const val AUTH_ROUTE = "auth"
@@ -43,7 +45,7 @@ object NityaHealthDestinations {
  *
  * The methods are defined as (NityaHealthDestination)->Unit
  *
- * @param navController The top level NavHostController of the app]
+ * @param navController The top level NavHostController of the app
  *
  */
 class NityaHealthNavigationActions(navController: NavHostController) {

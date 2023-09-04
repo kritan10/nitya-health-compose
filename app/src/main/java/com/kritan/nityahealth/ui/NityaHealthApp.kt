@@ -5,6 +5,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.ui.theme.NityaHealthTheme
 import kotlinx.coroutines.launch
 
@@ -15,11 +17,15 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NityaHealthApp() {
+fun NityaHealthApp(
+    viewModel: NityaHealthViewModel = hiltViewModel(),
+) {
     NityaHealthTheme {
         val coroutineScope = rememberCoroutineScope()
 
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+        val context = LocalContext.current
 
         fun openDrawer() {
             coroutineScope.launch {
@@ -33,11 +39,13 @@ fun NityaHealthApp() {
             }
         }
 
-            NityaHealthNavGraph(
-                drawerState = drawerState,
-                openDrawer = ::openDrawer,
-                closeDrawer = ::closeDrawer,
-            )
+        NityaHealthNavGraph(
+            drawerState = drawerState,
+            authStateFlow = viewModel.authState,
+            context = context,
+            openDrawer = ::openDrawer,
+            closeDrawer = ::closeDrawer,
+        )
 
     }
 }

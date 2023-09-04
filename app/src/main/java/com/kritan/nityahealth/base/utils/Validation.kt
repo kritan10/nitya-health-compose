@@ -1,6 +1,6 @@
 package com.kritan.nityahealth.base.utils
 
-import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpState
+import com.kritan.nityahealth.auth.presentation.screens.signup_email.SignUpState
 
 /**
  * Helper class that contains methods for data validation.

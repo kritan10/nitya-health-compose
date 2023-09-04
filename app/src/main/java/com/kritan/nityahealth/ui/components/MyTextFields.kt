@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -16,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -24,10 +30,13 @@ import androidx.compose.ui.unit.sp
 fun MyTextField(
     label: String,
     value: String,
+    onValueChange: (String) -> Unit,
     supportingText: String? = null,
     isError: Boolean = false,
-    isLast: Boolean = false,
-    onValueChange: (String) -> Unit
+    isPassword: Boolean = false,
+    isPasswordMasked: Boolean = true,
+    isLastField: Boolean = false,
+    trailingIconAction: () -> Unit = {},
 ) {
     Box() {
         Column(Modifier.fillMaxWidth()) {
@@ -44,7 +53,15 @@ fun MyTextField(
                     containerColor = Color.White,
                     unfocusedBorderColor = Color.Transparent
                 ),
-                keyboardOptions = KeyboardOptions(imeAction = if (isLast) ImeAction.Done else ImeAction.Next),
+                trailingIcon = {
+                    if (isPassword) {
+                        IconButton(onClick = trailingIconAction) {
+                            Icon(Icons.Default.Lock, "", tint = Color.Gray)
+                        }
+                    }
+                },
+                visualTransformation = if (isPassword && isPasswordMasked) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(imeAction = if (isLastField) ImeAction.Done else ImeAction.Next),
                 modifier = Modifier
                     .shadow(
                         elevation = 5.dp,

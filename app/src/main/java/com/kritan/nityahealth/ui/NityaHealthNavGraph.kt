@@ -1,19 +1,22 @@
 package com.kritan.nityahealth.ui
 
+import android.app.Activity
+import android.content.Context
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.fadeIn
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.core.app.ActivityCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kritan.nityahealth.auth.data.models.AuthState
+import com.kritan.nityahealth.auth.presentation.AuthDestinations
+import com.kritan.nityahealth.auth.presentation.authGraph
 import com.kritan.nityahealth.commons.components.MyDrawer
-import com.kritan.nityahealth.feature_auth.presentation.authGraph
 import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
@@ -21,7 +24,12 @@ import com.kritan.nityahealth.feature_exercise.presentation.exerciseGraph
 import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
 import com.kritan.nityahealth.ui.layouts.EmptyScreen
-import kotlinx.coroutines.delay
+import com.kritan.nityahealth.ui.theme.myEnterTransition
+import com.kritan.nityahealth.ui.theme.myExitTransition
+import com.kritan.nityahealth.ui.theme.myFadeEnterTransition
+import com.kritan.nityahealth.ui.theme.myPopEnterTransition
+import com.kritan.nityahealth.ui.theme.myPopExitTransition
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * The root Navigation Graph i.e. the root [NavHost] holder .
@@ -35,14 +43,17 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NityaHealthNavGraph(
-    viewModel: NityaHealthViewModel = hiltViewModel(),
     drawerState: DrawerState,
+    authStateFlow: StateFlow<AuthState>,
+    context: Context,
     openDrawer: () -> Unit,
     closeDrawer: () -> Unit,
 ) {
     val navController = rememberNavController()
     val navigationActions = NityaHealthNavigationActions(navController)
     val startDestination = NityaHealthDestinations.AUTH_ROUTE
+    val auth by authStateFlow.collectAsState()
+
 
     fun navigateTo(route: String) {
         navController.navigate(route)
@@ -52,36 +63,21 @@ fun NityaHealthNavGraph(
         navController.navigateUp()
     }
 
-    LaunchedEffect(viewModel.mainUiState) {
-        delay(1000)
-        if (viewModel.mainUiState.auth.isAuth) {
+    LaunchedEffect(Unit) {
+        if (auth.isAuth) {
             navigateTo(NityaHealthDestinations.DASHBOARD_ROUTE)
+        } else if (auth.isOnboard) {
+            navigateTo(AuthDestinations.SIGN_IN_ROUTE)
         }
     }
 
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-            )
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-            )
-        },
-        popEnterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-            )
-        },
-        popExitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right
-            )
-        },
+        enterTransition = { myEnterTransition() },
+        exitTransition = { myExitTransition() },
+        popEnterTransition = { myPopEnterTransition() },
+        popExitTransition = { myPopExitTransition() },
     ) {
 
         authGraph(navController)
@@ -92,17 +88,15 @@ fun NityaHealthNavGraph(
 
         composable(
             route = NityaHealthDestinations.DASHBOARD_ROUTE,
-            enterTransition = { fadeIn(TweenSpec(400)) },
-            popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                )
-            },
+            enterTransition = { myFadeEnterTransition() },
+            popEnterTransition = { myPopEnterTransition() },
         ) {
-            BackHandler(true) { }
+            BackHandler(true) {
+                ActivityCompat.finishAffinity(context as Activity)
+            }
             MyDrawer(
                 drawerState,
-                viewModel.mainUiState.auth.userName,
+                auth.userName,
                 closeDrawer,
                 ::navigateTo
             )

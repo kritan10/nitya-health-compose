@@ -1,38 +1,24 @@
 package com.kritan.nityahealth.feature_exercise.data.repository
 
-import android.util.Log
+import com.kritan.nityahealth.base.api.MyApi
 import com.kritan.nityahealth.base.utils.Resource
+import com.kritan.nityahealth.base.utils.emitDataOrNull
 import com.kritan.nityahealth.feature_exercise.data.api.ExerciseApi
 import com.kritan.nityahealth.feature_exercise.data.models.ExerciseBridge
 import com.kritan.nityahealth.feature_exercise.data.models.ExercisePackage
 import com.kritan.nityahealth.feature_exercise.data.models.ExerciseTraining
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 
 class ExerciseRepositoryImpl(val api: ExerciseApi) : ExerciseRepository {
     override suspend fun getAllFitness(): Flow<Resource<List<ExercisePackage>>> {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteFitness: List<ExercisePackage>? = try {
-                val response = api.getAllExercises()
-                Log.d("response", response.body()?.data?.posts.toString())
-                response.body()?.data?.posts
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
+            val remoteFitness = MyApi.fetchFromRemote {
+                api.getAllExercises()
             }
-
-            remoteFitness?.let {
-                emit(Resource.Success(it))
-            }
+            emitDataOrNull(remoteFitness?.posts)
 
             emit(Resource.Loading(false))
         }
@@ -43,23 +29,10 @@ class ExerciseRepositoryImpl(val api: ExerciseApi) : ExerciseRepository {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteExerciseBridge: List<ExerciseBridge>? = try {
-                val response = api.getExerciseBridge(id)
-                Log.d("response", response.body()?.data?.mPackage.toString())
-                response.body()?.data?.mPackage
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
+            val remoteExerciseBridge = MyApi.fetchFromRemote {
+                api.getExerciseBridge(id)
             }
-
-            remoteExerciseBridge?.let {
-                emit(Resource.Success(it))
-            }
+            emitDataOrNull(remoteExerciseBridge?.mPackage)
 
             emit(Resource.Loading(false))
         }
@@ -69,23 +42,10 @@ class ExerciseRepositoryImpl(val api: ExerciseApi) : ExerciseRepository {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteTraining: List<ExerciseTraining>? = try {
-                val response = api.getTraining(id)
-                Log.d("response", response.body()?.data?.training.toString())
-                response.body()?.data?.training
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
+            val remoteTraining = MyApi.fetchFromRemote {
+                api.getTraining(id)
             }
-
-            remoteTraining?.let {
-                emit(Resource.Success(it))
-            }
+            emitDataOrNull(remoteTraining?.training)
 
             emit(Resource.Loading(false))
         }

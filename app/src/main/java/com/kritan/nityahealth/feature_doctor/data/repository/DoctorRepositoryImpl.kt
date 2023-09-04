@@ -1,14 +1,15 @@
 package com.kritan.nityahealth.feature_doctor.data.repository
 
-import android.util.Log
+import com.kritan.nityahealth.base.api.MyApi
 import com.kritan.nityahealth.base.utils.Resource
+import com.kritan.nityahealth.base.utils.emitDataOrNull
+import com.kritan.nityahealth.feature_doctor.data.api.DoctorDTO
+import com.kritan.nityahealth.feature_doctor.data.api.DoctorDetailsDTO
 import com.kritan.nityahealth.feature_doctor.data.api.DoctorsApi
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor
 import com.kritan.nityahealth.feature_doctor.data.models.DoctorDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 
 class DoctorRepositoryImpl(private val api: DoctorsApi) : DoctorRepository {
 
@@ -16,23 +17,10 @@ class DoctorRepositoryImpl(private val api: DoctorsApi) : DoctorRepository {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteDoctors: List<Doctor>? = try {
-                val response = api.getAllDoctors()
-                Log.d("response", response.body()?.data?.doctors.toString())
-                response.body()?.data?.doctors
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
+            val remoteDoctors: DoctorDTO? = MyApi.fetchFromRemote {
+                api.getAllDoctors()
             }
-
-            remoteDoctors?.let {
-                emit(Resource.Success(it))
-            }
+            emitDataOrNull(remoteDoctors?.doctors)
 
             emit(Resource.Loading(false))
         }
@@ -42,23 +30,10 @@ class DoctorRepositoryImpl(private val api: DoctorsApi) : DoctorRepository {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteDoctorDetails: DoctorDetail? = try {
-                val response = api.getDoctorDetails(id)
-                Log.d("response", response.body()?.data?.doctor.toString())
-                response.body()?.data?.doctor
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
-                null
+            val remoteDoctorDetails: DoctorDetailsDTO? = MyApi.fetchFromRemote {
+                api.getDoctorDetails(id)
             }
-
-            remoteDoctorDetails?.let {
-                emit(Resource.Success(it))
-            }
+            emitDataOrNull(remoteDoctorDetails?.doctor)
 
             emit(Resource.Loading(false))
         }

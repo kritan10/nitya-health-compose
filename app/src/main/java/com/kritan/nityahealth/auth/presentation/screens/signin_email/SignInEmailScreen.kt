@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.screens.signin_email
+package com.kritan.nityahealth.auth.presentation.screens.signin_email
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,15 +12,18 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
+import com.kritan.nityahealth.auth.presentation.utils.AuthTopBar
 import com.kritan.nityahealth.base.utils.UiEvent
 import com.kritan.nityahealth.commons.components.MyButton
-import com.kritan.nityahealth.feature_auth.presentation.utils.AuthFooter
-import com.kritan.nityahealth.feature_auth.presentation.utils.AuthTopBar
 import com.kritan.nityahealth.ui.components.MyTextField
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -29,23 +32,34 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SignInEmailScreen(
     viewModel: SignInEmailViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit,
-    onNavigateToSignUp: () -> Unit,
-) {
-    val snackbarHostState = remember { SnackbarHostState() }
+    navigateUp: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    navigateToDashboard: () -> Unit,
 
-    LaunchedEffect(true) {
+    ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    var isPasswordMasked by remember {
+        mutableStateOf(true)
+    }
+
+    fun togglePasswordMask() {
+        isPasswordMasked = !isPasswordMasked
+    }
+
+    LaunchedEffect(Unit) {
         viewModel.uiEvent.collectLatest {
             when (it) {
                 is UiEvent.ShowSnackbar ->
                     snackbarHostState.showSnackbar(it.message)
+
+                is UiEvent.NavigateToDashboard -> navigateToDashboard()
             }
         }
     }
 
     MyLoadingLayout(loading = viewModel.uiState.isLoading) {
         Scaffold(
-            topBar = { AuthTopBar(onNavigateUp = onNavigateUp) },
+            topBar = { AuthTopBar(onNavigateUp = navigateUp) },
             snackbarHost = { SnackbarHost(snackbarHostState) },
         ) { pv ->
             LazyColumn(
@@ -62,8 +76,9 @@ fun SignInEmailScreen(
                     MyTextField(
                         label = "Email address",
                         value = viewModel.uiState.currentEmail,
+                        supportingText = viewModel.uiState.currentEmailErrors.firstOrNull(),
                         isError = viewModel.uiState.currentEmailErrors.isNotEmpty(),
-                        onValueChange = viewModel::onEmailUpdate
+                        onValueChange = viewModel::onEmailUpdate,
                     )
                 }
 
@@ -71,8 +86,11 @@ fun SignInEmailScreen(
                     MyTextField(
                         label = "Password",
                         value = viewModel.uiState.currentPassword,
-                        isLast = true,
-                        onValueChange = viewModel::onPasswordUpdate
+                        isPassword = true,
+                        isPasswordMasked = isPasswordMasked,
+                        trailingIconAction = ::togglePasswordMask,
+                        isLastField = true,
+                        onValueChange = viewModel::onPasswordUpdate,
                     )
                 }
 
@@ -84,7 +102,7 @@ fun SignInEmailScreen(
                     AuthFooter(
                         text = "Don’t have account yet?",
                         buttonText = "Sign Up",
-                        onClick = onNavigateToSignUp
+                        onClick = navigateToSignUp
                     )
                 }
             }

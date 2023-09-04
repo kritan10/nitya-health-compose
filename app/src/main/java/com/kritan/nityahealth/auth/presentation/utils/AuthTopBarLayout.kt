@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.utils
+package com.kritan.nityahealth.auth.presentation.utils
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons

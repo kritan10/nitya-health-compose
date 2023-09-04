@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation
+package com.kritan.nityahealth.auth.presentation
 
 import androidx.navigation.NavHostController
 import com.kritan.nityahealth.ui.NityaHealthNavigationActions

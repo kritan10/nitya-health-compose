@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.screens.signin_email
+package com.kritan.nityahealth.auth.presentation.screens.signin_email
 
 data class SignInEmailState(
     val isLoading:Boolean = false,

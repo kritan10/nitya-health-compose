@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.screens
+package com.kritan.nityahealth.auth.presentation.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec

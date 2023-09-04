@@ -1,7 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.screens.signup
-
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+package com.kritan.nityahealth.auth.presentation.screens.signup_email
 
 data class SignUpState(
     val isLoading: Boolean = false,

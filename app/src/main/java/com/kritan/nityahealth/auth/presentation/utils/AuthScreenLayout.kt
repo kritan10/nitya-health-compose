@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.utils
+package com.kritan.nityahealth.auth.presentation.utils
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

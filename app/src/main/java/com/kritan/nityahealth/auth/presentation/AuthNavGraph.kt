@@ -1,16 +1,18 @@
-package com.kritan.nityahealth.feature_auth.presentation
+package com.kritan.nityahealth.auth.presentation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.kritan.nityahealth.feature_auth.presentation.screens.OnBoardingScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.SignInScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.SignUpLocationScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.SignUpVerifyScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.WelcomeScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.signin_email.SignInEmailScreen
-import com.kritan.nityahealth.feature_auth.presentation.screens.signup.SignUpScreen
+import com.kritan.nityahealth.auth.presentation.screens.OnBoardingScreen
+import com.kritan.nityahealth.auth.presentation.screens.SignUpLocationScreen
+import com.kritan.nityahealth.auth.presentation.screens.SignUpVerifyScreen
+import com.kritan.nityahealth.auth.presentation.screens.WelcomeScreen
+import com.kritan.nityahealth.auth.presentation.screens.signin.SignInScreen
+import com.kritan.nityahealth.auth.presentation.screens.signin_email.SignInEmailScreen
+import com.kritan.nityahealth.auth.presentation.screens.signup_email.SignUpScreen
+import com.kritan.nityahealth.ui.theme.myFadeExitTransition
+import com.kritan.nityahealth.ui.theme.myPopExitTransition
 
 fun NavGraphBuilder.authGraph(
     navController: NavHostController,
@@ -30,14 +32,23 @@ fun NavGraphBuilder.authGraph(
             SignInScreen(onSignInEmail = navigationActions.navigateToSignInEmail)
         }
 
-        composable(AuthDestinations.SIGN_IN_EMAIL_ROUTE) {
+        composable(
+            route = AuthDestinations.SIGN_IN_EMAIL_ROUTE,
+            exitTransition = { myFadeExitTransition() },
+            popExitTransition = { myPopExitTransition() }
+        ) {
             SignInEmailScreen(
-                onNavigateUp = navigationActions.navigateUp,
-                onNavigateToSignUp = navigationActions.navigateToSignUp,
+                navigateUp = navigationActions.navigateUp,
+                navigateToSignUp = navigationActions.navigateToSignUp,
+                navigateToDashboard = navigationActions.navigateToDashboard
             )
         }
 
-        composable(AuthDestinations.SIGN_UP_ROUTE) {
+        composable(
+            route = AuthDestinations.SIGN_UP_ROUTE,
+            exitTransition = { myFadeExitTransition() },
+            popExitTransition = { myPopExitTransition() }
+        ) {
             SignUpScreen(
                 onNavigateUp = navigationActions.navigateUp,
                 onNavigateToSignIn = navigationActions.navigateToSignIn,

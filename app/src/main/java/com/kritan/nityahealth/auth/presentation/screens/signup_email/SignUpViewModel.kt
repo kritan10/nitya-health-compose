@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.screens.signup
+package com.kritan.nityahealth.auth.presentation.screens.signup_email
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -7,10 +7,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kritan.nityahealth.auth.AppAuth
+import com.kritan.nityahealth.auth.data.models.AuthUserData
+import com.kritan.nityahealth.auth.data.repository.AuthRepository
 import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.base.utils.Validation
-import com.kritan.nityahealth.feature_auth.data.models.UserRegister
-import com.kritan.nityahealth.feature_auth.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -93,7 +93,7 @@ class SignUpViewModel @Inject constructor(
     fun registerUser() {
         viewModelScope.launch {
             authRepository.register(
-                UserRegister(
+                AuthUserData.UserRegister(
                     name = uiState.currentFirstName + " " + uiState.currentLastName,
                     email = uiState.currentEmail,
                     password = uiState.currentPassword,

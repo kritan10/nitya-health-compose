@@ -1,7 +1,7 @@
-package com.kritan.nityahealth.feature_auth.data.api
+package com.kritan.nityahealth.auth.data.api
 
 import com.kritan.nityahealth.base.api.ApiResponse
-import com.kritan.nityahealth.feature_auth.data.models.AuthToken
+import com.kritan.nityahealth.auth.data.models.AuthToken
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Multipart

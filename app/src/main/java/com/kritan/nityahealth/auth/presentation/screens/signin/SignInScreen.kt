@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_auth.presentation.screens
+package com.kritan.nityahealth.auth.presentation.screens.signin
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,13 +22,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.R
+import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.commons.components.MyButton
 import com.kritan.nityahealth.commons.components.MyTextButton
-import com.kritan.nityahealth.feature_auth.presentation.utils.AuthFooter
 
 @Composable
-fun SignInScreen(onSignInEmail: () -> Unit) {
+fun SignInScreen(
+    viewModel: SignInViewModel = hiltViewModel(),
+    onSignInEmail: () -> Unit
+) {
+    LaunchedEffect(Unit){
+        viewModel.appAuth.completeOnboarding()
+    }
+
     Surface(color = Color.Transparent, modifier = Modifier.padding(20.dp)) {
         Box {
             Column(

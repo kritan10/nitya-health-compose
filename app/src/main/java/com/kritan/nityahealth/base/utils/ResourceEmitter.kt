@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.FlowCollector
  * @see [Resource]
  * @see [FlowCollector]
  */
-suspend fun <T> FlowCollector<Resource<T>>.emitDataOrNull(data: T?) {
+suspend fun <T> FlowCollector<Resource<T>>.emitDataOrNull(data: T?, message: String?) {
     if (data != null) {
-        emit(Resource.Success(data = data))
+        emit(Resource.Success(data = data, message = message ?: "Success"))
     } else {
-        emit(Resource.Error("Couldn't load data"))
+        emit(Resource.Error(message ?: "Couldn't load data"))
     }
 }

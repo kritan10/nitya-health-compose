@@ -38,8 +38,9 @@ fun MyGridItemCard(title: String, @DrawableRes image: Int, navigateTo: () -> Uni
                 .size(84.dp, 84.dp)
         ) {
             Image(
-                painterResource(image), title,
-                Modifier
+                painter = painterResource(image),
+                contentDescription = title,
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
             )

@@ -6,6 +6,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.navigation.NavBackStackEntry
 
 fun AnimatedContentTransitionScope<NavBackStackEntry>.myEnterTransition(): EnterTransition {
@@ -30,5 +31,9 @@ fun myFadeEnterTransition(): EnterTransition {
 
 fun myFadeExitTransition(): ExitTransition {
     return fadeOut(TweenSpec(500))
+}
+
+fun mySlideUpTransition(): EnterTransition{
+    return slideInVertically()
 }
 

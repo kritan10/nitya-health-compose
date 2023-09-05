@@ -18,7 +18,7 @@ class ExerciseRepositoryImpl(val api: ExerciseApi) : ExerciseRepository {
             val remoteFitness = MyApi.fetchFromRemote {
                 api.getAllExercises()
             }
-            emitDataOrNull(remoteFitness?.posts)
+            emitDataOrNull(remoteFitness?.data?.posts, remoteFitness?.message)
 
             emit(Resource.Loading(false))
         }
@@ -32,7 +32,7 @@ class ExerciseRepositoryImpl(val api: ExerciseApi) : ExerciseRepository {
             val remoteExerciseBridge = MyApi.fetchFromRemote {
                 api.getExerciseBridge(id)
             }
-            emitDataOrNull(remoteExerciseBridge?.mPackage)
+            emitDataOrNull(remoteExerciseBridge?.data?.mPackage, remoteExerciseBridge?.message)
 
             emit(Resource.Loading(false))
         }
@@ -45,7 +45,7 @@ class ExerciseRepositoryImpl(val api: ExerciseApi) : ExerciseRepository {
             val remoteTraining = MyApi.fetchFromRemote {
                 api.getTraining(id)
             }
-            emitDataOrNull(remoteTraining?.training)
+            emitDataOrNull(remoteTraining?.data?.training, remoteTraining?.message)
 
             emit(Resource.Loading(false))
         }

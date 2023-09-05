@@ -13,9 +13,9 @@ object MyApi {
      * @param callback a method that yields a [Response] of type [T]
      * @return response data [T] if the call was successful otherwise `null`
      */
-    suspend fun <T> fetchFromRemote(callback: suspend () -> Response<ApiResponse<T>>): T? {
+    suspend fun <T> fetchFromRemote(callback: suspend () -> Response<ApiResponse<T>>): ApiResponse<T>? {
         return try {
-            callback().body()?.data
+            callback().body()
         } catch (e: IOException) {
             e.printStackTrace()
             null

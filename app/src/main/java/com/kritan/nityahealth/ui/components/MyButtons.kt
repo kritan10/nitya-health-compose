@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,71 +27,45 @@ import com.kritan.nityahealth.ui.theme.mRoundedCornerButton
 
 @Composable
 private fun RowScope.MyButtonIcon(
+    modifier: Modifier = Modifier,
     icon: ImageVector,
     contentDescription: String,
     tint: Color,
-    modifier: Modifier = Modifier
+) {
+    val iconModifier = modifier
         .padding(bottom = 5.dp)
         .align(Alignment.CenterVertically)
-) {
     Icon(
         icon,
         contentDescription,
-        modifier,
+        iconModifier,
         tint
     )
 }
 
 @Composable
 fun MyTextButton(
+    modifier: Modifier = Modifier,
     label: String,
     textColor: Color = Color.White,
     textStyle: TextStyle = MaterialTheme.typography.labelLarge,
     leading: ImageVector? = null,
     trailing: ImageVector? = null,
     iconTint: Color = Color.White,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Box(modifier = modifier) {
         TextButton(onClick = onClick, contentPadding = PaddingValues(0.dp)) {
-            if (leading != null) MyButtonIcon(leading, label, iconTint)
-            Text(label, color = textColor, style = textStyle)
-            if (trailing != null) MyButtonIcon(trailing, label, iconTint)
-        }
-    }
-}
-
-@Deprecated("Use MyTextButton")
-@Composable
-fun MyTextWithIconButton(
-    label: String,
-    leading: ImageVector? = null,
-    trailing: ImageVector? = null,
-    iconColor: Color = Color.White,
-    textColor: Color = Color.White,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-
-) {
-    Box(modifier = modifier) {
-        TextButton(onClick = onClick) {
-            if (leading != null) Icon(
-                leading,
-                label,
-                Modifier
-                    .size(15.dp)
-                    .align(Alignment.CenterVertically),
-                Color.White
+            if (leading != null) MyButtonIcon(
+                icon = leading,
+                contentDescription = label,
+                tint = iconTint
             )
-            Text(text = label, modifier = Modifier.align(Alignment.CenterVertically))
-            if (trailing != null) Icon(
-                trailing,
-                label,
-                Modifier
-                    .size(15.dp)
-                    .align(Alignment.CenterVertically),
-                Color.White
+            Text(label, color = textColor, style = textStyle)
+            if (trailing != null) MyButtonIcon(
+                icon = trailing,
+                contentDescription = label,
+                tint = iconTint
             )
         }
     }
@@ -106,32 +79,43 @@ fun MyButton(
     trailing: ImageVector? = null,
     isFullLength: Boolean = true,
     enabled: Boolean = true,
-    height: Int = 50,
+    height: Int = 52,
     shape: Shape = mRoundedCornerButton,
-    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     onClick: () -> Unit
 ) {
     Box(modifier = modifier) {
-        val buttonModifier =
-            if (isFullLength) Modifier
-                .fillMaxWidth()
-                .height(height.dp)
-            else Modifier.height(height.dp)
+        val buttonModifier = Modifier
+            .height(height.dp)
+            .then(
+                if (isFullLength) Modifier.fillMaxWidth() else Modifier
+            )
 
         Button(
             onClick = onClick,
             modifier = buttonModifier,
             shape = shape,
             enabled = enabled,
-            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = containerColor,
+                disabledContainerColor = Color.LightGray,
+            )
         ) {
-            if (leading != null) MyButtonIcon(leading, label, iconColor)
+            if (leading != null) MyButtonIcon(
+                icon = leading,
+                contentDescription = label,
+                tint = iconColor
+            )
             Spacer(modifier = Modifier.width(10.dp))
-            Text(label, color = textColor)
+            Text(label, color = if (enabled) textColor else Color.Gray)
             Spacer(modifier = Modifier.width(10.dp))
-            if (trailing != null) MyButtonIcon(trailing, label, iconColor)
+            if (trailing != null) MyButtonIcon(
+                icon = trailing,
+                contentDescription = label,
+                tint = iconColor
+            )
         }
     }
 }

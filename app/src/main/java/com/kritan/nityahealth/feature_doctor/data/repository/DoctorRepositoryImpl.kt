@@ -3,8 +3,6 @@ package com.kritan.nityahealth.feature_doctor.data.repository
 import com.kritan.nityahealth.base.api.MyApi
 import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.base.utils.emitDataOrNull
-import com.kritan.nityahealth.feature_doctor.data.api.DoctorDTO
-import com.kritan.nityahealth.feature_doctor.data.api.DoctorDetailsDTO
 import com.kritan.nityahealth.feature_doctor.data.api.DoctorsApi
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor
 import com.kritan.nityahealth.feature_doctor.data.models.DoctorDetail
@@ -17,10 +15,10 @@ class DoctorRepositoryImpl(private val api: DoctorsApi) : DoctorRepository {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteDoctors: DoctorDTO? = MyApi.fetchFromRemote {
+            val doctorsApiResponse = MyApi.fetchFromRemote {
                 api.getAllDoctors()
             }
-            emitDataOrNull(remoteDoctors?.doctors)
+            emitDataOrNull(doctorsApiResponse?.data?.doctors, doctorsApiResponse?.message)
 
             emit(Resource.Loading(false))
         }
@@ -30,10 +28,10 @@ class DoctorRepositoryImpl(private val api: DoctorsApi) : DoctorRepository {
         return flow {
             emit(Resource.Loading(true))
 
-            val remoteDoctorDetails: DoctorDetailsDTO? = MyApi.fetchFromRemote {
+            val doctorApiResponse = MyApi.fetchFromRemote {
                 api.getDoctorDetails(id)
             }
-            emitDataOrNull(remoteDoctorDetails?.doctor)
+            emitDataOrNull(doctorApiResponse?.data?.doctor, doctorApiResponse?.message)
 
             emit(Resource.Loading(false))
         }

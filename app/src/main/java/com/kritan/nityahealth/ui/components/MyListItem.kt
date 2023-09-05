@@ -29,20 +29,20 @@ fun MyListItem(
         modifier
     ) {
         Icon(
-            painterResource(leading),
-            "",
-            Modifier.padding(top = 4.dp),
-            MaterialTheme.colorScheme.primary
+            painter = painterResource(leading),
+            contentDescription = "",
+            modifier = Modifier.padding(top = 4.dp),
+            tint = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(title, style = MaterialTheme.typography.bodyMedium)
+        Text(text = title, style = MaterialTheme.typography.bodyMedium)
         if (trailing != null) {
             Spacer(
                 modifier = Modifier
                     .width(IntrinsicSize.Max)
                     .weight(1f)
             )
-            Text(trailing, style = MaterialTheme.typography.bodyMedium)
+            Text(text = trailing, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

@@ -22,7 +22,7 @@ sealed class Resource<T>(val data: T? = null, val message: String? = null) {
      *
      * @param data the data returned as the response from the call
      */
-    class Success<T>(data: T?) : Resource<T>(data)
+    class Success<T>(data: T?, message: String?) : Resource<T>(data, message)
 
 
     /**

@@ -1,8 +1,6 @@
 package com.kritan.nityahealth.auth.presentation.screens
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.ui.components.MyTextButton
+import com.kritan.nityahealth.ui.theme.mySlideUpTransition
 import kotlinx.coroutines.delay
 
 @Composable
@@ -36,7 +35,7 @@ fun WelcomeScreen(navigateToBoarding: () -> Unit) {
         mutableStateOf(false)
     }
     LaunchedEffect(Unit) {
-        delay(1500)
+        delay(500)
         isReady = true
     }
     Surface(
@@ -62,7 +61,7 @@ fun WelcomeScreen(navigateToBoarding: () -> Unit) {
             AnimatedVisibility(
                 visible = isReady,
                 modifier = Modifier.align(Alignment.BottomEnd),
-                enter = fadeIn(TweenSpec(500))
+                enter = mySlideUpTransition()
             ) {
                 MyTextButton(
                     label = "Get Started",

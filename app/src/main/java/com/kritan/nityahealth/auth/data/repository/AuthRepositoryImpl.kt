@@ -4,6 +4,7 @@ import com.kritan.nityahealth.auth.data.api.AuthApi
 import com.kritan.nityahealth.auth.data.models.AuthState
 import com.kritan.nityahealth.auth.data.models.AuthToken
 import com.kritan.nityahealth.auth.data.models.AuthUserData
+import com.kritan.nityahealth.base.api.ApiResponse
 import com.kritan.nityahealth.base.api.MyApi
 import com.kritan.nityahealth.base.utils.Resource
 import kotlinx.coroutines.delay
@@ -22,13 +23,13 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
     }
 
     private suspend fun authenticate(userData: AuthUserData): Flow<Resource<AuthState>> {
-        var remoteToken: AuthToken? = null
+        var authApiResponse: ApiResponse<AuthToken>? = null
         return flow {
             emit(Resource.Loading(true))
 
             when (userData) {
                 is AuthUserData.UserRegister -> {
-                    remoteToken = MyApi.fetchFromRemote {
+                    authApiResponse = MyApi.fetchFromRemote {
                         authApi.register(
                             MultipartBody.Part.createFormData("name", userData.name),
                             MultipartBody.Part.createFormData("email", userData.email),
@@ -44,7 +45,7 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
                 }
 
                 is AuthUserData.UserLogin -> {
-                    remoteToken = MyApi.fetchFromRemote {
+                    authApiResponse = MyApi.fetchFromRemote {
                         authApi.login(
                             MultipartBody.Part.createFormData("email", userData.email),
                             MultipartBody.Part.createFormData("password", userData.password),
@@ -53,14 +54,15 @@ class AuthRepositoryImpl @Inject constructor(private val authApi: AuthApi) : Aut
                 }
             }
 
-            if (remoteToken != null) {
+            if (authApiResponse != null) {
                 emit(
                     Resource.Success(
-                        AuthState(
+                        data = AuthState(
                             isAuth = true,
-                            token = remoteToken!!.token,
-                            userName = remoteToken!!.name
-                        )
+                            token = authApiResponse!!.data!!.token,
+                            userName = authApiResponse!!.data!!.name
+                        ),
+                        message = "Log in successful"
                     )
                 )
                 delay(1000)

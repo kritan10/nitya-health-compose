@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.sp
 fun MyTextField(
     label: String,
     value: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     supportingText: String? = null,
     isError: Boolean = false,
@@ -61,7 +63,10 @@ fun MyTextField(
                     }
                 },
                 visualTransformation = if (isPassword && isPasswordMasked) PasswordVisualTransformation() else VisualTransformation.None,
-                keyboardOptions = KeyboardOptions(imeAction = if (isLastField) ImeAction.Done else ImeAction.Next),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = if (isLastField) ImeAction.Done else ImeAction.Next,
+                    keyboardType = keyboardType
+                ),
                 modifier = Modifier
                     .shadow(
                         elevation = 5.dp,

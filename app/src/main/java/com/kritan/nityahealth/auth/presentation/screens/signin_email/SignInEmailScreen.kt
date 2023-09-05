@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
@@ -53,6 +54,7 @@ fun SignInEmailScreen(
                     snackbarHostState.showSnackbar(it.message)
 
                 is UiEvent.NavigateToDashboard -> navigateToDashboard()
+                else -> Unit
             }
         }
     }
@@ -76,9 +78,10 @@ fun SignInEmailScreen(
                     MyTextField(
                         label = "Email address",
                         value = viewModel.uiState.currentEmail,
+                        keyboardType = KeyboardType.Email,
+                        onValueChange = viewModel::onEmailUpdate,
                         supportingText = viewModel.uiState.currentEmailErrors.firstOrNull(),
                         isError = viewModel.uiState.currentEmailErrors.isNotEmpty(),
-                        onValueChange = viewModel::onEmailUpdate,
                     )
                 }
 
@@ -86,11 +89,12 @@ fun SignInEmailScreen(
                     MyTextField(
                         label = "Password",
                         value = viewModel.uiState.currentPassword,
+                        keyboardType = KeyboardType.Password,
+                        onValueChange = viewModel::onPasswordUpdate,
                         isPassword = true,
                         isPasswordMasked = isPasswordMasked,
-                        trailingIconAction = ::togglePasswordMask,
                         isLastField = true,
-                        onValueChange = viewModel::onPasswordUpdate,
+                        trailingIconAction = ::togglePasswordMask,
                     )
                 }
 

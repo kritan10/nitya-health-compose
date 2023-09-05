@@ -16,13 +16,13 @@ import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.auth.data.models.AuthState
 import com.kritan.nityahealth.auth.presentation.AuthDestinations
 import com.kritan.nityahealth.auth.presentation.authGraph
-import com.kritan.nityahealth.ui.components.MyDrawer
 import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
 import com.kritan.nityahealth.feature_exercise.presentation.exerciseGraph
 import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
+import com.kritan.nityahealth.ui.components.MyDrawer
 import com.kritan.nityahealth.ui.layouts.EmptyScreen
 import com.kritan.nityahealth.ui.theme.myEnterTransition
 import com.kritan.nityahealth.ui.theme.myExitTransition
@@ -113,7 +113,16 @@ fun NityaHealthNavGraph(
 
         }
         composable(NityaHealthDestinations.PROFILE_ROUTE) {
-            ProfileScreen(navigateUp = ::navigateUp)
+            ProfileScreen(
+                navigateUp = ::navigateUp,
+                navigateToSignIn = {
+                    navController.navigate(AuthDestinations.SIGN_IN_ROUTE) {
+                        popUpTo(startDestination) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
         composable(NityaHealthDestinations.WELLNESS_ROUTE) {
             WellnessScreen(navigateUp = ::navigateUp)

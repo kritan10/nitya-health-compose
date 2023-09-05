@@ -17,6 +17,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,15 +29,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.R
+import com.kritan.nityahealth.base.utils.UiEvent
+import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.components.MyDialog
 import com.kritan.nityahealth.ui.components.MyListItem
 import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navigateUp: () -> Unit) {
+fun ProfileScreen(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
+    navigateToSignIn: () -> Unit
+) {
+    var isDialogOpen by remember { mutableStateOf(false) }
+    fun openDialog() = run { isDialogOpen = true }
+    fun closeDialog() = run { isDialogOpen = false }
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                UiEvent.NavigateToDashboard -> Unit
+                UiEvent.NavigateToSignIn -> navigateToSignIn()
+                is UiEvent.ShowSnackbar -> Unit
+            }
+        }
+    }
+
+    MyDialog(
+        isDialogOpen = isDialogOpen,
+        title = "Log Out",
+        text = "Are you sure you want to log out?",
+        onDismissRequest = ::closeDialog,
+        onConfirmButton = viewModel::logOutUser,
+        onDismissButton = ::closeDialog
+    )
     Scaffold(topBar = {
         MyTopAppBar(
             title = "My Profile",
@@ -51,6 +87,9 @@ fun ProfileScreen(navigateUp: () -> Unit) {
             sectionHealthDetails()
             sectionMedicalCondition()
             item { Spacer(Modifier.height(12.dp)) }
+            item {
+                MyButton(label = "Log Out", onClick = ::openDialog)
+            }
         }
     }
 }

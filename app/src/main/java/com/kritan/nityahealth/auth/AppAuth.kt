@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -27,6 +27,14 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
 
     init {
         getAuthDataFromPrefs()
+        Log.d("Auth", "Init Block")
+    }
+
+    suspend fun logOutUser() {
+        val authJson = gson.toJson(AuthState(isOnboard = true))
+        dataStore.edit {
+            it[authKey] = authJson
+        }
     }
 
     suspend fun authenticateUser(authState: AuthState) {
@@ -34,7 +42,7 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
         dataStore.edit {
             it[authKey] = authJson
         }
-        getAuthDataFromPrefs()
+        Log.d("Auth", "Auth User Block")
     }
 
     suspend fun completeOnboarding() {
@@ -43,7 +51,6 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
         dataStore.edit {
             it[authKey] = authJson
         }
-        getAuthDataFromPrefs()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -51,7 +58,7 @@ class AppAuth(private val dataStore: DataStore<Preferences>) {
         GlobalScope.launch(Dispatchers.IO) {
             dataStore.data.map {
                 gson.fromJson(it[authKey], AuthState::class.java) ?: AuthState()
-            }.collectLatest { auth ->
+            }.distinctUntilChanged().collect { auth ->
                 Log.d("Auth", "Updated Auth")
                 _authState.emit(auth)
             }

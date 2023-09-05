@@ -20,7 +20,13 @@ sealed class UiEvent {
 
     /**
      * `NavigateToDashboard` is a sub-class of `UiEvent`.
-     * It is used to signal the view to navigate to the dashboard.
+     * It is used to signal the view to navigate to the dashboard screen.
      */
     object NavigateToDashboard : UiEvent()
+
+    /**
+     * `NavigateToSignIn` is a sub-class of `UiEvent`.
+     * It is used to signal the view to navigate to the sign-in screen.
+     */
+    object NavigateToSignIn : UiEvent()
 }

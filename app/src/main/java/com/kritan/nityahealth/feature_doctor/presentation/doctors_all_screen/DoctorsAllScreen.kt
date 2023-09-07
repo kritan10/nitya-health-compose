@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -12,10 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,18 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
-import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.components.MySearchBar
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DoctorsAllScreen(navigateUp: () -> Unit) {
-    Scaffold(topBar = {
-        MyTopAppBar(title = "Doctors", navigateUp = navigateUp)
-    }) { pv ->
+    MyScaffoldLayout(title = "Doctors", navigateUp = navigateUp) {
         LazyColumn(
-            Modifier.padding(top = pv.calculateTopPadding(), start = 20.dp, end = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
             item {
                 Column {
@@ -48,7 +44,6 @@ fun DoctorsAllScreen(navigateUp: () -> Unit) {
             }
         }
     }
-
 }
 
 @Composable

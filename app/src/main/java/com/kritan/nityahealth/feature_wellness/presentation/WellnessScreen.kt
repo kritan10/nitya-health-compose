@@ -18,9 +18,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,12 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.ui.layouts.MyGridLayout
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WellnessScreen(
     initialPage: Int = 0,
@@ -61,10 +59,8 @@ fun WellnessScreen(
         }
     }
 
-    Scaffold(topBar = {
-        MyTopAppBar(title = "Wellness", navigateUp)
-    }) { pv ->
-        Column(Modifier.padding(pv)) {
+    MyScaffoldLayout(title = "Wellness", navigateUp = navigateUp) {
+        Column {
             LazyRow(
                 state = lazyListState,
                 modifier = Modifier

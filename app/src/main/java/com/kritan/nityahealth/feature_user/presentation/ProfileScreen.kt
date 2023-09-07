@@ -13,9 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,12 +33,11 @@ import com.kritan.nityahealth.base.utils.UiEvent
 import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyDialog
 import com.kritan.nityahealth.ui.components.MyListItem
-import com.kritan.nityahealth.ui.components.MyTopAppBar
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
@@ -61,6 +58,7 @@ fun ProfileScreen(
         }
     }
 
+    //Log-out dialog
     MyDialog(
         isDialogOpen = isDialogOpen,
         title = "Log Out",
@@ -69,18 +67,11 @@ fun ProfileScreen(
         onConfirmButton = viewModel::logOutUser,
         onDismissButton = ::closeDialog
     )
-    Scaffold(topBar = {
-        MyTopAppBar(
-            title = "My Profile",
-            navigateUp = navigateUp
-        )
-    }) { pv ->
+    MyScaffoldLayout(title = "My Profile", navigateUp = navigateUp) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(32.dp),
             contentPadding = PaddingValues(20.dp),
-            modifier = Modifier
-                .padding(pv)
         ) {
             sectionUserImage()
             sectionPersonalDetails()

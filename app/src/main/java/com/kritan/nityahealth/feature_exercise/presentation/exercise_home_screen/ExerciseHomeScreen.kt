@@ -4,20 +4,18 @@ import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,10 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.kritan.nityahealth.ui.components.MyTopAppBar
 import com.kritan.nityahealth.feature_exercise.data.models.ExercisePackage
 import com.kritan.nityahealth.feature_exercise.presentation.exercise_home_screen.components.MyCalendar
 import com.kritan.nityahealth.feature_exercise.presentation.exercise_home_screen.components.MyWeek
+import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
@@ -42,71 +41,59 @@ fun ExerciseHomeScreen(
     navigateUp: () -> Unit,
     navigateToExerciseList: (id: Int) -> Unit
 ) {
-    Scaffold(topBar = {
-        MyTopAppBar(title = "Exercise", navigateUp = navigateUp)
-    }) { pv ->
-        Column(
-            Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(top = pv.calculateTopPadding(), start = 20.dp, end = 20.dp)
-        ) {
-            Spacer(Modifier.height(16.dp))
-            Text("Welcome back", style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp))
-            Text("Emma Parker", style = MaterialTheme.typography.titleLarge)
-            Spacer(modifier = Modifier.height(16.dp))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                MyCalendar()
+    MyScaffoldLayout(title = "Exercise", navigateUp = navigateUp) {
+        LazyColumn(contentPadding = PaddingValues(horizontal = 20.dp)) {
+            item {
+                Column {
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        "Welcome back",
+                        style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp)
+                    )
+                    Text("Emma Parker", style = MaterialTheme.typography.titleLarge)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        MyCalendar()
+                    }
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
             }
-            Spacer(modifier = Modifier.height(32.dp))
 
+            item {
+                MyLoadingLayout(viewModel.state.isLoading) {
 
-            if (viewModel.state.isLoading) {
-                CircularProgressIndicator()
-            } else {
-                Text("Week Goal")
-                Spacer(modifier = Modifier.height(16.dp))
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    MyWeek(viewModel.state.myTrainings)
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                viewModel.state.myExercises.let { myExercise ->
-                    Spacer(Modifier.height(16.dp))
-                    MyTitleBodyLayout(title = "My Exercise") {
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            items(myExercise) { exercise ->
-                                Spacer(Modifier.width(12.dp))
-                                ExerciseCard(exercise, navigateToExerciseList)
+                    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                        Column {
+                            Text("Week Goal")
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                MyWeek(viewModel.state.myTrainings)
                             }
                         }
-                    }
-                }
 
-                viewModel.state.data.let { exercisePkg ->
-                    Spacer(Modifier.height(16.dp))
-                    MyTitleBodyLayout(title = "Exercise Set 1") {
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            items(exercisePkg.subList(0, 5)) { exercise ->
-                                Spacer(Modifier.width(12.dp))
-                                ExerciseCard(exercise, navigateToExerciseList)
-                            }
-                        }
-                    }
-                    Spacer(Modifier.height(16.dp))
-                    MyTitleBodyLayout(title = "Exercise Set 2") {
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            items(exercisePkg.subList(5, 10)) { exercise ->
-                                Spacer(Modifier.width(12.dp))
-                                ExerciseCard(exercise, navigateToExerciseList)
-                            }
-                        }
-                    }
-                    Spacer(Modifier.height(16.dp))
-                    MyTitleBodyLayout(title = "Exercise Set 3") {
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            items(exercisePkg.subList(10, exercisePkg.size - 1)) { exercise ->
-                                Spacer(Modifier.width(12.dp))
-                                ExerciseCard(exercise, navigateToExerciseList)
-                            }
+                        ExerciseRow(
+                            title = "Completed Exercise Sets",
+                            exercisePkg = viewModel.state.myExercises,
+                            navigateToExerciseList = navigateToExerciseList
+                        )
+
+                        viewModel.state.data.let { allExercises ->
+                            ExerciseRow(
+                                title = "Exercise Set 1",
+                                exercisePkg = allExercises.subList(0, 5),
+                                navigateToExerciseList = navigateToExerciseList
+                            )
+
+                            ExerciseRow(
+                                title = "Exercise Set 2",
+                                exercisePkg = allExercises.subList(5, 10),
+                                navigateToExerciseList = navigateToExerciseList
+                            )
+
+                            ExerciseRow(
+                                title = "Exercise Set 3",
+                                exercisePkg = allExercises.subList(10, allExercises.size - 1),
+                                navigateToExerciseList = navigateToExerciseList
+                            )
                         }
                     }
 
@@ -147,6 +134,22 @@ private fun ExerciseCard(exercise: ExercisePackage, navigateToExerciseList: (Int
                 "13 exercise",
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.W300)
             )
+        }
+    }
+}
+
+@Composable
+private fun ExerciseRow(
+    title: String,
+    exercisePkg: List<ExercisePackage>,
+    navigateToExerciseList: (Int) -> Unit,
+) {
+    MyTitleBodyLayout(title = title) {
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            items(exercisePkg) { exercise ->
+                Spacer(Modifier.width(12.dp))
+                ExerciseCard(exercise, navigateToExerciseList)
+            }
         }
     }
 }

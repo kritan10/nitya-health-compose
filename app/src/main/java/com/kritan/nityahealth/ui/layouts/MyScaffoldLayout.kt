@@ -1,7 +1,8 @@
 package com.kritan.nityahealth.ui.layouts
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,8 +15,6 @@ import com.kritan.nityahealth.ui.components.MyTopAppBar
 fun MyScaffoldLayout(
     title: String,
     navigateUp: () -> Unit,
-    bottomPadding: Int = 0,
-    horizontalPadding: Int = 0,
     isFlush: Boolean = false,
     content: @Composable () -> Unit
 ) {
@@ -23,15 +22,11 @@ fun MyScaffoldLayout(
         MyTopAppBar(title = title, navigateUp = navigateUp)
     }) { pv ->
         val topPadding = if (!isFlush) pv.calculateTopPadding() else pv.calculateTopPadding() - 8.dp
-        Column(
-            Modifier.padding(
-                top = topPadding,
-                bottom = bottomPadding.dp,
-                start = horizontalPadding.dp,
-                end = horizontalPadding.dp
-            )
-        ) {
+        val bottomPadding = pv.calculateBottomPadding()
+        Column {
+            Spacer(Modifier.height(topPadding))
             content()
+            Spacer(Modifier.height(bottomPadding))
         }
     }
 }

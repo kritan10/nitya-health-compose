@@ -112,18 +112,14 @@ fun NityaHealthNavGraph(
             }
 
         }
+
         composable(NityaHealthDestinations.PROFILE_ROUTE) {
             ProfileScreen(
                 navigateUp = ::navigateUp,
-                navigateToSignIn = {
-                    navController.navigate(AuthDestinations.SIGN_IN_ROUTE) {
-                        popUpTo(startDestination) {
-                            inclusive = true
-                        }
-                    }
-                }
+                navigateToSignIn = navigationActions.navigateToAuth
             )
         }
+
         composable(NityaHealthDestinations.WELLNESS_ROUTE) {
             WellnessScreen(navigateUp = ::navigateUp)
         }

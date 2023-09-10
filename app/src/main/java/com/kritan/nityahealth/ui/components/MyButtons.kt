@@ -1,7 +1,10 @@
 package com.kritan.nityahealth.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BrowseGallery
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -22,7 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.kritan.nityahealth.ui.theme.mRoundedCornerButton
 
 @Composable
@@ -129,3 +137,41 @@ fun MyClickableText(
     Text(label, Modifier.clickable { onClick() }, style = style)
 }
 
+@Composable
+fun MyIconButton(
+    icon: ImageVector,
+    text: String?,
+    onClick: () -> Unit
+) {
+    Column(
+        Modifier
+            .clickable(onClick = onClick)
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Box(
+            Modifier
+                .border(
+                    width = 1.dp,
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1F)
+                )
+                .padding(12.dp)
+        ) {
+            Icon(icon, text ?: "", tint = MaterialTheme.colorScheme.primary)
+        }
+        text?.let { text ->
+            Spacer(Modifier.height(8.dp))
+            Text(text, style = MaterialTheme.typography.labelMedium, fontSize = 10.sp)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun MyIconButtonPreview() {
+    MyIconButton(icon = Icons.Default.BrowseGallery, text = "Gallery") {
+
+    }
+}

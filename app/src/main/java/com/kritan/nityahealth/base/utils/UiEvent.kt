@@ -29,4 +29,6 @@ sealed class UiEvent {
      * It is used to signal the view to navigate to the sign-in screen.
      */
     object NavigateToSignIn : UiEvent()
+
+    object CaptureImage : UiEvent()
 }

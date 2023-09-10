@@ -51,6 +51,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 
@@ -61,7 +65,7 @@ dependencies {
     val hilt_version = "2.47"
     val coil_version = "2.4.0"
     val room_version = "2.5.2"
-
+    val camerax_version = "1.2.3"
 
     //ksp
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.11")
@@ -75,6 +79,10 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
+    //Icons-Extended
+    implementation("androidx.compose.material:material-icons-extended")
+
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanist_version")
@@ -103,6 +111,18 @@ dependencies {
 
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    //CameraX
+    implementation("androidx.camera:camera-core:$camerax_version")
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-video:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
+    implementation("androidx.camera:camera-extensions:$camerax_version")
+    implementation("com.google.accompanist:accompanist-permissions:$accompanist_version")
+
+    //Image Cropper
+    implementation("com.vanniktech:android-image-cropper:4.5.0")
 
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")

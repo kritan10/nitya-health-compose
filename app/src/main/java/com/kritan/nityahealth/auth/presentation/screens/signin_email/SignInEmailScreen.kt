@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -29,15 +28,13 @@ import com.kritan.nityahealth.ui.components.MyTextField
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInEmailScreen(
     viewModel: SignInEmailViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
     navigateToSignUp: () -> Unit,
     navigateToDashboard: () -> Unit,
-
-    ) {
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     var isPasswordMasked by remember {
         mutableStateOf(true)

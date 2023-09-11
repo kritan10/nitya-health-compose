@@ -1,7 +1,6 @@
 package com.kritan.nityahealth.ui
 
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,8 +13,6 @@ import kotlinx.coroutines.launch
  * Top-level declarations are kept here
  *
  */
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NityaHealthApp(
     viewModel: NityaHealthViewModel = hiltViewModel(),

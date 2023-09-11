@@ -1,5 +1,9 @@
 package com.kritan.nityahealth.auth.presentation
 
+import android.app.Activity
+import android.content.Context
+import androidx.activity.compose.BackHandler
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -15,6 +19,7 @@ import com.kritan.nityahealth.ui.theme.myFadeExitTransition
 import com.kritan.nityahealth.ui.theme.myPopExitTransition
 
 fun NavGraphBuilder.authGraph(
+    context: Context,
     navController: NavHostController,
 ) {
     val navigationActions = AuthNavigationActions(navController)
@@ -29,6 +34,9 @@ fun NavGraphBuilder.authGraph(
             OnBoardingScreen(navigateToLogin = navigationActions.navigateToSignIn)
         }
         composable(AuthDestinations.SIGN_IN_ROUTE) {
+            BackHandler(true) {
+                ActivityCompat.finishAffinity(context as Activity)
+            }
             SignInScreen(onSignInEmail = navigationActions.navigateToSignInEmail)
         }
 
@@ -51,7 +59,7 @@ fun NavGraphBuilder.authGraph(
         ) {
             SignUpScreen(
                 onNavigateUp = navigationActions.navigateUp,
-                onNavigateToSignIn = navigationActions.navigateToSignIn,
+                onNavigateToSignIn = navigationActions.navigateToSignInEmailAndClearBackStack,
             )
         }
 

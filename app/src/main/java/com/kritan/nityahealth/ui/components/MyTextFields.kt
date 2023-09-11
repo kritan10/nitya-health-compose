@@ -1,5 +1,6 @@
 package com.kritan.nityahealth.ui.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,14 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -25,8 +26,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kritan.nityahealth.ui.theme.mWhite
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTextField(
     label: String,
@@ -40,9 +41,13 @@ fun MyTextField(
     isLastField: Boolean = false,
     trailingIconAction: () -> Unit = {},
 ) {
+    val containerColor = if (isSystemInDarkTheme()) mWhite.copy(alpha = 0.05F) else mWhite
     Box {
         Column(Modifier.fillMaxWidth()) {
-            Text(label, style = MaterialTheme.typography.labelLarge.copy(color = Color.Black))
+            Text(
+                label,
+                style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground)
+            )
             Spacer(Modifier.height(5.dp))
             OutlinedTextField(
                 value = value,
@@ -50,15 +55,21 @@ fun MyTextField(
                 singleLine = true,
                 placeholder = { Text(label, color = Color.LightGray) },
                 isError = isError,
-                textStyle = MaterialTheme.typography.labelLarge.copy(color = Color.Black),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White,
-                    unfocusedBorderColor = Color.Transparent
+                textStyle = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = containerColor,
+                    errorContainerColor = MaterialTheme.colorScheme.background,
+                    unfocusedContainerColor = containerColor,
+                    disabledContainerColor = Color.White,
+                    unfocusedBorderColor = Color.Transparent,
                 ),
                 trailingIcon = {
                     if (isPassword) {
                         IconButton(onClick = trailingIconAction) {
-                            Icon(Icons.Default.Lock, "", tint = Color.Gray)
+                            Icon(
+                                if (!isPasswordMasked) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                "",
+                                tint = Color.Gray)
                         }
                     }
                 },

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -40,7 +39,6 @@ import kotlinx.coroutines.flow.StateFlow
  * Unimplemented routes are filled with an EmptyLayout() composable.
  */
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NityaHealthNavGraph(
     drawerState: DrawerState,
@@ -53,7 +51,6 @@ fun NityaHealthNavGraph(
     val navigationActions = NityaHealthNavigationActions(navController)
     val startDestination = NityaHealthDestinations.AUTH_ROUTE
     val auth by authStateFlow.collectAsState()
-
 
     fun navigateTo(route: String) {
         navController.navigate(route)
@@ -80,7 +77,7 @@ fun NityaHealthNavGraph(
         popExitTransition = { myPopExitTransition() },
     ) {
 
-        authGraph(navController)
+        authGraph(context, navController)
 
         doctorsGraph(navController)
 

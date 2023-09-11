@@ -33,6 +33,11 @@ class AuthNavigationActions(navController: NavHostController) {
     val navigateToSignInEmail: () -> Unit = {
         navController.navigate(AuthDestinations.SIGN_IN_EMAIL_ROUTE)
     }
+    val navigateToSignInEmailAndClearBackStack: () -> Unit = {
+        navController.navigate(AuthDestinations.SIGN_IN_EMAIL_ROUTE) {
+            popUpTo(AuthDestinations.SIGN_IN_ROUTE)
+        }
+    }
     val navigateToSignUp: () -> Unit = {
         navController.navigate(AuthDestinations.SIGN_UP_ROUTE)
     }

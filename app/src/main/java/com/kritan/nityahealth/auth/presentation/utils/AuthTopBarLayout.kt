@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 fun AuthTopBar(onNavigateUp: () -> Unit) {
     TopAppBar(
         title = {},
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
             navigationIconContentColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),

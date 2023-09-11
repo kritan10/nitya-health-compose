@@ -117,7 +117,7 @@ private fun TopDoctorsCard(doctor: Doctor, navigateToDoctorDetails: (Int) -> Uni
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column {
-            Text(doctor.name, style = MaterialTheme.typography.titleMedium)
+            Text(doctor.name ?:"", style = MaterialTheme.typography.titleMedium)
             Text(
                 "${doctor.position} - ${doctor.qualification}",
                 color = Color(0xA6000000),

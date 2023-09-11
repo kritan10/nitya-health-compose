@@ -1,5 +1,6 @@
 package com.kritan.nityahealth.feature_doctor.data.repository
 
+import com.google.gson.Gson
 import com.kritan.nityahealth.base.api.MyApi
 import com.kritan.nityahealth.base.utils.Resource
 import com.kritan.nityahealth.base.utils.emitDataOrNull
@@ -18,6 +19,9 @@ class DoctorRepositoryImpl(private val api: DoctorsApi) : DoctorRepository {
             val doctorsApiResponse = MyApi.fetchFromRemote {
                 api.getAllDoctors()
             }
+
+            println("Doctor respose = ${Gson().toJson(doctorsApiResponse)}")
+
             emitDataOrNull(doctorsApiResponse?.data?.doctors, doctorsApiResponse?.message)
 
             emit(Resource.Loading(false))

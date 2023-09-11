@@ -8,32 +8,32 @@ data class Doctor(
     val id: Int? = null,
 
     @SerializedName("name")
-    val name: String = "",
+    val name: String?,
 
     @SerializedName("email")
-    val email: String = "",
+    val email: String?,
 
     @SerializedName("position")
-    val position: String = "",
+    val position: String?,
 
     @SerializedName("phone")
-    val phone: String = "",
+    val phone: String?,
 
     @SerializedName("experince")
-    val experience: String = "",
+    val experience: String?,
 
     @SerializedName("Qualificaton")
-    val qualification: String = "",
+    val qualification: String?,
 
     @SerializedName("speciality")
-    val speciality: String = "",
+    val speciality: String?,
 
     @SerializedName("NMC_number")
-    val nmc: String = "",
+    val nmc: String?,
 
     @SerializedName("website")
-    val website: String = "",
+    val website: String?,
 
     @SerializedName("image")
-    val image: String = ""
+    val image: String?
 )

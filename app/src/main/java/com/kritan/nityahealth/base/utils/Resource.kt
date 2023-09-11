@@ -1,5 +1,10 @@
 package com.kritan.nityahealth.base.utils
 
+import androidx.annotation.Keep
+import com.kritan.nityahealth.base.utils.Resource.Error
+import com.kritan.nityahealth.base.utils.Resource.Loading
+import com.kritan.nityahealth.base.utils.Resource.Success
+
 /**
  * A generic helper class to bridge views and models.
  * It is used while retrieving data from a repository.
@@ -15,6 +20,7 @@ package com.kritan.nityahealth.base.utils
  * [Loading] - notifies when the call starts and ends
  *
  */
+@Keep
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
 
     /**
@@ -22,6 +28,7 @@ sealed class Resource<T>(val data: T? = null, val message: String? = null) {
      *
      * @param data the data returned as the response from the call
      */
+    @Keep
     class Success<T>(data: T?, message: String?) : Resource<T>(data, message)
 
 
@@ -32,6 +39,7 @@ sealed class Resource<T>(val data: T? = null, val message: String? = null) {
      * @param data the error data to provide additional context to the error
      *
      */
+    @Keep
     class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)
 
 
@@ -44,5 +52,6 @@ sealed class Resource<T>(val data: T? = null, val message: String? = null) {
      * @param isLoading indicates the resource call progress
      *
      */
+    @Keep
     class Loading<T>(val isLoading: Boolean = true) : Resource<T>()
 }

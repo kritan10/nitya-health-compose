@@ -7,19 +7,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,13 +29,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.kritan.nityahealth.feature_exercise.data.models.ExerciseTraining
 import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyTopAppBar
-import com.kritan.nityahealth.feature_exercise.data.models.ExerciseTraining
+import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExerciseListScreen(
     viewModel: ExerciseListViewModel = hiltViewModel(),
@@ -47,16 +43,9 @@ fun ExerciseListScreen(
     navigateToExerciseDetail: () -> Unit,
     navigateToExerciseTimer: (Int) -> Unit
 ) {
-
-    if (viewModel.state.isLoading) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
+    MyLoadingLayout(
+        loading = viewModel.state.isLoading
+    ) {
         val exercise = viewModel.state.exercise
         Scaffold(topBar = {
             MyTopAppBar(title = "Exercise - ${exercise.title}", navigateUp = navigateUp)

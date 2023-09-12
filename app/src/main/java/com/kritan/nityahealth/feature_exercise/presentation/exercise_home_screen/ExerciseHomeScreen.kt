@@ -61,20 +61,23 @@ fun ExerciseHomeScreen(
 
             item {
                 MyLoadingLayout(viewModel.state.isLoading) {
-
                     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Column {
-                            Text("Week Goal")
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            Column {
+                                Text("Week Goal")
+                                Spacer(modifier = Modifier.height(16.dp))
                                 MyWeek(viewModel.state.myTrainings)
                             }
                         }
 
-                        ExerciseRow(
-                            title = "Completed Exercise Sets",
-                            exercisePkg = viewModel.state.myExercises,
-                            navigateToExerciseList = navigateToExerciseList
-                        )
+                        viewModel.state.myExercises.let { myExercises ->
+                            if (myExercises.isNotEmpty())
+                                ExerciseRow(
+                                    title = "Completed Exercise Sets",
+                                    exercisePkg = myExercises,
+                                    navigateToExerciseList = navigateToExerciseList
+                                )
+                        }
 
                         viewModel.state.data.let { allExercises ->
                             ExerciseRow(

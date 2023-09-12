@@ -8,7 +8,7 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:name=".NityaHealthApplication"
@@ -24,6 +24,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:configChanges="uiMode|screenLayout|screenSize|orientation"
             android:theme="@style/Theme.NityaHealth">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

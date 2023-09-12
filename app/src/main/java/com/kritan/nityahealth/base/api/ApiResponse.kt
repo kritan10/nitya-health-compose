@@ -1,6 +1,5 @@
 package com.kritan.nityahealth.base.api
 
-import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -12,7 +11,6 @@ import com.google.gson.annotations.SerializedName
  *
  *
  */
-@Keep
 data class ApiResponse<T>(
     @SerializedName("success")
     val success: Boolean,

@@ -1,6 +1,5 @@
 package com.kritan.nityahealth.base.utils
 
-import androidx.annotation.Keep
 import kotlinx.coroutines.flow.FlowCollector
 
 /**
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.FlowCollector
  * @see [Resource]
  * @see [FlowCollector]
  */
-@Keep
 suspend fun <T> FlowCollector<Resource<T>>.emitDataOrNull(data: T?, message: String?) {
     if (data != null) {
         emit(Resource.Success(data = data, message = message ?: "Success"))

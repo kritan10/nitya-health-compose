@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.auth.presentation.screens
+package com.kritan.nityahealth.auth.presentation.screens.boarding
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.auth.presentation.screens
+package com.kritan.nityahealth.auth.presentation.screens.post_signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

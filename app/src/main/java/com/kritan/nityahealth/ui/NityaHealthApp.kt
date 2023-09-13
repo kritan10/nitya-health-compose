@@ -38,7 +38,7 @@ fun NityaHealthApp(
 
         NityaHealthNavGraph(
             drawerState = drawerState,
-            authStateFlow = viewModel.authState,
+            authState = viewModel.authState,
             context = context,
             openDrawer = ::openDrawer,
             closeDrawer = ::closeDrawer,

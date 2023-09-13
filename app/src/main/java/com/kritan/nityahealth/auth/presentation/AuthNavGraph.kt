@@ -8,10 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.kritan.nityahealth.auth.presentation.screens.OnBoardingScreen
-import com.kritan.nityahealth.auth.presentation.screens.SignUpLocationScreen
-import com.kritan.nityahealth.auth.presentation.screens.SignUpVerifyScreen
-import com.kritan.nityahealth.auth.presentation.screens.WelcomeScreen
+import com.kritan.nityahealth.auth.presentation.screens.boarding.OnBoardingScreen
+import com.kritan.nityahealth.auth.presentation.screens.boarding.WelcomeScreen
+import com.kritan.nityahealth.auth.presentation.screens.post_signup.SignUpLocationScreen
+import com.kritan.nityahealth.auth.presentation.screens.post_signup.SignUpVerifyScreen
 import com.kritan.nityahealth.auth.presentation.screens.signin.SignInScreen
 import com.kritan.nityahealth.auth.presentation.screens.signin_email.SignInEmailScreen
 import com.kritan.nityahealth.auth.presentation.screens.signup_email.SignUpScreen
@@ -31,14 +31,17 @@ fun NavGraphBuilder.authGraph(
         }
 
         composable(AuthDestinations.ONBOARDING_ROUTE) {
-            OnBoardingScreen(navigateToLogin = navigationActions.navigateToSignIn)
+            OnBoardingScreen(navigateToSignIn = navigationActions.navigateToSignIn)
         }
         composable(AuthDestinations.SIGN_IN_ROUTE) {
             BackHandler(true) {
                 ActivityCompat.finishAffinity(context as Activity)
             }
-            SignInScreen(onSignInEmail = navigationActions.navigateToSignInEmail)
+            SignInScreen(
+                onSignInEmail = navigationActions.navigateToSignInEmail,
+            )
         }
+
 
         composable(
             route = AuthDestinations.SIGN_IN_EMAIL_ROUTE,
@@ -48,7 +51,6 @@ fun NavGraphBuilder.authGraph(
             SignInEmailScreen(
                 navigateUp = navigationActions.navigateUp,
                 navigateToSignUp = navigationActions.navigateToSignUp,
-                navigateToDashboard = navigationActions.navigateToDashboard
             )
         }
 

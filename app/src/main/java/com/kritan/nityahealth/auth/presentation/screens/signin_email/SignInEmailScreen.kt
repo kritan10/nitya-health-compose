@@ -33,7 +33,6 @@ fun SignInEmailScreen(
     viewModel: SignInEmailViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
     navigateToSignUp: () -> Unit,
-    navigateToDashboard: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     var isPasswordMasked by remember {
@@ -49,8 +48,6 @@ fun SignInEmailScreen(
             when (it) {
                 is UiEvent.ShowSnackbar ->
                     snackbarHostState.showSnackbar(it.message)
-
-                is UiEvent.NavigateToDashboard -> navigateToDashboard()
                 else -> Unit
             }
         }

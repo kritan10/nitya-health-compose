@@ -5,4 +5,5 @@ data class AuthState(
     val isOnboard: Boolean = false,
     val userName: String? = null,
     val token: String? = null,
+    val authSource: AuthSource = AuthSource.None
 )

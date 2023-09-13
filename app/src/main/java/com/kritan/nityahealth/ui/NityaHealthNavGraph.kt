@@ -13,7 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.auth.data.models.AuthState
-import com.kritan.nityahealth.auth.presentation.AuthDestinations
 import com.kritan.nityahealth.auth.presentation.authGraph
 import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
@@ -42,7 +41,7 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun NityaHealthNavGraph(
     drawerState: DrawerState,
-    authStateFlow: StateFlow<AuthState>,
+    authState: StateFlow<AuthState>,
     context: Context,
     openDrawer: () -> Unit,
     closeDrawer: () -> Unit,
@@ -50,7 +49,7 @@ fun NityaHealthNavGraph(
     val navController = rememberNavController()
     val navigationActions = NityaHealthNavigationActions(navController)
     val startDestination = NityaHealthDestinations.AUTH_ROUTE
-    val auth by authStateFlow.collectAsState()
+    val auth by authState.collectAsState()
 
     fun navigateTo(route: String) {
         navController.navigate(route)
@@ -60,12 +59,15 @@ fun NityaHealthNavGraph(
         navController.navigateUp()
     }
 
-    LaunchedEffect(Unit) {
-        if (auth.isAuth) {
-            navigateTo(NityaHealthDestinations.DASHBOARD_ROUTE)
-        } else if (auth.isOnboard) {
-            navigateTo(AuthDestinations.SIGN_IN_ROUTE)
+    LaunchedEffect(auth.isAuth, auth.isOnboard) {
+        val isUserLoggedIn = auth.isAuth
+        val isUserBoarded = auth.isOnboard && !auth.isAuth
+
+        when {
+            isUserLoggedIn -> navigationActions.navigateToDashboardAndClearBackStack()
+            isUserBoarded -> navigationActions.navigateToSignInAndClearBackStack()
         }
+
     }
 
     NavHost(

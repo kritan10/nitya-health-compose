@@ -15,7 +15,7 @@ object ExerciseDestinations {
 class ExerciseNavigationActions(navController: NavHostController) {
     val navigateUp = NityaHealthNavigationActions(navController).navigateUp
 
-    val navigateToDashboard = NityaHealthNavigationActions(navController).navigateToDashboard
+    val navigateToDashboardAndClearBackStack = NityaHealthNavigationActions(navController).navigateToDashboardAndClearBackStack
 
     val navigateToExerciseHome: () -> Unit = {
         navController.navigate(ExerciseDestinations.EXERCISE_HOME_ROUTE) {

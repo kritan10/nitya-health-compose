@@ -19,7 +19,7 @@ object AuthDestinations {
 class AuthNavigationActions(navController: NavHostController) {
     val navigateUp = NityaHealthNavigationActions(navController).navigateUp
 
-    val navigateToDashboard = NityaHealthNavigationActions(navController).navigateToDashboard
+//    val navigateToDashboard = NityaHealthNavigationActions(navController).navigateToDashboard
 
     val navigateToIntro: () -> Unit = {
         navController.navigate(AuthDestinations.INTRO_ROUTE)

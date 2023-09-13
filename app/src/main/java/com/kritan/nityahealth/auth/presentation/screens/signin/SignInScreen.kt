@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,14 +24,14 @@ import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyTextButton
 
+
 @Composable
 fun SignInScreen(
     viewModel: SignInViewModel = hiltViewModel(),
-    onSignInEmail: () -> Unit
+    onSignInEmail: () -> Unit,
 ) {
-
     LaunchedEffect(Unit) {
-        viewModel.appAuth.completeOnboarding()
+        if (!viewModel.isUserBoarded) viewModel.boardInUser()
     }
 
     Surface(
@@ -65,8 +63,7 @@ fun SignInScreen(
                 onSignInEmail()
             }
             Text("or", fontSize = 14.sp, lineHeight = 15.61.sp)
-            MyButton(label = "Sign in with Facebook", leading = Icons.Default.Call) {
-            }
+            MyButton(label = "Sign in with Facebook", onClick = viewModel::loginWithFacebook)
             MyTextButton(label = "Skip", textColor = MaterialTheme.colorScheme.primary) {
             }
             AuthFooter(
@@ -75,5 +72,4 @@ fun SignInScreen(
                 onClick = {})
         }
     }
-
 }

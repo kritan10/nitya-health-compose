@@ -92,7 +92,7 @@ class SignUpViewModel @Inject constructor(
 
     fun registerUser() {
         viewModelScope.launch {
-            authRepository.register(
+            authRepository.registerWithEmail(
                 AuthUserData.UserRegister(
                     name = uiState.currentFirstName + " " + uiState.currentLastName,
                     email = uiState.currentEmail,

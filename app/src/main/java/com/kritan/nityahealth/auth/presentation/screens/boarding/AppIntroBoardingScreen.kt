@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.auth.presentation.screens
+package com.kritan.nityahealth.auth.presentation.screens.boarding
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -60,7 +60,7 @@ private val onBoardingItemsList = listOf(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingScreen(
-    navigateToLogin: () -> Unit
+    navigateToSignIn: () -> Unit
 ) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
@@ -86,7 +86,7 @@ fun OnBoardingScreen(
             ) {
                 MyTextButton(
                     label = "Skip",
-                    onClick = { navigateToLogin() })
+                    onClick = { navigateToSignIn() })
                 Row {
                     repeat(onBoardingItemsList.size) {
                         if (it != 0) Spacer(modifier = Modifier.width(15.dp))
@@ -106,7 +106,7 @@ fun OnBoardingScreen(
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
                     } else {
-                        navigateToLogin()
+                        navigateToSignIn()
                     }
                 }
             }

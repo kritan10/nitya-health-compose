@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class NityaHealthViewModel @Inject constructor(appAuth: AppAuth) :
-    ViewModel() {
+class NityaHealthViewModel @Inject constructor(appAuth: AppAuth) : ViewModel() {
     val authState = appAuth.authState
 }

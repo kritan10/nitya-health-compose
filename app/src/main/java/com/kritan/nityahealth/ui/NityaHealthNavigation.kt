@@ -1,6 +1,8 @@
 package com.kritan.nityahealth.ui
 
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.kritan.nityahealth.auth.presentation.AuthDestinations
 
 /**
  * Top level navigation destinations and navigation actions.
@@ -51,13 +53,21 @@ object NityaHealthDestinations {
 class NityaHealthNavigationActions(navController: NavHostController) {
     val navigateUp: () -> Unit = { navController.navigateUp() }
 
-    val navigateToDashboard: () -> Unit = {
+    val navigateToDashboardAndClearBackStack: () -> Unit = {
         navController.navigate(NityaHealthDestinations.DASHBOARD_ROUTE) {
-            popUpTo(NityaHealthDestinations.DASHBOARD_ROUTE) {
-                saveState = true
-            }
+            popUpTo(navController.graph.findStartDestination().id)
+            launchSingleTop = true
         }
     }
+
+    val navigateToSignInAndClearBackStack: () -> Unit = {
+        navController.navigate(NityaHealthDestinations.AUTH_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id)
+            launchSingleTop = true
+        }
+        navController.navigate(AuthDestinations.SIGN_IN_ROUTE)
+    }
+
 
     val navigateToAuth: () -> Unit = {
         navController.navigate(NityaHealthDestinations.AUTH_ROUTE)

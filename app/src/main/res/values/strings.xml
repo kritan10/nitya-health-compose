@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Nitya Health</string>
+
+    <!-- Facebook Auth string -->
+    <string name="facebook_app_id">653247970147831</string>
+    <string name="fb_login_protocol_scheme">fb653247970147831</string>
+    <string name="facebook_client_token">a331c77194b940377f831dca9d7753b1</string>
 </resources>

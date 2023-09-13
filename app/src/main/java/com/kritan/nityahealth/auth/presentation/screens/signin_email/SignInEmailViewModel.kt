@@ -47,7 +47,7 @@ class SignInEmailViewModel @Inject constructor(
 
     fun loginUser() {
         viewModelScope.launch {
-            authRepository.login(
+            authRepository.loginWithEmail(
                 AuthUserData.UserLogin(uiState.currentEmail, uiState.currentPassword)
             ).collect { res ->
                 when (res) {

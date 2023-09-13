@@ -134,6 +134,9 @@ dependencies {
     //Image Cropper
     implementation("com.vanniktech:android-image-cropper:4.5.0")
 
+    //Facebook Login SDK
+    implementation("com.facebook.android:facebook-login:16.2.0")
+
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

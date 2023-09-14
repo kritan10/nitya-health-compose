@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.auth.presentation.screens.boarding
+package com.kritan.nityahealth.feature_onboarding.presentation.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -30,7 +30,7 @@ import com.kritan.nityahealth.ui.theme.mySlideUpTransition
 import kotlinx.coroutines.delay
 
 @Composable
-fun WelcomeScreen(navigateToBoarding: () -> Unit) {
+fun OnboardingIntroScreen(navigateToOnboardingBoard: () -> Unit) {
     var isReady by remember {
         mutableStateOf(false)
     }
@@ -69,7 +69,7 @@ fun WelcomeScreen(navigateToBoarding: () -> Unit) {
                     modifier = Modifier
                         .padding(bottom = 50.dp, end = 36.dp)
                 ) {
-                    navigateToBoarding()
+                    navigateToOnboardingBoard()
                 }
             }
         }

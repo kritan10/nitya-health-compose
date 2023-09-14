@@ -25,73 +25,68 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor
 import com.kritan.nityahealth.ui.components.MyClickableText
 import com.kritan.nityahealth.ui.components.MySearchBar
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
-import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
 @Composable
 fun DoctorsScreen(
-    navigateUp: () -> Unit,
+    viewModel: DoctorsScreenViewModel,
     navigateToAllDoctors: () -> Unit,
     navigateToDoctorDetails: (Int) -> Unit
 ) {
-    val viewModel = hiltViewModel<DoctorsScreenViewModel>()
     val state = viewModel.state
-    MyScaffoldLayout(title = "Doctors", navigateUp = navigateUp) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
-        ) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp)
+    ) {
 
-            //Empty space from arrangement
-            item {}
+        //Empty space from arrangement
+        item {}
 
-            // Search bar
-            item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Find your desired doctor", style = MaterialTheme.typography.titleLarge)
-                    MySearchBar(placeholder = "Search for doctors")
-                }
+        // Search bar
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Find your desired doctor", style = MaterialTheme.typography.titleLarge)
+                MySearchBar(placeholder = "Search for doctors")
             }
-
-            // Categories
-            item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Categories", style = MaterialTheme.typography.titleLarge)
-                    LazyRow {
-                    }
-                }
-            }
-
-            // Top doctors
-            item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Row(
-                        Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text("Top Doctors", style = MaterialTheme.typography.titleLarge)
-                        MyClickableText(
-                            label = "View all",
-                            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 12.sp),
-                            onClick = navigateToAllDoctors
-                        )
-                    }
-                    MyLoadingLayout(loading = viewModel.state.isLoading) {
-                        state.doctors.forEach { doctor ->
-                            TopDoctorsCard(doctor, navigateToDoctorDetails)
-                        }
-                    }
-                }
-            }
-
         }
+
+        // Categories
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Categories", style = MaterialTheme.typography.titleLarge)
+                LazyRow {
+                }
+            }
+        }
+
+        // Top doctors
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Top Doctors", style = MaterialTheme.typography.titleLarge)
+                    MyClickableText(
+                        label = "View all",
+                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 12.sp),
+                        onClick = navigateToAllDoctors
+                    )
+                }
+                MyLoadingLayout(loading = viewModel.state.isLoading) {
+                    state.doctors.forEach { doctor ->
+                        TopDoctorsCard(doctor, navigateToDoctorDetails)
+                    }
+                }
+            }
+        }
+
     }
 }
 
@@ -117,7 +112,7 @@ private fun TopDoctorsCard(doctor: Doctor, navigateToDoctorDetails: (Int) -> Uni
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column {
-            Text(doctor.name ?:"", style = MaterialTheme.typography.titleMedium)
+            Text(doctor.name ?: "", style = MaterialTheme.typography.titleMedium)
             Text(
                 "${doctor.position} - ${doctor.qualification}",
                 color = Color(0xA6000000),

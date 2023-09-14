@@ -1,13 +1,10 @@
 package com.kritan.nityahealth.auth.presentation.screens.signin
 
-import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kritan.nityahealth.auth.AppAuth
 import com.kritan.nityahealth.auth.data.repository.AuthRepository
-import com.kritan.nityahealth.base.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,15 +22,15 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun loginWithFacebook() {
-        viewModelScope.launch {
-            val activity = applicationContext
-            val response = authRepository.loginWithFacebook(applicationContext as Activity)
-            when (response) {
-                is Resource.Error -> Unit
-                is Resource.Loading -> Unit
-                is Resource.Success -> appAuth.authenticateUser(response.data!!)
-            }
-        }
-    }
+//    fun loginWithFacebook() {
+//        viewModelScope.launch {
+//            val activity = applicationContext
+//            val response = authRepository.loginWithFacebook(applicationContext as Activity)
+//            when (response) {
+//                is Resource.Error -> Unit
+//                is Resource.Loading -> Unit
+//                is Resource.Success -> appAuth.authenticateUser(response.data!!)
+//            }
+//        }
+//    }
 }

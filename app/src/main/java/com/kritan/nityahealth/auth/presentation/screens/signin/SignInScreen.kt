@@ -1,8 +1,11 @@
 package com.kritan.nityahealth.auth.presentation.screens.signin
 
+import android.util.Log
+import android.view.LayoutInflater
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -18,7 +21,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.ui.components.MyButton
@@ -29,6 +38,7 @@ import com.kritan.nityahealth.ui.components.MyTextButton
 fun SignInScreen(
     viewModel: SignInViewModel = hiltViewModel(),
     onSignInEmail: () -> Unit,
+    onSkipSignIn: () -> Unit,
 ) {
     LaunchedEffect(Unit) {
         if (!viewModel.isUserBoarded) viewModel.boardInUser()
@@ -59,17 +69,56 @@ fun SignInScreen(
                 style = MaterialTheme.typography.titleLarge
             )
             Text("Sign in to continue", style = MaterialTheme.typography.labelMedium)
-            MyButton(label = "Sign in with Email") {
-                onSignInEmail()
-            }
+            MyButton(label = "Sign in with Email", onClick = onSignInEmail)
             Text("or", fontSize = 14.sp, lineHeight = 15.61.sp)
-            MyButton(label = "Sign in with Facebook", onClick = viewModel::loginWithFacebook)
-            MyTextButton(label = "Skip", textColor = MaterialTheme.colorScheme.primary) {
-            }
+
+            MyFacebookLoginBtn()
+
+            MyTextButton(
+                label = "Skip",
+                textColor = MaterialTheme.colorScheme.primary,
+                onClick = onSkipSignIn
+            )
             AuthFooter(
                 text = "By signing in, you accept our ",
                 buttonText = "Terms and Conditions",
                 onClick = {})
         }
     }
+}
+
+@Composable
+private fun MyFacebookLoginBtn() {
+    val EMAIL = "email"
+    val TAG = "Facebook Auth"
+
+    val callbackManager = CallbackManager.Factory.create()
+    val callback = object : FacebookCallback<LoginResult> {
+        override fun onSuccess(result: LoginResult) {
+            Log.d(TAG, result.accessToken.token)
+        }
+
+        override fun onCancel() {
+            // App code
+        }
+
+        override fun onError(error: FacebookException) {
+            // App code
+        }
+    }
+//    val loginManager = LoginManager.getInstance()
+//    loginManager.registerCallback(callbackManager, callback)
+
+    AndroidView(
+        modifier = Modifier
+            .fillMaxWidth(),
+        factory = { context ->
+            // Creates view
+            val loginButton = LayoutInflater.from(context)
+                .inflate(R.layout.facebook_login, null, false) as LoginButton
+            loginButton.setPermissions(EMAIL)
+            loginButton.registerCallback(callbackManager, callback)
+            loginButton
+        },
+    )
 }

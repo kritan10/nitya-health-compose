@@ -2,6 +2,7 @@ package com.kritan.nityahealth.feature_user.presentation
 
 import android.Manifest
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -123,11 +124,18 @@ fun ProfileScreen(
 
     fun launchGallery() {
         launchActivityAndCloseSheet {
-            galleryLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            val permission =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    Manifest.permission.READ_MEDIA_IMAGES
+                } else {
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                }
+
+            galleryLauncher.launch(permission)
         }
     }
 
-    fun launchFilePicker(){
+    fun launchFilePicker() {
         launchActivityAndCloseSheet {
             fileLauncher
         }

@@ -2,7 +2,6 @@ package com.kritan.nityahealth.ui
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.kritan.nityahealth.auth.presentation.AuthDestinations
 
 /**
  * Top level navigation destinations and navigation actions.
@@ -17,6 +16,7 @@ import com.kritan.nityahealth.auth.presentation.AuthDestinations
  * @see NityaHealthNavigationActions
  */
 object NityaHealthDestinations {
+    const val ONBOARDING_ROUTE = "onboarding"
     const val AUTH_ROUTE = "auth"
 
     //REQUIRED IN DRAWER
@@ -60,14 +60,15 @@ class NityaHealthNavigationActions(navController: NavHostController) {
         }
     }
 
-    val navigateToSignInAndClearBackStack: () -> Unit = {
-        navController.navigate(NityaHealthDestinations.AUTH_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id)
-            launchSingleTop = true
-        }
-        navController.navigate(AuthDestinations.SIGN_IN_ROUTE)
+    val navigateToOnboarding: () -> Unit = {
+        navController.navigate(NityaHealthDestinations.ONBOARDING_ROUTE)
     }
 
+    val navigateToAuthAndClearBackStack: () -> Unit = {
+        navController.navigate(NityaHealthDestinations.AUTH_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id)
+        }
+    }
 
     val navigateToAuth: () -> Unit = {
         navController.navigate(NityaHealthDestinations.AUTH_ROUTE)

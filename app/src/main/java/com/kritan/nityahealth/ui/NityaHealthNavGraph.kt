@@ -2,6 +2,7 @@ package com.kritan.nityahealth.ui
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
 import com.kritan.nityahealth.feature_exercise.presentation.exerciseGraph
+import com.kritan.nityahealth.feature_onboarding.presentation.onboardingGraph
 import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
 import com.kritan.nityahealth.ui.components.MyDrawer
@@ -48,7 +50,7 @@ fun NityaHealthNavGraph(
 ) {
     val navController = rememberNavController()
     val navigationActions = NityaHealthNavigationActions(navController)
-    val startDestination = NityaHealthDestinations.AUTH_ROUTE
+    val startDestination = NityaHealthDestinations.DASHBOARD_ROUTE
     val auth by authState.collectAsState()
 
     fun navigateTo(route: String) {
@@ -60,14 +62,20 @@ fun NityaHealthNavGraph(
     }
 
     LaunchedEffect(auth.isAuth, auth.isOnboard) {
-        val isUserLoggedIn = auth.isAuth
-        val isUserBoarded = auth.isOnboard && !auth.isAuth
+        val TAG = "Root Nav Launched Effect Block"
+        Log.d(TAG, "Launched")
+        if (!auth.isOnboard) {
+            navigationActions.navigateToOnboarding()
+            Log.d(TAG, "Not Onboard Block")
 
-        when {
-            isUserLoggedIn -> navigationActions.navigateToDashboardAndClearBackStack()
-            isUserBoarded -> navigationActions.navigateToSignInAndClearBackStack()
+        } else if (!auth.isAuth) {
+            navigationActions.navigateToAuthAndClearBackStack()
+            Log.d(TAG, "Not Auth Block")
+
+        } else {
+            navigationActions.navigateToDashboardAndClearBackStack()
+            Log.d(TAG, "Else Block")
         }
-
     }
 
     NavHost(
@@ -79,11 +87,23 @@ fun NityaHealthNavGraph(
         popExitTransition = { myPopExitTransition() },
     ) {
 
-        authGraph(context, navController)
+        authGraph(
+            context = context,
+            navController = navController,
+            navigateToDashboardAndClearBackStack = navigationActions.navigateToDashboardAndClearBackStack
+        )
 
-        doctorsGraph(navController)
+        onboardingGraph(
+            navController = navController,
+            navigateToAuthAndClearBackStack = navigationActions.navigateToAuthAndClearBackStack
+        )
 
-        exerciseGraph(navController)
+        doctorsGraph(
+            navController = navController,
+            navigateToSignIn = navigationActions.navigateToAuth
+        )
+
+        exerciseGraph(navController = navController)
 
         composable(
             route = NityaHealthDestinations.DASHBOARD_ROUTE,

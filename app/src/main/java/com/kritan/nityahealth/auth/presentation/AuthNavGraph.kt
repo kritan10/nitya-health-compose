@@ -8,40 +8,36 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.kritan.nityahealth.auth.presentation.screens.boarding.OnBoardingScreen
-import com.kritan.nityahealth.auth.presentation.screens.boarding.WelcomeScreen
 import com.kritan.nityahealth.auth.presentation.screens.post_signup.SignUpLocationScreen
 import com.kritan.nityahealth.auth.presentation.screens.post_signup.SignUpVerifyScreen
 import com.kritan.nityahealth.auth.presentation.screens.signin.SignInScreen
 import com.kritan.nityahealth.auth.presentation.screens.signin_email.SignInEmailScreen
 import com.kritan.nityahealth.auth.presentation.screens.signup_email.SignUpScreen
+import com.kritan.nityahealth.ui.NityaHealthDestinations
 import com.kritan.nityahealth.ui.theme.myFadeExitTransition
 import com.kritan.nityahealth.ui.theme.myPopExitTransition
 
 fun NavGraphBuilder.authGraph(
     context: Context,
     navController: NavHostController,
+    navigateToDashboardAndClearBackStack: () -> Unit,
 ) {
     val navigationActions = AuthNavigationActions(navController)
 
-    navigation(startDestination = AuthDestinations.INTRO_ROUTE, route = "auth") {
+    navigation(
+        route = NityaHealthDestinations.AUTH_ROUTE,
+        startDestination = AuthDestinations.SIGN_IN_ROUTE
+    ) {
 
-        composable(AuthDestinations.INTRO_ROUTE) {
-            WelcomeScreen(navigateToBoarding = navigationActions.navigateToOnboarding)
-        }
-
-        composable(AuthDestinations.ONBOARDING_ROUTE) {
-            OnBoardingScreen(navigateToSignIn = navigationActions.navigateToSignIn)
-        }
         composable(AuthDestinations.SIGN_IN_ROUTE) {
             BackHandler(true) {
                 ActivityCompat.finishAffinity(context as Activity)
             }
             SignInScreen(
                 onSignInEmail = navigationActions.navigateToSignInEmail,
+                onSkipSignIn = navigateToDashboardAndClearBackStack
             )
         }
-
 
         composable(
             route = AuthDestinations.SIGN_IN_EMAIL_ROUTE,

@@ -19,6 +19,8 @@ object NityaHealthDestinations {
     const val ONBOARDING_ROUTE = "onboarding"
     const val AUTH_ROUTE = "auth"
 
+    const val INTRO_ROUTE = "intro"
+
     //REQUIRED IN DRAWER
     const val DASHBOARD_ROUTE = "dashboard"
     const val PROFILE_ROUTE = "profile"

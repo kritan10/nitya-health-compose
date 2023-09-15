@@ -1,5 +1,8 @@
 package com.kritan.nityahealth.feature_user.presentation
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.facebook.AccessToken
@@ -22,6 +25,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _uiEvent = Channel<UiEvent> { }
     val uiEvent = _uiEvent.receiveAsFlow()
+
+    var uiState by mutableStateOf(ProfileScreenState())
+        private set
 
     fun logOutUser() {
         viewModelScope.launch {

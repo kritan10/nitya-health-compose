@@ -44,11 +44,14 @@ import coil.compose.AsyncImage
 import com.canhub.cropper.CropImageContract
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.base.utils.UiEvent
+import com.kritan.nityahealth.feature_user.data.models.UserData
 import com.kritan.nityahealth.ui.components.MyBottomSheet
 import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyDialog
 import com.kritan.nityahealth.ui.components.MyIconButton
 import com.kritan.nityahealth.ui.components.MyListItem
+import com.kritan.nityahealth.ui.layouts.MyAuthenticatedLayout
+import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
@@ -61,7 +64,8 @@ import kotlinx.coroutines.launch
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
-    navigateToSignIn: () -> Unit
+    navigateToSignIn: () -> Unit,
+    isAuth: Boolean,
 ) {
     var isDialogOpen by remember { mutableStateOf(false) }
     fun openDialog() = run { isDialogOpen = true }
@@ -151,6 +155,10 @@ fun ProfileScreen(
         }
     }
 
+    LaunchedEffect(Unit){
+        viewModel.getUserDataFromFacebook()
+    }
+
     //Log-out dialog
     MyDialog(
         isDialogOpen = isDialogOpen,
@@ -194,28 +202,36 @@ fun ProfileScreen(
 
     //UI
     MyScaffoldLayout(title = "My Profile", navigateUp = navigateUp) {
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(32.dp),
-            contentPadding = PaddingValues(20.dp),
-        ) {
-            sectionUserImage(::openSheet, capturedImageUri)
-            sectionPersonalDetails()
-            sectionHealthDetails()
-            sectionMedicalCondition()
-            item { Spacer(Modifier.height(12.dp)) }
-            item {
-                MyButton(label = "Log Out", onClick = ::openDialog)
+        MyLoadingLayout(loading = viewModel.uiState.isLoading) {
+            MyAuthenticatedLayout(isAuth = isAuth, navigateToSignIn = navigateToSignIn) {
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(32.dp),
+                    contentPadding = PaddingValues(20.dp),
+                ) {
+                    sectionUserImage(::openSheet, capturedImageUri, viewModel.uiState.userData.image)
+                    sectionPersonalDetails(viewModel.uiState.userData)
+                    sectionHealthDetails()
+                    sectionMedicalCondition()
+                    item { Spacer(Modifier.height(12.dp)) }
+                    item {
+                        MyButton(label = "Log Out", onClick = ::openDialog)
+                    }
+                }
             }
         }
     }
 }
 
-private fun LazyListScope.sectionUserImage(openBottomSheet: () -> Unit, imageUri: Uri) {
+private fun LazyListScope.sectionUserImage(
+    openBottomSheet: () -> Unit,
+    imageUri: Uri,
+    image: String
+) {
     val isUriNull = imageUri.path?.isEmpty() == true
     item {
         AsyncImage(
-            model = if (isUriNull) R.drawable.img_userimage else imageUri,
+            model = if (isUriNull) image else imageUri,
             contentDescription = "",
             modifier = Modifier
                 .clickable(onClick = openBottomSheet)
@@ -259,12 +275,12 @@ private fun LazyListScope.sectionMedicalCondition() {
     }
 }
 
-private fun LazyListScope.sectionPersonalDetails() {
+private fun LazyListScope.sectionPersonalDetails(userData: UserData) {
     val personalDetails = listOf(
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Gender", "Female"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Address", "Bhaktapur"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Contact", "9845123457"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Email", "user@email.com"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Gender", userData.gender),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Address", userData.address),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Contact", userData.contact),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Email", userData.email),
     )
     item {
         MyTitleBodyLayout(title = "Personal Details") {

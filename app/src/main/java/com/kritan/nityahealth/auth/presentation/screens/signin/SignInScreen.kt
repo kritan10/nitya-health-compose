@@ -1,11 +1,10 @@
 package com.kritan.nityahealth.auth.presentation.screens.signin
 
 import android.util.Log
-import android.view.LayoutInflater
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -21,13 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.auth.presentation.utils.AuthFooter
 import com.kritan.nityahealth.ui.components.MyButton
@@ -40,6 +33,14 @@ fun SignInScreen(
     onSignInEmail: () -> Unit,
     onSkipSignIn: () -> Unit,
 ) {
+
+    val fbLogin = rememberLauncherForActivityResult(
+        contract = viewModel.getFacebookLoginContract(),
+        onResult = {
+            Log.d("Launcher", "Launcher")
+        }
+    )
+
     LaunchedEffect(Unit) {
         if (!viewModel.isUserBoarded) viewModel.boardInUser()
     }
@@ -72,7 +73,11 @@ fun SignInScreen(
             MyButton(label = "Sign in with Email", onClick = onSignInEmail)
             Text("or", fontSize = 14.sp, lineHeight = 15.61.sp)
 
-            MyFacebookLoginBtn()
+//            MyFacebookLoginBtn()
+
+            MyButton(label = "Sign in with Facebook") {
+                fbLogin.launch(listOf("email", "public_profile"))
+            }
 
             MyTextButton(
                 label = "Skip",
@@ -82,43 +87,8 @@ fun SignInScreen(
             AuthFooter(
                 text = "By signing in, you accept our ",
                 buttonText = "Terms and Conditions",
-                onClick = {})
+                onClick = {}
+            )
         }
     }
-}
-
-@Composable
-private fun MyFacebookLoginBtn() {
-    val EMAIL = "email"
-    val TAG = "Facebook Auth"
-
-    val callbackManager = CallbackManager.Factory.create()
-    val callback = object : FacebookCallback<LoginResult> {
-        override fun onSuccess(result: LoginResult) {
-            Log.d(TAG, result.accessToken.token)
-        }
-
-        override fun onCancel() {
-            // App code
-        }
-
-        override fun onError(error: FacebookException) {
-            // App code
-        }
-    }
-//    val loginManager = LoginManager.getInstance()
-//    loginManager.registerCallback(callbackManager, callback)
-
-    AndroidView(
-        modifier = Modifier
-            .fillMaxWidth(),
-        factory = { context ->
-            // Creates view
-            val loginButton = LayoutInflater.from(context)
-                .inflate(R.layout.facebook_login, null, false) as LoginButton
-            loginButton.setPermissions(EMAIL)
-            loginButton.registerCallback(callbackManager, callback)
-            loginButton
-        },
-    )
 }

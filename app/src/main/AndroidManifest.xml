@@ -27,13 +27,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NityaHealth"
+        android:theme="@style/Theme.App.Splash"
         tools:targetApi="31">
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="uiMode|screenLayout|screenSize|orientation"
             android:exported="true"
-            android:theme="@style/Theme.NityaHealth">
+            android:theme="@style/Theme.App.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

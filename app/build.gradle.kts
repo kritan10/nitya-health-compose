@@ -94,6 +94,9 @@ dependencies {
     //Icons-Extended
     implementation("androidx.compose.material:material-icons-extended")
 
+    //Splash-Screen
+    implementation ("androidx.core:core-splashscreen:1.0.1")
+
     //Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanist_version")
 

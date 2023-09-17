@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0F7E8A</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/main_icon</item>
+        <!--        <item name="windowSplashScreenAnimationDuration">10</item>-->
+        <item name="postSplashScreenTheme">@style/Theme.NityaHealth</item>
+    </style>
+</resources>

@@ -4,8 +4,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kritan.nityahealth.ui.theme.NityaHealthTheme
 import kotlinx.coroutines.launch
 
@@ -14,15 +12,11 @@ import kotlinx.coroutines.launch
  *
  */
 @Composable
-fun NityaHealthApp(
-    viewModel: NityaHealthViewModel = hiltViewModel(),
-) {
+fun NityaHealthApp(viewModel: NityaHealthViewModel) {
     NityaHealthTheme {
         val coroutineScope = rememberCoroutineScope()
 
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-
-        val context = LocalContext.current
 
         fun openDrawer() {
             coroutineScope.launch {
@@ -36,12 +30,16 @@ fun NityaHealthApp(
             }
         }
 
+        fun closeSplashScreen() {
+            viewModel.closeSplashScreen()
+        }
+
         NityaHealthNavGraph(
             drawerState = drawerState,
             authState = viewModel.authState,
-            context = context,
             openDrawer = ::openDrawer,
             closeDrawer = ::closeDrawer,
+            closeSplashScreen = ::closeSplashScreen,
         )
 
     }

@@ -10,6 +10,7 @@ import com.kritan.nityahealth.auth.presentation.screens.signin.SignInScreen
 import com.kritan.nityahealth.auth.presentation.screens.signin_email.SignInEmailScreen
 import com.kritan.nityahealth.auth.presentation.screens.signup_email.SignUpScreen
 import com.kritan.nityahealth.ui.NityaHealthDestinations
+import com.kritan.nityahealth.ui.components.MyDoubleBackPressForExitBackHandler
 import com.kritan.nityahealth.ui.theme.myFadeExitTransition
 import com.kritan.nityahealth.ui.theme.myPopExitTransition
 
@@ -25,9 +26,7 @@ fun NavGraphBuilder.authGraph(
     ) {
 
         composable(AuthDestinations.SIGN_IN_ROUTE) {
-            BackHandler(true) {
-                ActivityCompat.finishAffinity(context as Activity)
-            }
+            MyDoubleBackPressForExitBackHandler()
             SignInScreen(
                 onSignInEmail = navigationActions.navigateToSignInEmail,
                 onSkipSignIn = navigateToDashboardAndClearBackStack

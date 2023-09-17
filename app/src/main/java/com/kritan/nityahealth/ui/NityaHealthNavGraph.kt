@@ -20,6 +20,7 @@ import com.kritan.nityahealth.feature_exercise.presentation.exerciseGraph
 import com.kritan.nityahealth.feature_onboarding.presentation.onboardingGraph
 import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
+import com.kritan.nityahealth.ui.components.MyDoubleBackPressForExitBackHandler
 import com.kritan.nityahealth.ui.components.MyDrawer
 import com.kritan.nityahealth.ui.layouts.EmptyScreen
 import com.kritan.nityahealth.ui.theme.myEnterTransition
@@ -188,6 +189,7 @@ private fun NavGraphBuilder.dashboard(
     openDrawer: () -> Unit
 ) {
     composable(route = NityaHealthDestinations.DASHBOARD_ROUTE) {
+        MyDoubleBackPressForExitBackHandler()
         MyDrawer(
             drawerState = drawerState,
             userName = userName,

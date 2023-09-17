@@ -1,9 +1,5 @@
 package com.kritan.nityahealth.auth.presentation
 
-import android.app.Activity
-import android.content.Context
-import androidx.activity.compose.BackHandler
-import androidx.core.app.ActivityCompat
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -18,7 +14,6 @@ import com.kritan.nityahealth.ui.theme.myFadeExitTransition
 import com.kritan.nityahealth.ui.theme.myPopExitTransition
 
 fun NavGraphBuilder.authGraph(
-    context: Context,
     navController: NavHostController,
     navigateToDashboardAndClearBackStack: () -> Unit,
 ) {

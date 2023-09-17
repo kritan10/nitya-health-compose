@@ -1,15 +1,12 @@
 package com.kritan.nityahealth.ui
 
-import android.app.Activity
-import android.content.Context
 import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.core.app.ActivityCompat
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -46,9 +43,9 @@ import kotlinx.coroutines.flow.StateFlow
 fun NityaHealthNavGraph(
     drawerState: DrawerState,
     authState: StateFlow<AuthState>,
-    context: Context,
     openDrawer: () -> Unit,
     closeDrawer: () -> Unit,
+    closeSplashScreen: () -> Unit,
 ) {
     val navController = rememberNavController()
     val navigationActions = NityaHealthNavigationActions(navController)
@@ -72,15 +69,25 @@ fun NityaHealthNavGraph(
         popExitTransition = { myPopExitTransition() },
     ) {
 
-        authGraph(
-            context = context,
-            navController = navController,
-            navigateToDashboardAndClearBackStack = navigationActions.navigateToDashboardAndClearBackStack
-        )
+        introScreen()
 
         onboardingGraph(
             navController = navController,
             navigateToAuthAndClearBackStack = navigationActions.navigateToAuthAndClearBackStack
+        )
+
+        authGraph(
+            navController = navController,
+            navigateToDashboardAndClearBackStack = navigationActions.navigateToDashboardAndClearBackStack
+        )
+
+        dashboard(
+            drawerState = drawerState,
+            userName = auth.userName,
+            navigationActions = navigationActions,
+            closeDrawer = closeDrawer,
+            navigateTo = ::navigateTo,
+            openDrawer = openDrawer,
         )
 
         doctorsGraph(
@@ -90,38 +97,6 @@ fun NityaHealthNavGraph(
 
         exerciseGraph(navController = navController)
 
-        composable(
-            route = NityaHealthDestinations.INTRO_ROUTE,
-            enterTransition = { myFadeEnterTransition() },
-            exitTransition = { myFadeExitTransition() },
-            popEnterTransition = { myFadeEnterTransition() },
-            popExitTransition = { myFadeExitTransition() }
-        ) {
-            IntroScreen()
-        }
-
-        composable(route = NityaHealthDestinations.DASHBOARD_ROUTE) {
-            BackHandler(true) {
-                ActivityCompat.finishAffinity(context as Activity)
-            }
-            MyDrawer(
-                drawerState,
-                auth.userName,
-                closeDrawer,
-                ::navigateTo
-            )
-            {
-                DashboardScreen(
-                    openDrawer = openDrawer,
-                    navigateToWellness = navigationActions.navigateToWellness,
-                    navigateToConsultants = navigationActions.navigateToConsultants,
-                    navigateToNewsArticles = navigationActions.navigateToNewsArticles,
-                    navigateToActivities = navigationActions.navigateToActivities,
-                    navigateToProfile = navigationActions.navigateToProfile,
-                )
-            }
-
-        }
 
         composable(NityaHealthDestinations.PROFILE_ROUTE) {
             ProfileScreen(
@@ -187,8 +162,52 @@ fun NityaHealthNavGraph(
             navigationActions.navigateToDashboardAndClearBackStack()
             Log.d(TAG, "Else Block")
         }
+        closeSplashScreen()
     }
 }
+
+
+private fun NavGraphBuilder.introScreen() {
+    composable(
+        route = NityaHealthDestinations.INTRO_ROUTE,
+        enterTransition = { myFadeEnterTransition() },
+        exitTransition = { myFadeExitTransition() },
+        popEnterTransition = { myFadeEnterTransition() },
+        popExitTransition = { myFadeExitTransition() }
+    ) {
+        IntroScreen()
+    }
+}
+
+private fun NavGraphBuilder.dashboard(
+    drawerState: DrawerState,
+    userName: String?,
+    navigationActions: NityaHealthNavigationActions,
+    closeDrawer: () -> Unit,
+    navigateTo: (String) -> Unit,
+    openDrawer: () -> Unit
+) {
+    composable(route = NityaHealthDestinations.DASHBOARD_ROUTE) {
+        MyDrawer(
+            drawerState = drawerState,
+            userName = userName,
+            closeDrawer = closeDrawer,
+            navigateTo = navigateTo
+        )
+        {
+            DashboardScreen(
+                openDrawer = openDrawer,
+                navigateToWellness = navigationActions.navigateToWellness,
+                navigateToConsultants = navigationActions.navigateToConsultants,
+                navigateToNewsArticles = navigationActions.navigateToNewsArticles,
+                navigateToActivities = navigationActions.navigateToActivities,
+                navigateToProfile = navigationActions.navigateToProfile,
+            )
+        }
+
+    }
+}
+
 
 
 

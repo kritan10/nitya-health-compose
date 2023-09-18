@@ -13,11 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BrowseGallery
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kritan.nityahealth.ui.theme.mRoundedCornerButton
@@ -168,10 +166,14 @@ fun MyIconTextButton(
     }
 }
 
-@Preview
 @Composable
-fun MyIconButtonPreview() {
-    MyIconButton(icon = Icons.Default.BrowseGallery, text = "Gallery") {
-
+fun MyIconButton(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    contentDescription: String = "",
+    onClick: () -> Unit,
+) {
+    IconButton(onClick = onClick, modifier = modifier) {
+        Icon(icon, contentDescription)
     }
 }

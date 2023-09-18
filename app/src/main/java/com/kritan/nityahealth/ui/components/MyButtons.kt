@@ -138,9 +138,9 @@ fun MyClickableText(
 }
 
 @Composable
-fun MyIconButton(
+fun MyIconTextButton(
     icon: ImageVector,
-    text: String?,
+    text: String? = null,
     onClick: () -> Unit
 ) {
     Column(

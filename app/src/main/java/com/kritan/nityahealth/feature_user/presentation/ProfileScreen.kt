@@ -48,7 +48,7 @@ import com.kritan.nityahealth.feature_user.data.models.UserData
 import com.kritan.nityahealth.ui.components.MyBottomSheet
 import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyDialog
-import com.kritan.nityahealth.ui.components.MyIconButton
+import com.kritan.nityahealth.ui.components.MyIconTextButton
 import com.kritan.nityahealth.ui.components.MyListItem
 import com.kritan.nityahealth.ui.layouts.MyAuthenticatedLayout
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
@@ -178,21 +178,21 @@ fun ProfileScreen(
     ) {
         LazyRow(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
             item {
-                MyIconButton(
+                MyIconTextButton(
                     icon = Icons.Filled.CameraAlt, text = "Camera",
                     onClick = ::launchCamera
                 )
             }
 
             item {
-                MyIconButton(
+                MyIconTextButton(
                     icon = Icons.Filled.Photo, text = "Gallery",
                     onClick = ::launchGallery
                 )
             }
 
             item {
-                MyIconButton(
+                MyIconTextButton(
                     icon = Icons.Filled.Folder, text = "Files",
                     onClick = {}
                 )

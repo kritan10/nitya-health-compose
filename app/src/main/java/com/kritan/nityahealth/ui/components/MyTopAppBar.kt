@@ -1,14 +1,15 @@
 package com.kritan.nityahealth.ui.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,12 +24,20 @@ fun MyTopAppBar(
     navigateUp: () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
 ) {
+    val iconButtonColors = IconButtonDefaults.iconButtonColors(
+        contentColor = Color.White
+    )
+
     CenterAlignedTopAppBar(
         title = { Text(title) },
         actions = { this.actions() },
         navigationIcon = {
-            IconButton(navigateUp, Modifier.padding(20.dp)) {
-                Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+            IconButton(
+                onClick = navigateUp,
+                modifier = Modifier.padding(20.dp),
+                colors = iconButtonColors
+            ) {
+                Icon(Icons.Default.ArrowBack, "Back")
             }
         },
         modifier = Modifier

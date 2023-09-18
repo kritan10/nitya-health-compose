@@ -2,6 +2,7 @@ package com.kritan.nityahealth.auth.presentation.screens.signin
 
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,12 +35,32 @@ fun SignInScreen(
     onSkipSignIn: () -> Unit,
 ) {
 
-    val fbLogin = rememberLauncherForActivityResult(
+    // --- Facebook Sign In : Start --- //
+    val fbLoginLauncher = rememberLauncherForActivityResult(
         contract = viewModel.getFacebookLoginContract(),
         onResult = {
             Log.d("Launcher", "Launcher")
         }
     )
+
+    fun signInWithFacebook() {
+        val permissions = listOf("email", "public_profile")
+        fbLoginLauncher.launch(permissions)
+    }
+    // --- Facebook Sign In : End --- //
+
+
+    // --- Google Sign In : Start --- //
+    val activityLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult(),
+        onResult = viewModel::onGoogleSignInActivityLauncherResult
+    )
+
+    fun signInWithGoogle() {
+        viewModel.signInWithGoogle(activityLauncher)
+    }
+    // --- Google Sign In : End --- //
+
 
     LaunchedEffect(Unit) {
         if (!viewModel.isUserBoarded) viewModel.boardInUser()
@@ -70,20 +91,24 @@ fun SignInScreen(
                 style = MaterialTheme.typography.titleLarge
             )
             Text("Sign in to continue", style = MaterialTheme.typography.labelMedium)
+
+//          Email Sign in Button
             MyButton(label = "Sign in with Email", onClick = onSignInEmail)
+
             Text("or", fontSize = 14.sp, lineHeight = 15.61.sp)
 
-//            MyFacebookLoginBtn()
+//          Facebook Sign in Button
+            MyButton(label = "Sign in with Facebook", onClick = ::signInWithFacebook)
 
-            MyButton(label = "Sign in with Facebook") {
-                fbLogin.launch(listOf("email", "public_profile"))
-            }
+//          Google Sign in Button
+            MyButton(label = "Sign in with Google", onClick = ::signInWithGoogle)
 
             MyTextButton(
                 label = "Skip",
                 textColor = MaterialTheme.colorScheme.primary,
                 onClick = onSkipSignIn
             )
+
             AuthFooter(
                 text = "By signing in, you accept our ",
                 buttonText = "Terms and Conditions",

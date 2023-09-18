@@ -39,12 +39,13 @@ fun DoctorsScreen(
     navigateToDoctorDetails: (Int) -> Unit
 ) {
     val state = viewModel.state
+
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(horizontal = 20.dp)
     ) {
 
-        //Empty space from arrangement
+        //Empty space from Arrangement
         item {}
 
         // Search bar

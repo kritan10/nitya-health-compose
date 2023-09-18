@@ -21,15 +21,11 @@ import androidx.compose.ui.unit.dp
 fun MyTopAppBar(
     title: String = "",
     navigateUp: () -> Unit = {},
-    navigateToProfile: () -> Unit = {}
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
-        actions = {
-            IconButton(onClick = navigateToProfile) {
-                Icon(Icons.Default.AccountCircle, "", Modifier.padding(20.dp))
-            }
-        },
+        actions = { this.actions() },
         navigationIcon = {
             IconButton(navigateUp, Modifier.padding(20.dp)) {
                 Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)

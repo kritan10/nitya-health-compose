@@ -58,7 +58,7 @@ fun NavGraphBuilder.doctorsGraph(navController: NavHostController, navigateToSig
             fun onBack() {
                 val didMoveToPrevQuestion = viewModel.moveToPreviousQuestion()
                 if (!didMoveToPrevQuestion) {
-                    navigationActions.navigateUp
+                    navigationActions.navigateUp()
                 }
             }
 
@@ -68,7 +68,8 @@ fun NavGraphBuilder.doctorsGraph(navController: NavHostController, navigateToSig
 
             DoctorAddScreen(
                 viewModel = viewModel,
-                navigateUp = ::onBack
+                navigateUp = ::onBack,
+                navigateToDoctorsHome = navigationActions.navigateToDoctorsHomeAndClearBackStack
             )
         }
 

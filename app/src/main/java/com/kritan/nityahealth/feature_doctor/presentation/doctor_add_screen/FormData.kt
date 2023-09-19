@@ -1,4 +1,4 @@
-package com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions
+package com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -7,8 +7,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.IntOffset
-import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.DoctorAddViewModel
-import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.DoctorQuestion
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormDetailsPreview
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormEnd
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormPersonalInfo
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormProfessionalInfo
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormStart
 
 @Composable
 fun FormData(
@@ -56,12 +59,14 @@ fun FormData(
                 )
             }
 
+            DoctorQuestion.DETAILS -> FormDetailsPreview(
+                personalInfo = viewModel.personalInfoResponse,
+                professionalInfo = viewModel.professionalInfoResponse
+            )
 
             DoctorQuestion.END -> {
-                FormEndPreview()
+                FormEnd()
             }
-
-            DoctorQuestion.DETAILS -> Unit
         }
     }
 }

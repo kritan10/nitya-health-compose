@@ -28,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kritan.nityahealth.ui.theme.mWhite
 
+
 @Composable
 fun MyTextField(
     label: String,
     value: String,
+    placeholder: String? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     supportingText: String? = null,
@@ -53,15 +55,25 @@ fun MyTextField(
                 value = value,
                 onValueChange = onValueChange,
                 singleLine = true,
-                placeholder = { Text(label, color = Color.LightGray) },
+                placeholder = { Text(placeholder ?: label) },
                 isError = isError,
-                textStyle = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)),
                 colors = OutlinedTextFieldDefaults.colors(
+                    //Text Color
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+
+                    //Container Color
                     focusedContainerColor = containerColor,
                     errorContainerColor = MaterialTheme.colorScheme.background,
                     unfocusedContainerColor = containerColor,
                     disabledContainerColor = Color.White,
+
+                    //Border Color
                     unfocusedBorderColor = Color.Transparent,
+
+                    //Placeholder Text Color
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.25F),
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.25F),
                 ),
                 trailingIcon = {
                     if (isPassword) {
@@ -69,7 +81,8 @@ fun MyTextField(
                             Icon(
                                 if (!isPasswordMasked) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                                 "",
-                                tint = Color.Gray)
+                                tint = Color.Gray
+                            )
                         }
                     }
                 },

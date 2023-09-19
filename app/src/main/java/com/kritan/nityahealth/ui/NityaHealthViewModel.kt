@@ -7,10 +7,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class NityaHealthViewModel @Inject constructor(appAuth: AppAuth) : ViewModel() {
+class NityaHealthViewModel @Inject constructor(
+    appAuth: AppAuth,
+//    @ApplicationContext applicationContext: Context,
+) : ViewModel() {
     val authState = appAuth.authState
 
     var isLoading = MutableStateFlow(true)
+
+//    init {
+//        val apiKey = ""
+//
+//        // Setup Places Client
+//        if (!Places.isInitialized()) {
+//            Places.initialize(applicationContext, apiKey)
+//        }
+//    }
 
     fun closeSplashScreen() {
         isLoading.value = false

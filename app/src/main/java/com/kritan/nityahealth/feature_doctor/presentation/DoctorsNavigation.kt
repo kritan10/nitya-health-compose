@@ -13,8 +13,12 @@ object DoctorsDestinations {
 class DoctorsNavigationActions(navController: NavHostController) {
     val navigateUp = NityaHealthNavigationActions(navController).navigateUp
 
-    val navigateToDoctorsHome: () -> Unit =
-        { navController.navigate(DoctorsDestinations.DOCTORS_HOME_ROUTE) }
+    val navigateToDoctorsHomeAndClearBackStack: () -> Unit =
+        {
+            navController.navigate(DoctorsDestinations.DOCTORS_HOME_ROUTE) {
+                popUpTo(DoctorsDestinations.DOCTORS_HOME_ROUTE)
+            }
+        }
 
     val navigateToDoctorsAll: () -> Unit =
         { navController.navigate(DoctorsDestinations.DOCTORS_ALL_ROUTE) }

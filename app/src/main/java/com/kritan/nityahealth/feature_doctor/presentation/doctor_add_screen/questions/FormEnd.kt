@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FormStart() {
+fun FormEnd() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,14 +23,14 @@ fun FormStart() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome to add a doctor",
+            text = "Doctor registered successfully.",
             textAlign = TextAlign.Center
         )
 
         Spacer(Modifier.height(12.dp))
 
         Text(
-            text = "Register a new doctor by filling in some details",
+            text = "If you are seeing this screen, doctor was probably registered",
             textAlign = TextAlign.Center
         )
 

@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.DoctorPersonalInfo
-import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.DoctorProfessionalInfo
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.models.DoctorPersonalInfo
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.models.DoctorPersonalInfo.Companion.validateDoctorPersonalInfo
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.models.DoctorProfessionalInfo
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.models.DoctorProfessionalInfo.Companion.validateDoctorProfessionalInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -38,7 +40,21 @@ class DoctorAddViewModel @Inject constructor() : ViewModel() {
     }
 
     fun canMoveToNextQuestion(): Boolean {
-        return true
+        return when (questionOrder[questionIndex]) {
+            DoctorQuestion.START -> true
+
+            DoctorQuestion.PERSONAL_INFO -> {
+                validateDoctorPersonalInfo(personalInfoResponse)
+            }
+
+            DoctorQuestion.PROFESSIONAL_INFO -> {
+                validateDoctorProfessionalInfo(professionalInfoResponse)
+            }
+
+            DoctorQuestion.DETAILS -> true
+
+            DoctorQuestion.END -> true
+        }
     }
 
 

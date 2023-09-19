@@ -11,24 +11,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormData
-import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.questions.FormProgressIndicatorTopBar
+import com.kritan.nityahealth.feature_doctor.presentation.doctor_add_screen.components.FormProgressIndicatorTopBar
 import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 
 @Composable
 fun DoctorAddScreen(
     viewModel: DoctorAddViewModel,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
+    navigateToDoctorsHome: () -> Unit,
 ) {
     MyScaffoldLayout(title = "Add Doctor", navigateUp = navigateUp) {
         val currentQuestion = viewModel.questionIndex
         val totalQuestionsCount = viewModel.questionOrder.size
 
-        FormProgressIndicatorTopBar(
-            currentQuestion = currentQuestion,
-            totalQuestionsCount = totalQuestionsCount
-        )
+        if (currentQuestion != 0)
+            FormProgressIndicatorTopBar(
+                currentQuestion = currentQuestion,
+                totalQuestionsCount = totalQuestionsCount
+            )
 
         Box(
             Modifier
@@ -47,7 +48,12 @@ fun DoctorAddScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            val shouldDisplayPreviousButton = currentQuestion != 0
+            val shouldDisplayPreviousButton = currentQuestion != 0 && currentQuestion != 4
+            val nextButtonLabel = when (currentQuestion) {
+                0 -> "Begin"
+                4 -> "Complete"
+                else -> "Next"
+            }
 
             if (shouldDisplayPreviousButton)
                 MyButton(
@@ -58,8 +64,8 @@ fun DoctorAddScreen(
                 )
 
             MyButton(
-                label = "Next",
-                onClick = viewModel::moveToNextQuestion,
+                label = nextButtonLabel,
+                onClick = if (currentQuestion == 4) navigateToDoctorsHome else viewModel::moveToNextQuestion,
                 isFullLength = !shouldDisplayPreviousButton,
                 enabled = viewModel.canMoveToNextQuestion()
             )

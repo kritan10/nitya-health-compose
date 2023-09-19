@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -142,6 +143,11 @@ dependencies {
 
     //Google Login
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    //Google Places SDK
+    //noinspection GradleDependency
+    implementation("com.google.android.libraries.places:places:3.1.0")
+
 
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")

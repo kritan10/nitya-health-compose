@@ -10,6 +10,10 @@ android {
     namespace = "com.kritan.nityahealth"
     compileSdk = 34
 
+    hilt{
+        enableAggregatingTask = true
+    }
+
     defaultConfig {
         applicationId = "com.kritan.nityahealth"
         minSdk = 24

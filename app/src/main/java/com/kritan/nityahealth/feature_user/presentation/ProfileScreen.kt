@@ -43,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.canhub.cropper.CropImageContract
 import com.kritan.nityahealth.R
+import com.kritan.nityahealth.auth.data.models.AuthSource
 import com.kritan.nityahealth.base.utils.UiEvent
 import com.kritan.nityahealth.feature_user.data.models.UserData
 import com.kritan.nityahealth.ui.components.MyBottomSheet
@@ -141,7 +142,7 @@ fun ProfileScreen(
 
     fun launchFilePicker() {
         launchActivityAndCloseSheet {
-            fileLauncher
+            fileLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
     }
 
@@ -155,8 +156,13 @@ fun ProfileScreen(
         }
     }
 
-    LaunchedEffect(Unit){
-        viewModel.getUserDataFromFacebook()
+    LaunchedEffect(Unit) {
+        when (viewModel.uiState.authSource) {
+            AuthSource.None -> Unit
+            AuthSource.Email -> Unit
+            AuthSource.Facebook -> viewModel.getUserDataFromFacebook()
+            AuthSource.Google -> Unit
+        }
     }
 
     //Log-out dialog
@@ -194,7 +200,7 @@ fun ProfileScreen(
             item {
                 MyIconTextButton(
                     icon = Icons.Filled.Folder, text = "Files",
-                    onClick = {}
+                    onClick = ::launchFilePicker
                 )
             }
         }
@@ -209,7 +215,11 @@ fun ProfileScreen(
                     verticalArrangement = Arrangement.spacedBy(32.dp),
                     contentPadding = PaddingValues(20.dp),
                 ) {
-                    sectionUserImage(::openSheet, capturedImageUri, viewModel.uiState.userData.image)
+                    sectionUserImage(
+                        ::openSheet,
+                        capturedImageUri,
+                        viewModel.uiState.userData.image
+                    )
                     sectionPersonalDetails(viewModel.uiState.userData)
                     sectionHealthDetails()
                     sectionMedicalCondition()

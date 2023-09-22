@@ -26,7 +26,7 @@ class ProfileViewModel @Inject constructor(
     private val _uiEvent = Channel<UiEvent> { }
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    var uiState by mutableStateOf(ProfileScreenState())
+    var uiState by mutableStateOf(ProfileScreenState(authSource = appAuth.authState.value.authSource))
         private set
 
     fun logOutUser() {

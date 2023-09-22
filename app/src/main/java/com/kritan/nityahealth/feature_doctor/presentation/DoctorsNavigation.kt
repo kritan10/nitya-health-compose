@@ -16,7 +16,9 @@ class DoctorsNavigationActions(navController: NavHostController) {
     val navigateToDoctorsHomeAndClearBackStack: () -> Unit =
         {
             navController.navigate(DoctorsDestinations.DOCTORS_HOME_ROUTE) {
-                popUpTo(DoctorsDestinations.DOCTORS_HOME_ROUTE)
+                popUpTo(DoctorsDestinations.DOCTORS_HOME_ROUTE) {
+                    inclusive = true
+                }
             }
         }
 

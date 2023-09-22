@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,6 +40,7 @@ fun DashboardScreen(
     navigateToNewsArticles: () -> Unit,
     navigateToActivities: () -> Unit,
     navigateToProfile: () -> Unit,
+    navigateToQR: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -51,11 +52,11 @@ fun DashboardScreen(
                 },
                 title = { Text("Dashboard") },
                 actions = {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Notifications, "Menu")
+                    IconButton(onClick = navigateToQR) {
+                        Icon(Icons.Filled.QrCode, "Custom Scanner")
                     }
                     IconButton(onClick = navigateToProfile) {
-                        Icon(Icons.Default.AccountCircle, "Menu")
+                        Icon(Icons.Default.AccountCircle, "Profile")
                     }
                 },
             )

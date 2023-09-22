@@ -1,17 +1,35 @@
 package com.kritan.nityahealth.ui
 
+import android.Manifest
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kritan.nityahealth.auth.data.models.AuthState
 import com.kritan.nityahealth.auth.presentation.authGraph
+import com.kritan.nityahealth.base.camera.MyCamera
 import com.kritan.nityahealth.base.screens.IntroScreen
 import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
@@ -20,9 +38,11 @@ import com.kritan.nityahealth.feature_exercise.presentation.exerciseGraph
 import com.kritan.nityahealth.feature_onboarding.presentation.onboardingGraph
 import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
+import com.kritan.nityahealth.ui.components.MyButton
 import com.kritan.nityahealth.ui.components.MyDoubleBackPressForExitBackHandler
 import com.kritan.nityahealth.ui.components.MyDrawer
 import com.kritan.nityahealth.ui.layouts.EmptyScreen
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.theme.myEnterTransition
 import com.kritan.nityahealth.ui.theme.myExitTransition
 import com.kritan.nityahealth.ui.theme.myFadeEnterTransition
@@ -91,6 +111,8 @@ fun NityaHealthNavGraph(
             openDrawer = openDrawer,
         )
 
+        qrScanner(::navigateUp)
+
         doctorsGraph(
             navController = navController,
             navigateToSignIn = navigationActions.navigateToAuth
@@ -149,19 +171,19 @@ fun NityaHealthNavGraph(
     }
 
     LaunchedEffect(auth.isAuth, auth.isOnboard) {
-        val TAG = "Root Nav Launched Effect Block"
-        Log.d(TAG, "Launched")
+        val tag = "Root Nav Launched Effect Block"
+        Log.d(tag, "Launched")
         if (!auth.isOnboard) {
             navigationActions.navigateToOnboarding()
-            Log.d(TAG, "Not Onboard Block")
+            Log.d(tag, "Not Onboard Block")
 
         } else if (!auth.isAuth) {
             navigationActions.navigateToAuthAndClearBackStack()
-            Log.d(TAG, "Not Auth Block")
+            Log.d(tag, "Not Auth Block")
 
         } else {
             navigationActions.navigateToDashboardAndClearBackStack()
-            Log.d(TAG, "Else Block")
+            Log.d(tag, "Else Block")
         }
         closeSplashScreen()
     }
@@ -204,14 +226,63 @@ private fun NavGraphBuilder.dashboard(
                 navigateToNewsArticles = navigationActions.navigateToNewsArticles,
                 navigateToActivities = navigationActions.navigateToActivities,
                 navigateToProfile = navigationActions.navigateToProfile,
+                navigateToQR = navigationActions.navigateToQRScanner
             )
         }
 
     }
 }
 
+private fun NavGraphBuilder.qrScanner(navigateUp: () -> Unit) {
+    composable(NityaHealthDestinations.QR_SCANNER_ROUTE) {
+        val lifecycleOwner = LocalLifecycleOwner.current
+        var myCamera by remember { mutableStateOf<MyCamera?>(null) }
 
+        val launcher = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (!isGranted) {
+                navigateUp()
+            }
+        }
 
+        LaunchedEffect(Unit) {
+            launcher.launch(Manifest.permission.CAMERA)
+        }
 
+        MyScaffoldLayout(title = "Custom Camera with overlay", navigateUp = navigateUp) {
+            Box {
+                AndroidView(
+                    modifier = Modifier.fillMaxSize(),
+                    factory = { context ->
+                        val previewView = PreviewView(context)
+                        previewView.scaleType = PreviewView.ScaleType.FILL_CENTER
+                        myCamera = MyCamera(context, lifecycleOwner, previewView.surfaceProvider)
+                        Log.d("asdf", myCamera.toString())
+                        previewView
+                    }
+                )
 
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.75F)),
+                    onDraw = {
+                        drawCircle(
+                            Color.Transparent,
+                            alpha = 0.5F,
+                            radius = 512F,
+                            blendMode = BlendMode.Clear
+                        )
+                    }
+                )
+
+                MyButton(label = "Capture", modifier = Modifier.align(Alignment.BottomCenter)) {
+                    myCamera?.takePicture()
+                }
+
+            }
+        }
+    }
+}
 

@@ -41,6 +41,8 @@ object NityaHealthDestinations {
 
     const val SETTINGS_ROUTE = "settings"
     const val PERMISSION_DENIED_ROUTE = "permission/{type}"
+
+    const val QR_SCANNER_ROUTE = "qr_scanner"
 }
 
 
@@ -64,6 +66,10 @@ class NityaHealthNavigationActions(navController: NavHostController) {
 
     val navigateToOnboarding: () -> Unit = {
         navController.navigate(NityaHealthDestinations.ONBOARDING_ROUTE)
+    }
+
+    val navigateToQRScanner: () -> Unit = {
+        navController.navigate(NityaHealthDestinations.QR_SCANNER_ROUTE)
     }
 
     val navigateToAuthAndClearBackStack: () -> Unit = {

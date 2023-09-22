@@ -19,3 +19,5 @@ Nitya Health is a clean-architecture health & lifestyle application built on Com
 - Interaction with different Android components such as Camera, Gallery and File Picker.
 - Custom splash screen integrating application initialization.
 - Features a minified build of the application optimized using R8 and custom Proguard rules.
+- Custom camera implementation with CameraX Use Cases.
+- Facebook login including profile update based on user Facebook account.

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.base.extensions.blankWhenNull
@@ -88,6 +89,7 @@ fun FormProfessionalInfo(
                 onResponse(professionalInfo.copy(certificateNumber = it.toIntOrNull()))
             },
             placeholder = "e.g 1208437",
+            keyboardType = KeyboardType.Number
         )
 
         MyTextField(
@@ -120,6 +122,7 @@ fun FormProfessionalInfo(
             },
             isLastField = true,
             placeholder = "e.g 3 years",
+            keyboardType = KeyboardType.Number
         )
 
         val intent = Intent(Intent.ACTION_VIEW).apply {

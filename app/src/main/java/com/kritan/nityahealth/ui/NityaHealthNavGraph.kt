@@ -35,6 +35,7 @@ import com.kritan.nityahealth.feature_consultants.presentation.ConsultantsScreen
 import com.kritan.nityahealth.feature_dashboard.presentation.DashboardScreen
 import com.kritan.nityahealth.feature_doctor.presentation.doctorsGraph
 import com.kritan.nityahealth.feature_exercise.presentation.exerciseGraph
+import com.kritan.nityahealth.feature_food.presentation.foodGraph
 import com.kritan.nityahealth.feature_onboarding.presentation.onboardingGraph
 import com.kritan.nityahealth.feature_user.presentation.ProfileScreen
 import com.kritan.nityahealth.feature_wellness.presentation.WellnessScreen
@@ -120,6 +121,10 @@ fun NityaHealthNavGraph(
 
         exerciseGraph(navController = navController)
 
+        foodGraph(
+            navController = navController,
+            navigateToDashboard = navigationActions.navigateToDashboardAndClearBackStack
+        )
 
         composable(NityaHealthDestinations.PROFILE_ROUTE) {
             ProfileScreen(
@@ -140,12 +145,6 @@ fun NityaHealthNavGraph(
         composable(NityaHealthDestinations.APPOINTMENT_ROUTE) {
             EmptyScreen(
                 title = NityaHealthDestinations.APPOINTMENT_ROUTE,
-                navigateUp = ::navigateUp
-            )
-        }
-        composable(NityaHealthDestinations.FOOD_ROUTE) {
-            EmptyScreen(
-                title = NityaHealthDestinations.FOOD_ROUTE,
                 navigateUp = ::navigateUp
             )
         }

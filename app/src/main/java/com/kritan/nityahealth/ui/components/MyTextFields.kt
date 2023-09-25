@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -31,7 +32,7 @@ import com.kritan.nityahealth.ui.theme.mWhite
 
 @Composable
 fun MyTextField(
-    label: String,
+    label: String?,
     value: String,
     placeholder: String? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -41,21 +42,24 @@ fun MyTextField(
     isPassword: Boolean = false,
     isPasswordMasked: Boolean = true,
     isLastField: Boolean = false,
+    isSmall: Boolean = false,
     trailingIconAction: () -> Unit = {},
 ) {
     val containerColor = if (isSystemInDarkTheme()) mWhite.copy(alpha = 0.05F) else mWhite
     Box {
-        Column(Modifier.fillMaxWidth()) {
-            Text(
-                label,
-                style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground)
-            )
-            Spacer(Modifier.height(5.dp))
+        Column {
+            label?.let {
+                Text(
+                    label,
+                    style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground)
+                )
+                Spacer(Modifier.height(5.dp))
+            }
             OutlinedTextField(
                 value = value,
                 onValueChange = onValueChange,
                 singleLine = true,
-                placeholder = { Text(placeholder ?: label) },
+                placeholder = { Text(placeholder ?: label ?: "") },
                 isError = isError,
                 colors = OutlinedTextFieldDefaults.colors(
                     //Text Color
@@ -97,10 +101,16 @@ fun MyTextField(
                         spotColor = Color(0x40000000),
                         ambientColor = Color(0x40000000)
                     )
-                    .fillMaxWidth(),
+                    .then(
+                        if (isSmall) {
+                            Modifier.width(164.dp)
+                        } else {
+                            Modifier.fillMaxWidth()
+                        }
+                    )
             )
-            Spacer(Modifier.height(10.dp))
             supportingText?.let {
+                Spacer(Modifier.height(10.dp))
                 Text(
                     it,
                     color = if (!isError) Color.Gray else Color.Red,

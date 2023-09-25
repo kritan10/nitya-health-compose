@@ -17,7 +17,6 @@ fun NavGraphBuilder.foodGraph(
     navController: NavHostController,
     navigateToDashboard: () -> Unit
 ) {
-
     navigation(
         route = NityaHealthDestinations.FOOD_ROUTE,
         startDestination = FoodDestinations.FOOD_HOME_ROUTE

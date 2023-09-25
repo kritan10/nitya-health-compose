@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,66 +29,90 @@ import androidx.compose.ui.unit.sp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.feature_doctor.data.models.Doctor
 import com.kritan.nityahealth.ui.components.MyClickableText
+import com.kritan.nityahealth.ui.components.MyIconButton
 import com.kritan.nityahealth.ui.components.MySearchBar
+import com.kritan.nityahealth.ui.layouts.MyAuthenticatedLayout
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
 @Composable
-fun DoctorsScreen(
+fun DoctorsHomeScreen(
     viewModel: DoctorsScreenViewModel,
+    navigateUp: () -> Unit,
+    navigateToAddDoctor: () -> Unit,
+    navigateToSignIn: () -> Unit,
     navigateToAllDoctors: () -> Unit,
     navigateToDoctorDetails: (Int) -> Unit
 ) {
     val state = viewModel.state
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 20.dp)
+    MyScaffoldLayout(
+        title = "Doctors",
+        navigateUp = navigateUp,
+        actions = {
+            MyIconButton(
+                icon = Icons.Default.Add,
+                onClick = navigateToAddDoctor
+            )
+        }
     ) {
+        MyAuthenticatedLayout(
+            isAuth = viewModel.isAuth,
+            navigateToSignIn = navigateToSignIn
+        ) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
 
-        //Empty space from Arrangement
-        item {}
+                //Empty space from Arrangement
+                item {}
 
-        // Search bar
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Find your desired doctor", style = MaterialTheme.typography.titleLarge)
-                MySearchBar(placeholder = "Search for doctors")
-            }
-        }
-
-        // Categories
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Categories", style = MaterialTheme.typography.titleLarge)
-                LazyRow {
-                }
-            }
-        }
-
-        // Top doctors
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("Top Doctors", style = MaterialTheme.typography.titleLarge)
-                    MyClickableText(
-                        label = "View all",
-                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 12.sp),
-                        onClick = navigateToAllDoctors
-                    )
-                }
-                MyLoadingLayout(loading = viewModel.state.isLoading) {
-                    state.doctors.forEach { doctor ->
-                        TopDoctorsCard(doctor, navigateToDoctorDetails)
+                // Search bar
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(
+                            "Find your desired doctor",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        MySearchBar(placeholder = "Search for doctors")
                     }
                 }
+
+                // Categories
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Categories", style = MaterialTheme.typography.titleLarge)
+                        LazyRow {
+                        }
+                    }
+                }
+
+                // Top doctors
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text("Top Doctors", style = MaterialTheme.typography.titleLarge)
+                            MyClickableText(
+                                label = "View all",
+                                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 12.sp),
+                                onClick = navigateToAllDoctors
+                            )
+                        }
+                        MyLoadingLayout(loading = viewModel.state.isLoading) {
+                            state.doctors.forEach { doctor ->
+                                TopDoctorsCard(doctor, navigateToDoctorDetails)
+                            }
+                        }
+                    }
+                }
+
             }
         }
-
     }
 }
 

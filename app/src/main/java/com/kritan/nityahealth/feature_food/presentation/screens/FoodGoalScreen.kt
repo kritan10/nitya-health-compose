@@ -2,6 +2,7 @@ package com.kritan.nityahealth.feature_food.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,6 +54,8 @@ fun FoodGoalScreen(
                 enabled = viewModel.uiState.weightGoal != null,
                 onClick = navigateToFoodUserDetail
             )
+
+            Spacer(modifier = Modifier.height(4.dp))
         }
     )
 }

@@ -207,7 +207,11 @@ fun ProfileScreen(
     }
 
     //UI
-    MyScaffoldLayout(title = "My Profile", navigateUp = navigateUp) {
+    MyScaffoldLayout(
+        title = "My Profile",
+        navigateUp = navigateUp,
+        padding = PaddingValues(0.dp)
+    ) {
         MyLoadingLayout(loading = viewModel.uiState.isLoading) {
             MyAuthenticatedLayout(isAuth = isAuth, navigateToSignIn = navigateToSignIn) {
                 LazyColumn(

@@ -1,16 +1,21 @@
 package com.kritan.nityahealth.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -21,12 +26,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kritan.nityahealth.ui.theme.mRoundedCornerButton
@@ -175,5 +182,69 @@ fun MyIconButton(
 ) {
     IconButton(onClick = onClick, modifier = modifier) {
         Icon(icon, contentDescription)
+    }
+}
+
+@Composable
+fun MySelectionButton(
+    modifier: Modifier = Modifier,
+    label: String,
+    isSelected: Boolean,
+    height: Int = 52,
+    width: Int = 0,
+    shape: Shape = mRoundedCornerButton,
+    onClick: () -> Unit
+) {
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val bgColor = MaterialTheme.colorScheme.background
+
+    val boxColor = if (isSelected) primaryColor else bgColor
+
+    val sizeModifier = if (width == 0) {
+        Modifier
+            .fillMaxWidth()
+            .height(height.dp)
+    } else {
+        Modifier.defaultMinSize(
+            minWidth = width.dp,
+            minHeight = height.dp
+        )
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .then(sizeModifier)
+            .border(1.dp, MaterialTheme.colorScheme.primary, shape)
+            .background(boxColor, shape)
+            .padding(horizontal = 12.dp)
+    ) {
+        Text(label, fontSize = 12.sp, fontWeight = FontWeight.W300)
+    }
+}
+
+
+@Composable
+fun MyRadioButton(label: String, selected: Boolean, onClick: () -> Unit) {
+//    val color = MaterialTheme.colorScheme.primary
+    Row(
+        modifier = Modifier.clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val targetColor =
+            if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background
+        val color by animateColorAsState(
+            targetValue = targetColor,
+            label = "radioColorChange"
+        )
+        Box(
+            Modifier
+                .size(15.dp)
+                .border(width = 1.dp, color = MaterialTheme.colorScheme.primary, shape = CircleShape)
+                .background(color = color, shape = CircleShape)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(label)
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,50 +30,54 @@ fun FoodUserDetailScreen(
     navigateToFoodHome: () -> Unit
 ) {
     MyScaffoldLayout(
-        title = "Food", navigateUp = navigateUp,
+        title = "Food",
+        navigateUp = navigateUp,
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        content = {
-            val foodUserDetail = viewModel.uiState.foodUserDetail
+        requireScrolling = true
+    ) {
+        val foodUserDetail = viewModel.uiState.foodUserDetail
 
-            UserHeight(
-                height = foodUserDetail.height,
-                onHeightChange = viewModel::onHeightChange,
-                heightUnit = foodUserDetail.heightUnit,
-                onHeightUnitChange = viewModel::onHeightUnitChange
-            )
+        UserHeight(
+            height = foodUserDetail.height,
+            onHeightChange = viewModel::onHeightChange,
+            heightUnit = foodUserDetail.heightUnit,
+            onHeightUnitChange = viewModel::onHeightUnitChange
+        )
 
-            UserWeight(
-                weight = foodUserDetail.height,
-                onWeightChange = viewModel::onWeightChange,
-                weightUnit = foodUserDetail.weightUnit,
-                onWeightUnitChange = viewModel::onWeightUnitChange
-            )
+        UserWeight(
+            weight = foodUserDetail.height,
+            onWeightChange = viewModel::onWeightChange,
+            weightUnit = foodUserDetail.weightUnit,
+            onWeightUnitChange = viewModel::onWeightUnitChange
+        )
 
-            UserAge(
-                age = foodUserDetail.age,
-                onAgeChange = viewModel::onAgeChange
-            )
+        UserAge(
+            age = foodUserDetail.age,
+            onAgeChange = viewModel::onAgeChange
+        )
 
-            UserActiveness(
-                userActiveness = foodUserDetail.activeness,
-                onActivenessChange = viewModel::onActivenessChange
-            )
+        UserActiveness(
+            userActiveness = foodUserDetail.activeness,
+            onActivenessChange = viewModel::onActivenessChange
+        )
 
-            UserGender(
-                gender = foodUserDetail.gender,
-                onGenderChange = viewModel::onGenderChange
-            )
+        UserGender(
+            gender = foodUserDetail.gender,
+            onGenderChange = viewModel::onGenderChange
+        )
 
-            UserPreferredDiet(
-                dietType = foodUserDetail.dietType,
-                onDietTypeChange = viewModel::onDietTypeChange
-            )
+        UserPreferredDiet(
+            dietType = foodUserDetail.dietType,
+            onDietTypeChange = viewModel::onDietTypeChange
+        )
 
-            Spacer(modifier = Modifier.weight(1F))
+        Spacer(modifier = Modifier.weight(1F))
 
-            MyButton(label = "", onClick = navigateToFoodHome)
-        }
-    )
+        MyButton(label = "Next", onClick = navigateToFoodHome)
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+    }
 }
 
 @Composable

@@ -19,7 +19,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,8 +30,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kritan.nityahealth.feature_exercise.data.models.ExerciseTraining
 import com.kritan.nityahealth.ui.components.MyButton
-import com.kritan.nityahealth.ui.components.MyTopAppBar
+import com.kritan.nityahealth.ui.constants.MyPadding
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
+import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
@@ -47,55 +47,56 @@ fun ExerciseListScreen(
         loading = viewModel.state.isLoading
     ) {
         val exercise = viewModel.state.exercise
-        Scaffold(topBar = {
-            MyTopAppBar(title = "Exercise - ${exercise.title}", navigateUp = navigateUp)
-        }) { pv ->
-            Column(Modifier.padding(top = pv.calculateTopPadding() - 8.dp)) {
-                Box {
-                    AsyncImage(
-                        model = exercise.image,
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.height((320 - 64).dp)
-                    )
+        MyScaffoldLayout(
+            title = "Exercise - ${exercise.title}",
+            navigateUp = navigateUp,
+            padding = MyPadding.None,
+            clipTopWithContent = true
+        ) {
+            Box {
+                AsyncImage(
+                    model = exercise.image,
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.height((320 - 64).dp)
+                )
 
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter)
-                            .padding(horizontal = 36.dp, vertical = 12.dp)
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .padding(MyPadding.Default)
+                ) {
+                    Text(exercise.title, color = MaterialTheme.colorScheme.background)
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(exercise.title, color = MaterialTheme.colorScheme.background)
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("1:30 hours", color = MaterialTheme.colorScheme.background)
-                            Text("13 exercises", color = MaterialTheme.colorScheme.background)
-                        }
+                        Text("1:30 hours", color = MaterialTheme.colorScheme.background)
+                        Text("13 exercises", color = MaterialTheme.colorScheme.background)
                     }
                 }
-                LazyColumn(Modifier.padding(horizontal = 20.dp)) {
-                    item {
-                        Spacer(Modifier.height(12.dp))
-                        Text(text = "exercise.description")
-                        Spacer(Modifier.height(12.dp))
+            }
+
+            LazyColumn(contentPadding = MyPadding.Default) {
+                item {
+                    Spacer(Modifier.height(12.dp))
+                    Text(text = "exercise.description")
+                    Spacer(Modifier.height(12.dp))
+                }
+                items(viewModel.state.trainings) {
+                    ExerciseListItem(it, navigateToExerciseDetail)
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+                item {
+                    MyButton(label = "Start") {
+                        navigateToExerciseTimer(exercise.id!!)
                     }
-                    items(viewModel.state.trainings) {
-                        ExerciseListItem(it, navigateToExerciseDetail)
-                        Spacer(modifier = Modifier.height(10.dp))
-                    }
-                    item {
-                        MyButton(label = "Start") {
-                            navigateToExerciseTimer(exercise.id!!)
-                        }
-                        Spacer(Modifier.height(12.dp))
-                    }
+                    Spacer(Modifier.height(12.dp))
                 }
             }
         }
     }
-
 }
 
 @Composable

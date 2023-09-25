@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kritan.nityahealth.ui.components.MyButton
+import com.kritan.nityahealth.ui.constants.MyPadding
 import com.kritan.nityahealth.ui.layouts.MyLoadingLayout
 import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 
@@ -25,45 +26,45 @@ fun DoctorDetailScreen(
     navigateUp: () -> Unit,
     viewModel: DoctorDetailViewModel = hiltViewModel()
 ) {
-    MyScaffoldLayout(title = "Doctors", navigateUp = navigateUp) {
-        MyLoadingLayout(loading = viewModel.state.isLoading) {
-            Column {
-                val doctor = viewModel.state.doctor!!
-                Box {
-                    AsyncImage(
-                        doctor.image,
-                        "",
-                        Modifier
-                            .fillMaxWidth()
-                            .height(280.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    Row(
-                        Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 8.dp)
-                    ) {
-                        MyButton(
-                            label = "Voice Call",
-                            isFullLength = false,
-                            height = 40,
-                        ) {}
-                        Spacer(Modifier.width(28.dp))
-                        MyButton(
-                            label = "Message",
-                            isFullLength = false,
-                            height = 40,
-                        ) {}
-                    }
-                }
-                Column(Modifier.padding(20.dp)) {
-                    Text(doctor.name)
-                    Text(doctor.position)
-                    if (doctor.location.isNotEmpty()) {
-                        Text(doctor.location[0].name!!)
-                    }
+    MyLoadingLayout(loading = viewModel.state.isLoading) {
+        MyScaffoldLayout(title = "Doctors", navigateUp = navigateUp, padding = MyPadding.None, clipTopWithContent = true) {
+            val doctor = viewModel.state.doctor!!
+            Box {
+                AsyncImage(
+                    doctor.image,
+                    "",
+                    Modifier
+                        .fillMaxWidth()
+                        .height(280.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Row(
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 8.dp)
+                ) {
+                    MyButton(
+                        label = "Voice Call",
+                        isFullLength = false,
+                        height = 40,
+                    ) {}
+                    Spacer(Modifier.width(28.dp))
+                    MyButton(
+                        label = "Message",
+                        isFullLength = false,
+                        height = 40,
+                    ) {}
                 }
             }
+
+            Column(Modifier.padding(MyPadding.Default)) {
+                Text(doctor.name)
+                Text(doctor.position)
+                if (doctor.location.isNotEmpty()) {
+                    Text(doctor.location[0].name!!)
+                }
+            }
+
         }
     }
 }

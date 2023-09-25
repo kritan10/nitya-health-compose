@@ -23,11 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.R
 import com.kritan.nityahealth.ui.components.MySearchBar
+import com.kritan.nityahealth.ui.constants.MyPadding
 import com.kritan.nityahealth.ui.layouts.MyScaffoldLayout
 
 @Composable
 fun DoctorsAllScreen(navigateUp: () -> Unit) {
-    MyScaffoldLayout(title = "Doctors", navigateUp = navigateUp) {
+    MyScaffoldLayout(title = "Doctors", navigateUp = navigateUp, padding = MyPadding.None) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 20.dp)

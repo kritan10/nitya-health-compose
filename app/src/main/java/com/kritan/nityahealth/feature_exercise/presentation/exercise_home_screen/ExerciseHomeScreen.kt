@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,76 +33,79 @@ import com.kritan.nityahealth.ui.layouts.MyTitleBodyLayout
 import com.kritan.nityahealth.ui.modifiers.mShadow
 import com.kritan.nityahealth.ui.theme.mRoundedCorner
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExerciseHomeScreen(
     viewModel: ExerciseHomeViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
     navigateToExerciseList: (id: Int) -> Unit
 ) {
-    MyScaffoldLayout(title = "Exercise", navigateUp = navigateUp) {
-        LazyColumn(contentPadding = PaddingValues(horizontal = 20.dp)) {
-            item {
-                Column {
-                    Spacer(Modifier.height(16.dp))
-                    Text(
-                        "Welcome back",
-                        style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp)
-                    )
-                    Text("Emma Parker", style = MaterialTheme.typography.titleLarge)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        MyCalendar()
-                    }
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
-            }
-
-            item {
-                MyLoadingLayout(viewModel.state.isLoading) {
-                    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    MyScaffoldLayout(
+        title = "Exercise", navigateUp = navigateUp,
+        padding = PaddingValues(0.dp),
+        content = {
+            LazyColumn(contentPadding = PaddingValues(horizontal = 20.dp)) {
+                item {
+                    Column {
+                        Spacer(Modifier.height(16.dp))
+                        Text(
+                            "Welcome back",
+                            style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp)
+                        )
+                        Text("Emma Parker", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier = Modifier.height(16.dp))
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            Column {
-                                Text("Week Goal")
-                                Spacer(modifier = Modifier.height(16.dp))
-                                MyWeek(viewModel.state.myTrainings)
+                            MyCalendar()
+                        }
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
+                }
+
+                item {
+                    MyLoadingLayout(viewModel.state.isLoading) {
+                        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                Column {
+                                    Text("Week Goal")
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    MyWeek(viewModel.state.myTrainings)
+                                }
+                            }
+
+                            viewModel.state.myExercises.let { myExercises ->
+                                if (myExercises.isNotEmpty())
+                                    ExerciseRow(
+                                        title = "Completed Exercise Sets",
+                                        exercisePkg = myExercises,
+                                        navigateToExerciseList = navigateToExerciseList
+                                    )
+                            }
+
+                            viewModel.state.data.let { allExercises ->
+                                ExerciseRow(
+                                    title = "Exercise Set 1",
+                                    exercisePkg = allExercises.subList(0, 5),
+                                    navigateToExerciseList = navigateToExerciseList
+                                )
+
+                                ExerciseRow(
+                                    title = "Exercise Set 2",
+                                    exercisePkg = allExercises.subList(5, 10),
+                                    navigateToExerciseList = navigateToExerciseList
+                                )
+
+                                ExerciseRow(
+                                    title = "Exercise Set 3",
+                                    exercisePkg = allExercises.subList(10, allExercises.size - 1),
+                                    navigateToExerciseList = navigateToExerciseList
+                                )
                             }
                         }
 
-                        viewModel.state.myExercises.let { myExercises ->
-                            if (myExercises.isNotEmpty())
-                                ExerciseRow(
-                                    title = "Completed Exercise Sets",
-                                    exercisePkg = myExercises,
-                                    navigateToExerciseList = navigateToExerciseList
-                                )
-                        }
-
-                        viewModel.state.data.let { allExercises ->
-                            ExerciseRow(
-                                title = "Exercise Set 1",
-                                exercisePkg = allExercises.subList(0, 5),
-                                navigateToExerciseList = navigateToExerciseList
-                            )
-
-                            ExerciseRow(
-                                title = "Exercise Set 2",
-                                exercisePkg = allExercises.subList(5, 10),
-                                navigateToExerciseList = navigateToExerciseList
-                            )
-
-                            ExerciseRow(
-                                title = "Exercise Set 3",
-                                exercisePkg = allExercises.subList(10, allExercises.size - 1),
-                                navigateToExerciseList = navigateToExerciseList
-                            )
-                        }
                     }
-
                 }
             }
         }
-    }
+    )
 }
 
 @Composable

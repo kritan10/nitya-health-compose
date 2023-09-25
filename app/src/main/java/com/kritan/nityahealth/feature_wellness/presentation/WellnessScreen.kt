@@ -59,42 +59,45 @@ fun WellnessScreen(
         }
     }
 
-    MyScaffoldLayout(title = "Wellness", navigateUp = navigateUp) {
-        Column {
-            LazyRow(
-                state = lazyListState,
-                modifier = Modifier
-                    .padding(vertical = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                item {
-                    Spacer(modifier = Modifier.width(1.dp))
+    MyScaffoldLayout(
+        title = "Wellness", navigateUp = navigateUp,
+        content = {
+            Column {
+                LazyRow(
+                    state = lazyListState,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    item {
+                        Spacer(modifier = Modifier.width(1.dp))
+                    }
+                    items(wellnessTabItemsList) {
+                        RowItem(
+                            tab = it,
+                            tabIndex = it.position,
+                            currentTabIndex = pagerState.currentPage,
+                            onTabChange = wellnessViewModel::onTabChange
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.width(1.dp))
+                    }
                 }
-                items(wellnessTabItemsList) {
-                    RowItem(
-                        tab = it,
-                        tabIndex = it.position,
-                        currentTabIndex = pagerState.currentPage,
-                        onTabChange = wellnessViewModel::onTabChange
-                    )
-                }
-                item {
-                    Spacer(modifier = Modifier.width(1.dp))
-                }
-            }
 
-            HorizontalPager(
-                state = pagerState, modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(
-                        Alignment.TopCenter
-                    )
-            ) {
-                PagerItem(item = wellnessTabItemsList[it])
+                HorizontalPager(
+                    state = pagerState, modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(
+                            Alignment.TopCenter
+                        )
+                ) {
+                    PagerItem(item = wellnessTabItemsList[it])
+                }
             }
         }
-    }
+    )
 }
 
 

@@ -1,5 +1,6 @@
 package com.kritan.nityahealth.base.camera
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.os.Build
@@ -27,7 +28,11 @@ class MyCamera(
     private val lifecycleOwner: LifecycleOwner,
     private val surfaceProvider: Preview.SurfaceProvider?
 ) {
-    val TAG = "CAMERA"
+    companion object{
+        const val TAG = "CAMERA"
+        const val DATE_FORMAT = "yyyy_MM_dd_HH_mm_ss"
+        const val PHOTO_FORMAT = "image/jpeg"
+    }
 
     private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
     private var preview: Preview? = null
@@ -49,14 +54,16 @@ class MyCamera(
         bindCameraUseCases()
     }
 
-    /** Declare and bind preview, capture and analysis use cases */
+    /** Declare and bind preview and capture use cases */
     private fun bindCameraUseCases() {
         // CameraProvider
-        val cameraProvider = cameraProvider
+        val cameraProvider = this.cameraProvider
             ?: throw IllegalStateException("Camera initialization failed.")
 
         // CameraSelector
-        val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(lensFacing)
+            .build()
 
         // Preview
         preview = Preview.Builder().build()
@@ -96,6 +103,7 @@ class MyCamera(
         cameraInfo.cameraState.removeObservers(lifecycleOwner)
     }
 
+    @SuppressLint
     private fun observeCameraState(cameraInfo: CameraInfo) {
         cameraInfo.cameraState.observe(lifecycleOwner) { cameraState ->
             run {
@@ -219,16 +227,13 @@ class MyCamera(
     }
 
     fun takePicture() {
-        val FILENAME = "yyyy_MM_dd_HH_mm_ss"
-        val PHOTO_TYPE = "image/jpeg"
-
         imageCapture?.let { imageCapture ->
             // Create time stamped name and MediaStore entry.
-            val name = SimpleDateFormat(FILENAME, Locale.US)
+            val name = SimpleDateFormat(DATE_FORMAT, Locale.US)
                 .format(System.currentTimeMillis())
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                put(MediaStore.MediaColumns.MIME_TYPE, PHOTO_TYPE)
+                put(MediaStore.MediaColumns.MIME_TYPE, PHOTO_FORMAT)
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                     val appName = context.resources.getString(R.string.app_name)
                     put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/${appName}")

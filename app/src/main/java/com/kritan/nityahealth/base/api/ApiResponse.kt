@@ -1,6 +1,7 @@
 package com.kritan.nityahealth.base.api
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
 /**
  * Generic class for holding API response.
@@ -11,6 +12,7 @@ import com.google.gson.annotations.SerializedName
  *
  *
  */
+@Serializable
 data class ApiResponse<T>(
     @SerializedName("success")
     val success: Boolean,

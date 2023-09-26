@@ -2,8 +2,8 @@ package com.kritan.nityahealth.feature_user.presentation
 
 import android.Manifest
 import android.net.Uri
-import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -102,15 +102,22 @@ fun ProfileScreen(
         }
     )
 
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            uri?.let { capturedImageUri = uri }
+        }
+    )
+
     val cameraLauncher = getCustomLauncherForActivityResult(
         launcher = Launcher.CameraLauncher,
         imageCropperLauncher = imageCropperLauncher
     )
 
-    val galleryLauncher = getCustomLauncherForActivityResult(
-        launcher = Launcher.GalleryLauncher,
-        imageCropperLauncher = imageCropperLauncher
-    )
+//    val galleryLauncher = getCustomLauncherForActivityResult(
+//        launcher = Launcher.GalleryLauncher,
+//        imageCropperLauncher = imageCropperLauncher
+//    )
 
     fun launchActivityAndCloseSheet(action: () -> Unit) {
         scope.launch {
@@ -127,22 +134,31 @@ fun ProfileScreen(
         }
     }
 
-    fun launchGallery() {
-        launchActivityAndCloseSheet {
-            val permission =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    Manifest.permission.READ_MEDIA_IMAGES
-                } else {
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                }
+//    fun launchGallery() {
+//        launchActivityAndCloseSheet {
+//            val permission =
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                    Manifest.permission.READ_MEDIA_IMAGES
+//                } else {
+//                    Manifest.permission.READ_EXTERNAL_STORAGE
+//                }
+//
+//            galleryLauncher.launch(permission)
+//        }
+//    }
 
-            galleryLauncher.launch(permission)
+    fun launchGallery() {
+        val mediaType = PickVisualMediaRequest.Builder()
+            .setMediaType(ActivityResultContracts.PickVisualMedia.SingleMimeType("image/jpeg"))
+            .build()
+        launchActivityAndCloseSheet {
+            galleryLauncher.launch(mediaType)
         }
     }
 
     fun launchFilePicker() {
         launchActivityAndCloseSheet {
-            fileLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            fileLauncher.launch("image/jpeg")
         }
     }
 
@@ -321,7 +337,7 @@ private fun LazyListScope.sectionHealthDetails() {
         IconFieldValue(R.drawable.ic_dashboard_profile, "Height", "5.9 ft"),
         IconFieldValue(R.drawable.ic_dashboard_profile, "Weight", "72 kg"),
         IconFieldValue(R.drawable.ic_dashboard_profile, "Blood Group", "AB +ve"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "Food Type", "Vegan"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "com.kritan.nityahealth.feature_food.data.models.Food Type", "Vegan"),
     )
     item {
         MyTitleBodyLayout(title = "Health Details") {

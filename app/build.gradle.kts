@@ -74,7 +74,7 @@ android {
 
 
 dependencies {
-    val nav_version = "2.7.2"
+    val nav_version = "2.7.3"
     val accompanist_version = "0.30.1"
     val retrofit_version = "2.9.0"
     val hilt_version = "2.47"
@@ -96,7 +96,7 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3:1.1.1")
+    implementation("androidx.compose.material3:material3:1.1.2")
 
     //Icons-Extended
     implementation("androidx.compose.material:material-icons-extended")

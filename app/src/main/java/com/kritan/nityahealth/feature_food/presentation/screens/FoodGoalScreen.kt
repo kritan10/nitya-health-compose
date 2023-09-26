@@ -21,7 +21,7 @@ fun FoodGoalScreen(
     navigateToFoodUserDetail: () -> Unit,
 ) {
     MyScaffoldLayout(
-        title = "Food",
+        title = "com.kritan.nityahealth.feature_food.data.models.Food",
         navigateUp = navigateUp,
         verticalArrangement = Arrangement.spacedBy(20.dp),
         content = {

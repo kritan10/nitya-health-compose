@@ -5,6 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -41,5 +46,38 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideKtorClient(): HttpClient {
+        val interceptor = Interceptor { chain ->
+            val request = chain.request()
+            val authRequest = request.newBuilder()
+                .addHeader("Accept", "application/json")
+                .addHeader("Authorization", "Bearer ktor")
+                .build()
+            chain.proceed(authRequest)
+        }
+
+        val client = HttpClient(OkHttp) {
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                })
+
+            }
+            engine {
+                config {
+                    followRedirects(true)
+                }
+                addInterceptor(interceptor)
+                addNetworkInterceptor(interceptor)
+            }
+        }
+
+        return client
     }
 }

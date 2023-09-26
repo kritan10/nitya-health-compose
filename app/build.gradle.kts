@@ -81,6 +81,7 @@ dependencies {
     val coil_version = "2.4.0"
     val room_version = "2.5.2"
     val camerax_version = "1.2.3"
+    val ktor_version = "2.3.4"
 
     //ksp
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.11")
@@ -101,7 +102,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
     //Splash-Screen
-    implementation ("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanist_version")
@@ -153,6 +154,12 @@ dependencies {
     //noinspection GradleDependency
     implementation("com.google.android.libraries.places:places:3.1.0")
 
+    //ktor
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-okhttp:$ktor_version")
+    implementation("io.ktor:ktor-client-logging:$ktor_version")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
     //Test&Tooling
     testImplementation("junit:junit:4.13.2")

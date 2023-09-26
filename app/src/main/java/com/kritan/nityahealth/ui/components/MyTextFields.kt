@@ -59,7 +59,7 @@ fun MyTextField(
                 value = value,
                 onValueChange = onValueChange,
                 singleLine = true,
-                placeholder = { Text(placeholder ?: label ?: "") },
+                placeholder = { Text(placeholder ?: label ?: "", color = MaterialTheme.colorScheme.onBackground) },
                 isError = isError,
                 colors = OutlinedTextFieldDefaults.colors(
                     //Text Color

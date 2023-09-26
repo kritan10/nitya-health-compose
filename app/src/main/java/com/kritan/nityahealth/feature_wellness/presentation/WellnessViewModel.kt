@@ -10,10 +10,10 @@ import kotlinx.coroutines.launch
 
 class WellnessViewModel : ViewModel() {
     val wellnessTabItemsList = listOf(
-        WellnessTab.Fitness,
-        WellnessTab.Food,
-        WellnessTab.PersonalCare,
-        WellnessTab.HealthTopics,
+        WellnessTab.FitnessTab,
+        WellnessTab.FoodTab,
+        WellnessTab.PersonalCareTab,
+        WellnessTab.HealthTopicsTab,
     )
 
     private val _uiEvent = Channel<UiEvent> { }
@@ -28,10 +28,10 @@ class WellnessViewModel : ViewModel() {
 
 
 sealed class WellnessTab(val title: String, val position: Int) {
-    object Fitness : WellnessTab("Fitness", 0)
-    object Food : WellnessTab("Food", 1)
-    object PersonalCare : WellnessTab("Personal Care", 2)
-    object HealthTopics : WellnessTab("Health Topics", 3)
+    object FitnessTab : WellnessTab("Fitness", 0)
+    object FoodTab : WellnessTab("com.kritan.nityahealth.feature_food.data.models.Food", 1)
+    object PersonalCareTab : WellnessTab("Personal Care", 2)
+    object HealthTopicsTab : WellnessTab("Health Topics", 3)
 }
 
 sealed class UiEvent {

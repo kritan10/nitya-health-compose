@@ -135,10 +135,10 @@ private fun PagerItem(item: WellnessTab) {
             .wrapContentSize(Alignment.TopCenter)
     ) {
         when (item) {
-            WellnessTab.Fitness -> MyGridLayout()
-            WellnessTab.Food -> MyGridLayout()
-            WellnessTab.HealthTopics -> MyGridLayout()
-            WellnessTab.PersonalCare -> MyGridLayout()
+            WellnessTab.FitnessTab -> MyGridLayout()
+            WellnessTab.FoodTab -> MyGridLayout()
+            WellnessTab.HealthTopicsTab -> MyGridLayout()
+            WellnessTab.PersonalCareTab -> MyGridLayout()
         }
     }
 }

@@ -15,6 +15,9 @@ val mShadowColor = Color(0xAA000000)
 
 val darkBackground = Color(0xFF1A1A1A)
 
+val lightError = Color(0xFFE57373)
+val darkError = Color(0xFFD32F2F)
+
 val myDarkColorScheme = darkColorScheme(
     primary = darkPrimary,
     onPrimary = mWhite,
@@ -22,7 +25,8 @@ val myDarkColorScheme = darkColorScheme(
     onBackground = mWhite,
     surface = darkPrimary,
     onSurface = mWhite,
-    onSurfaceVariant = mWhite
+    onSurfaceVariant = mWhite,
+    onError = darkError
 )
 
 val myLightColorScheme = lightColorScheme(
@@ -32,5 +36,6 @@ val myLightColorScheme = lightColorScheme(
     onBackground = mBlack,
     surface = lightPrimary,
     onSurface = mWhite,
-    onSurfaceVariant = mWhite
+    onSurfaceVariant = mWhite,
+    onError = lightError
 )

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.kritan.nityahealth.base.extensions.shortenString
 import com.kritan.nityahealth.feature_exercise.data.models.ExercisePackage
 import com.kritan.nityahealth.feature_exercise.presentation.exercise_home_screen.components.MyCalendar
 import com.kritan.nityahealth.feature_exercise.presentation.exercise_home_screen.components.MyWeek
@@ -128,7 +129,7 @@ private fun ExerciseCard(exercise: ExercisePackage, navigateToExerciseList: (Int
         )
         Column(Modifier.padding(10.dp)) {
             Text(
-                trimString(exercise.title),
+                exercise.title.shortenString(),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.W300)
             )
             Text(
@@ -159,10 +160,4 @@ private fun ExerciseRow(
     }
 }
 
-private fun trimString(string: String): String {
-    val minLength = 13
-    if (string.length < minLength) {
-        return string
-    }
-    return string.substring(0, minLength) + "..."
-}
+

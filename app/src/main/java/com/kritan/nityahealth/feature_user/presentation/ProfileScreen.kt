@@ -337,7 +337,7 @@ private fun LazyListScope.sectionHealthDetails() {
         IconFieldValue(R.drawable.ic_dashboard_profile, "Height", "5.9 ft"),
         IconFieldValue(R.drawable.ic_dashboard_profile, "Weight", "72 kg"),
         IconFieldValue(R.drawable.ic_dashboard_profile, "Blood Group", "AB +ve"),
-        IconFieldValue(R.drawable.ic_dashboard_profile, "com.kritan.nityahealth.feature_food.data.models.Food Type", "Vegan"),
+        IconFieldValue(R.drawable.ic_dashboard_profile, "Food Type", "Vegan"),
     )
     item {
         MyTitleBodyLayout(title = "Health Details") {

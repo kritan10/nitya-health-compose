@@ -15,7 +15,7 @@ class FoodRepositoryImpl(private val httpClient: HttpClient) : FoodRepository {
         return flow {
             emit(Resource.Loading(true))
             val foodList: List<Food>? = try {
-                val response = httpClient.get("https://health.sajiloweb.com/api/food")
+                val response = httpClient.get("https://health.sajiloweb.com/api/food/18/allpost")
                 response.body<ApiResponse<FoodDTO>>().data?.food
             } catch (e: Exception) {
                 e.printStackTrace()

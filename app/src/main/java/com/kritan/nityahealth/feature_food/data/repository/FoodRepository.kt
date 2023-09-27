@@ -6,5 +6,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface FoodRepository {
     suspend fun getAllFood(): Flow<Resource<List<Food>>>
-
 }

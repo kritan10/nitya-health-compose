@@ -31,7 +31,8 @@ fun NavGraphBuilder.foodGraph(
             val viewModel: FoodViewModel = hiltViewModel(parentEntry)
 
             LaunchedEffect(Unit) {
-                if (viewModel.uiState.weightGoal == null) {
+                if (viewModel.uiState.foodUserDetail == null) {
+                    viewModel.initializeFoodUserDetail()
                     navigationActions.navigateToWeightGoal()
                 }
             }

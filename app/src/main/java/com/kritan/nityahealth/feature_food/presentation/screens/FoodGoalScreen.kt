@@ -21,7 +21,7 @@ fun FoodGoalScreen(
     navigateToFoodUserDetail: () -> Unit,
 ) {
     MyScaffoldLayout(
-        title = "com.kritan.nityahealth.feature_food.data.models.Food",
+        title = "Food",
         navigateUp = navigateUp,
         verticalArrangement = Arrangement.spacedBy(20.dp),
         content = {
@@ -33,17 +33,17 @@ fun FoodGoalScreen(
 
             MySelectionButton(
                 label = "Gain Weight",
-                isSelected = viewModel.uiState.weightGoal == WeightGoal.GAIN,
+                isSelected = viewModel.uiState.foodUserDetail?.weightGoal == WeightGoal.GAIN,
                 onClick = { viewModel.selectWeightGoal(WeightGoal.GAIN) }
             )
             MySelectionButton(
                 label = "Lose Weight",
-                isSelected = viewModel.uiState.weightGoal == WeightGoal.LOSE,
+                isSelected = viewModel.uiState.foodUserDetail?.weightGoal == WeightGoal.LOSE,
                 onClick = { viewModel.selectWeightGoal(WeightGoal.LOSE) }
             )
             MySelectionButton(
                 label = "Maintain Weight",
-                isSelected = viewModel.uiState.weightGoal == WeightGoal.MAINTAIN,
+                isSelected = viewModel.uiState.foodUserDetail?.weightGoal == WeightGoal.MAINTAIN,
                 onClick = { viewModel.selectWeightGoal(WeightGoal.MAINTAIN) }
             )
 
@@ -51,7 +51,7 @@ fun FoodGoalScreen(
 
             MyButton(
                 label = "Next",
-                enabled = viewModel.uiState.weightGoal != null,
+                enabled = viewModel.uiState.foodUserDetail?.weightGoal != null,
                 onClick = navigateToFoodUserDetail
             )
 

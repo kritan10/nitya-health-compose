@@ -87,3 +87,6 @@
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
 
 ##---------------End: proguard configuration for Retrofit  ----------##
+
+## Recommended by proguard ##
+-dontwarn org.slf4j.impl.StaticLoggerBinder

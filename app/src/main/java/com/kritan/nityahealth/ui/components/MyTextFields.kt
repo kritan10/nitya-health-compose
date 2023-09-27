@@ -46,38 +46,54 @@ fun MyTextField(
     trailingIconAction: () -> Unit = {},
 ) {
     val containerColor = if (isSystemInDarkTheme()) mWhite.copy(alpha = 0.05F) else mWhite
+    val textColor = MaterialTheme.colorScheme.onBackground
+    val placeholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)
+    val errorColor = MaterialTheme.colorScheme.onError
+    val supportingTextColor =
+        if (isError) Color.Red.copy(alpha = 0.7F) else MaterialTheme.colorScheme.onBackground.copy(
+            alpha = 0.25F
+        )
     Box {
         Column {
             label?.let {
                 Text(
                     label,
-                    style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground)
+                    style = MaterialTheme.typography.labelLarge.copy(color = textColor)
                 )
                 Spacer(Modifier.height(5.dp))
             }
+
             OutlinedTextField(
                 value = value,
                 onValueChange = onValueChange,
                 singleLine = true,
-                placeholder = { Text(placeholder ?: label ?: "", color = MaterialTheme.colorScheme.onBackground) },
+                placeholder = {
+                    Text(
+                        placeholder ?: label ?: "",
+                        color = placeholderColor
+                    )
+                },
                 isError = isError,
                 colors = OutlinedTextFieldDefaults.colors(
                     //Text Color
-                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    focusedTextColor = textColor,
+                    unfocusedTextColor = textColor,
+                    errorTextColor = textColor,
+                    disabledTextColor = textColor,
 
                     //Container Color
                     focusedContainerColor = containerColor,
-                    errorContainerColor = MaterialTheme.colorScheme.background,
+                    errorContainerColor = containerColor,
                     unfocusedContainerColor = containerColor,
-                    disabledContainerColor = Color.White,
+                    disabledContainerColor = containerColor,
 
                     //Border Color
                     unfocusedBorderColor = Color.Transparent,
+                    errorBorderColor = errorColor,
 
                     //Placeholder Text Color
-                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.25F),
-                    focusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.25F),
+                    unfocusedPlaceholderColor = placeholderColor,
+                    focusedPlaceholderColor = placeholderColor,
                 ),
                 trailingIcon = {
                     if (isPassword) {
@@ -113,7 +129,7 @@ fun MyTextField(
                 Spacer(Modifier.height(10.dp))
                 Text(
                     it,
-                    color = if (!isError) Color.Gray else Color.Red,
+                    color = supportingTextColor,
                     fontSize = 10.sp
                 )
             }

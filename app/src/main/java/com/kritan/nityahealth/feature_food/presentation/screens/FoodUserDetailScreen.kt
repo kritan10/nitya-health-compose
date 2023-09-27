@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kritan.nityahealth.base.extensions.blankWhenNull
+import com.kritan.nityahealth.feature_food.presentation.models.FoodUserDetail.Companion.validate
 import com.kritan.nityahealth.feature_food.presentation.models.enums.Activeness
 import com.kritan.nityahealth.feature_food.presentation.models.enums.DietType
 import com.kritan.nityahealth.feature_food.presentation.models.enums.Gender
@@ -38,36 +39,36 @@ fun FoodUserDetailScreen(
         val foodUserDetail = viewModel.uiState.foodUserDetail
 
         UserHeight(
-            height = foodUserDetail.height,
+            height = foodUserDetail?.height,
             onHeightChange = viewModel::onHeightChange,
-            heightUnit = foodUserDetail.heightUnit,
+            heightUnit = foodUserDetail?.heightUnit,
             onHeightUnitChange = viewModel::onHeightUnitChange
         )
 
         UserWeight(
-            weight = foodUserDetail.height,
+            weight = foodUserDetail?.weight,
             onWeightChange = viewModel::onWeightChange,
-            weightUnit = foodUserDetail.weightUnit,
+            weightUnit = foodUserDetail?.weightUnit,
             onWeightUnitChange = viewModel::onWeightUnitChange
         )
 
         UserAge(
-            age = foodUserDetail.age,
+            age = foodUserDetail?.age,
             onAgeChange = viewModel::onAgeChange
         )
 
         UserActiveness(
-            userActiveness = foodUserDetail.activeness,
+            userActiveness = foodUserDetail?.activeness,
             onActivenessChange = viewModel::onActivenessChange
         )
 
         UserGender(
-            gender = foodUserDetail.gender,
+            gender = foodUserDetail?.gender,
             onGenderChange = viewModel::onGenderChange
         )
 
         UserPreferredDiet(
-            dietType = foodUserDetail.dietType,
+            dietType = foodUserDetail?.dietType,
             onDietTypeChange = viewModel::onDietTypeChange
         )
 
@@ -90,7 +91,7 @@ fun FoodUserDetailScreen(
 private fun UserHeight(
     height: Int?,
     onHeightChange: (String) -> Unit,
-    heightUnit: HeightUnit,
+    heightUnit: HeightUnit?,
     onHeightUnitChange: (HeightUnit) -> Unit
 ) {
     MyFoodTitleBodyLayout(title = "Height") {
@@ -124,7 +125,7 @@ private fun UserHeight(
 private fun UserWeight(
     weight: Int?,
     onWeightChange: (String) -> Unit,
-    weightUnit: WeightUnit,
+    weightUnit: WeightUnit?,
     onWeightUnitChange: (WeightUnit) -> Unit
 ) {
     MyFoodTitleBodyLayout(title = "Weight") {

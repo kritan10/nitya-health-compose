@@ -73,7 +73,13 @@ fun FoodUserDetailScreen(
 
         Spacer(modifier = Modifier.weight(1F))
 
-        MyButton(label = "Next", onClick = navigateToFoodHome)
+        MyButton(
+            label = "Next",
+            enabled = viewModel.uiState.foodUserDetail?.validate() ?: false,
+            onClick = {
+                viewModel.saveCurrentFoodPreferences()
+                navigateToFoodHome()
+            })
 
         Spacer(modifier = Modifier.height(4.dp))
 
